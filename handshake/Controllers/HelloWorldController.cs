@@ -2,24 +2,42 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Text;
+using System.Threading.Tasks;
+using handshake.Data;
+using handshake.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace handshake.Controllers
 {
+  [Authorize]
   [ApiController]
   [Route("[controller]")]
   public class HelloWorldController : ControllerBase
   {
-    string connectionString = "Server=tcp:server2.database.windows.net,1433;Initial Catalog=handshake;Persist Security Info=False;User ID=Name;Password=5LQazj2DTtz6e32;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+    private readonly IUserService userService;
+
+    public HelloWorldController(IUserService userService)
+    {
+      this.userService = userService;
+    }
+
+    [AllowAnonymous]
+    [HttpPost("authenticate")]
+    public async Task<IActionResult> Authenticate([FromBody] AuthenticateModel model)
+    {
+      var connection = await userService.Authenticate(model.Username, model.Password);
+
+      return Ok();
+    }
 
     [HttpGet]
-    public string Get()
+    public async Task<IActionResult> Get()
     {
-      using (SqlConnection connection = new SqlConnection(connectionString))
+      using (var connection = this.userService.GetConnection())
       {
-        connection.Open();
         string sql = "SELECT NAME, NAME2, AGE FROM PEOPLE";
-        using (SqlCommand command = new SqlCommand(sql, connection))
+        using (SqlCommand command = new SqlCommand(sql))
         {
           using (SqlDataReader reader = command.ExecuteReader())
           {
@@ -32,7 +50,7 @@ namespace handshake.Controllers
               sb.AppendLine(reader.GetString(1));
             }
 
-            return sb.ToString();
+            return Ok(sb.ToString());
           }
         }
       }
