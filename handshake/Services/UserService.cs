@@ -21,7 +21,7 @@ namespace handshake.Services
       this.connection = await Task.Run(() =>
       {
         var connection = new SqlConnection(connectionString);
-        //connection.Open();
+        connection.Open();
         return connection;
       });
 
