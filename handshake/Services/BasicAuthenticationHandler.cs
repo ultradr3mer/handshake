@@ -18,7 +18,7 @@ namespace handshake.Services
 {
   public class BasicAuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions>
   {
-    private readonly IUserService _userService;
+    private readonly IUserService userService;
 
     public BasicAuthenticationHandler(
         IOptionsMonitor<AuthenticationSchemeOptions> options,
@@ -28,7 +28,7 @@ namespace handshake.Services
         IUserService userService)
         : base(options, logger, encoder, clock)
     {
-      _userService = userService;
+      this.userService = userService;
     }
 
     protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
@@ -41,16 +41,15 @@ namespace handshake.Services
       if (!Request.Headers.ContainsKey("Authorization"))
         return AuthenticateResult.Fail("Missing Authorization Header");
 
-      SqlConnection connection = null;
-      string username = null;
+      string loggedUser = null;
       try
       {
         var authHeader = AuthenticationHeaderValue.Parse(Request.Headers["Authorization"]);
         var credentialBytes = Convert.FromBase64String(authHeader.Parameter);
         var credentials = Encoding.UTF8.GetString(credentialBytes).Split(new[] { ':' }, 2);
-        username = credentials[0];
+        var username = credentials[0];
         var password = credentials[1];
-        connection = await _userService.Authenticate(username, password);
+        loggedUser = await userService.Authenticate(username, password);
       }
       catch
       {
@@ -58,8 +57,8 @@ namespace handshake.Services
       }
 
       var claims = new[] {
-                new Claim(ClaimTypes.NameIdentifier, username),
-                new Claim(ClaimTypes.Name, username),
+                new Claim(ClaimTypes.NameIdentifier, loggedUser),
+                new Claim(ClaimTypes.Name, loggedUser),
             };
       var identity = new ClaimsIdentity(claims, Scheme.Name);
       var principal = new ClaimsPrincipal(identity);

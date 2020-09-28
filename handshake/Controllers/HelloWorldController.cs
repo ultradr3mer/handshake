@@ -22,22 +22,13 @@ namespace handshake.Controllers
       this.userService = userService;
     }
 
-    [AllowAnonymous]
-    [HttpPost("authenticate")]
-    public async Task<IActionResult> Authenticate([FromBody] AuthenticateModel model)
-    {
-      var connection = await userService.Authenticate(model.Username, model.Password);
-
-      return Ok();
-    }
-
     [HttpGet]
     public async Task<IActionResult> Get()
     {
       using (var connection = this.userService.GetConnection())
       {
         string sql = "SELECT NAME, NAME2, AGE FROM PEOPLE";
-        using (SqlCommand command = new SqlCommand(sql))
+        using (SqlCommand command = new SqlCommand(sql, connection))
         {
           using (SqlDataReader reader = command.ExecuteReader())
           {

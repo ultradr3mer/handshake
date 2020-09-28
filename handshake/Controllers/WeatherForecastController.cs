@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -19,6 +20,7 @@ namespace handshake.Controllers
     {
     }
 
+    [AllowAnonymous]
     [HttpGet]
     public IEnumerable<WeatherForecast> Get()
     {
