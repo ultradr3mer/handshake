@@ -19,13 +19,13 @@ namespace handshake.Controllers
   [ApiController]
   public class PostController : ControllerBase
   {
-    private readonly IUserService userService;
+    private readonly IAuthService userService;
 
     /// <summary>
     /// Creates a new instance of the PostController class.
     /// </summary>
     /// <param name="userService">The user / login service.</param>
-    internal PostController(IUserService userService)
+    public PostController(IAuthService userService)
     {
       this.userService = userService;
     }

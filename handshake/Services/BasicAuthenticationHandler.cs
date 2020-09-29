@@ -21,14 +21,14 @@ namespace handshake.Services
 {
   internal class BasicAuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions>
   {
-    private readonly IUserService userService;
+    private readonly IAuthService userService;
 
     public BasicAuthenticationHandler(
         IOptionsMonitor<AuthenticationSchemeOptions> options,
         ILoggerFactory logger,
         UrlEncoder encoder,
         ISystemClock clock,
-        IUserService userService)
+        IAuthService userService)
         : base(options, logger, encoder, clock)
     {
       this.userService = userService;
@@ -44,7 +44,6 @@ namespace handshake.Services
       if (!Request.Headers.ContainsKey("Authorization"))
         return AuthenticateResult.Fail("Missing Authorization Header");
 
-      SqlConnection connection = null;
       string username = null;
       try
       {
@@ -53,7 +52,7 @@ namespace handshake.Services
         var credentials = Encoding.UTF8.GetString(credentialBytes).Split(new[] { ':' }, 2);
         username = credentials[0];
         var password = credentials[1];
-        connection = await userService.Authenticate(username, password);
+        await userService.Authenticate(username, password);
       }
       catch
       {

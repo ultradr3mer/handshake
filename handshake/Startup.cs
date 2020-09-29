@@ -35,7 +35,7 @@ namespace handshake
       this.services.AddAuthentication("BasicAuthentication")
        .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
 
-      services.AddScoped<IUserService, UserService>();
+      services.AddScoped<IAuthService, AuthService>();
 
       services.AddSwaggerGen(setupAction =>
       {

@@ -18,13 +18,13 @@ namespace handshake.Controllers
   [Route("[controller]")]
   public class UserController : ControllerBase
   {
-    private readonly IUserService userService;
+    private readonly IAuthService userService;
 
     /// <summary>
     /// Creates a new instance of the UserController class.
     /// </summary>
     /// <param name="userService">The user / login service.</param>
-    internal UserController(IUserService userService)
+    public UserController(IAuthService userService)
     {
       this.userService = userService;
     }
@@ -37,12 +37,10 @@ namespace handshake.Controllers
     [Route("getcloseusers")]
     public IActionResult GetCloseUsers(decimal Longitude, decimal Latitude)
     {
-      using (var connection = this.userService.GetConnection())
-      {
-        var context = new DatabaseContext(connection);
+      using var connection = this.userService.GetConnection();
+      var context = new DatabaseContext(connection);
 
-        return Ok(context.User.ToList());
-      }
+      return Ok(context.User.ToList());
     }
 
     /// <summary>
@@ -53,15 +51,13 @@ namespace handshake.Controllers
     [HttpPost]
     public async Task<IActionResult> Post([FromBody] InsertUserDaten daten)
     {
-      using (var connection = this.userService.GetConnection())
-      {
-        var context = new DatabaseContext(connection);
-        var newUser = new User();
-        newUser.CopyPropertiesFrom(daten);
-        await context.User.AddAsync(newUser);
-        await context.SaveChangesAsync();
-        return Ok();
-      }
+      using var connection = this.userService.GetConnection();
+      var context = new DatabaseContext(connection);
+      var newUser = new User();
+      newUser.CopyPropertiesFrom(daten);
+      await context.User.AddAsync(newUser);
+      await context.SaveChangesAsync();
+      return Ok();
     }
   }
 }
