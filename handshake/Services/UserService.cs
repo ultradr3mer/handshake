@@ -5,7 +5,7 @@ namespace handshake.Services
 {
   public interface IUserService
   {
-    Task<string> Authenticate(string username, string password);
+    Task<SqlConnection> Authenticate(string username, string password);
 
     SqlConnection GetConnection();
   }
@@ -14,7 +14,7 @@ namespace handshake.Services
   {
     private SqlConnection connection;
 
-    public async Task<string> Authenticate(string username, string password)
+    public async Task<SqlConnection> Authenticate(string username, string password)
     {
       var connectionString = $"Server=tcp:server2.database.windows.net,1433;Initial Catalog=handshake;Persist Security Info=False;User ID={username};Password={password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
 
@@ -25,7 +25,7 @@ namespace handshake.Services
         return connection;
       });
 
-      return username;
+      return connection;
     }
 
     public SqlConnection GetConnection()

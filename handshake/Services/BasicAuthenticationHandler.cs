@@ -1,7 +1,10 @@
-﻿using handshake.Data;
+﻿using handshake.Contexts;
+using handshake.Data;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
@@ -41,15 +44,16 @@ namespace handshake.Services
       if (!Request.Headers.ContainsKey("Authorization"))
         return AuthenticateResult.Fail("Missing Authorization Header");
 
-      string loggedUser = null;
+      SqlConnection connection = null;
+      string username = null;
       try
       {
         var authHeader = AuthenticationHeaderValue.Parse(Request.Headers["Authorization"]);
         var credentialBytes = Convert.FromBase64String(authHeader.Parameter);
         var credentials = Encoding.UTF8.GetString(credentialBytes).Split(new[] { ':' }, 2);
-        var username = credentials[0];
+        username = credentials[0];
         var password = credentials[1];
-        loggedUser = await userService.Authenticate(username, password);
+        connection = await userService.Authenticate(username, password);
       }
       catch
       {
@@ -57,8 +61,8 @@ namespace handshake.Services
       }
 
       var claims = new[] {
-                new Claim(ClaimTypes.NameIdentifier, loggedUser),
-                new Claim(ClaimTypes.Name, loggedUser),
+                new Claim(ClaimTypes.NameIdentifier, username),
+                new Claim(ClaimTypes.Name, username),
             };
       var identity = new ClaimsIdentity(claims, Scheme.Name);
       var principal = new ClaimsPrincipal(identity);

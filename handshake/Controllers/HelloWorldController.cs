@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Text;
-using System.Threading.Tasks;
-using handshake.Data;
+﻿using System.Text;
+using handshake.Contexts;
 using handshake.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -23,28 +19,19 @@ namespace handshake.Controllers
     }
 
     [HttpGet]
-    public async Task<IActionResult> Get()
+    public IActionResult Get()
     {
-      using (var connection = this.userService.GetConnection())
+      var context = new PersonInfoContext(this.userService.GetConnection());
+
+      var sb = new StringBuilder();
+      foreach (var item in context.People)
       {
-        string sql = "SELECT NAME, NAME2, AGE FROM PEOPLE";
-        using (SqlCommand command = new SqlCommand(sql, connection))
-        {
-          using (SqlDataReader reader = command.ExecuteReader())
-          {
-            StringBuilder sb = new StringBuilder();
-
-            while (reader.Read())
-            {
-              sb.Append(reader.GetString(0));
-              sb.Append(' ');
-              sb.AppendLine(reader.GetString(1));
-            }
-
-            return Ok(sb.ToString());
-          }
-        }
+        sb.Append(item.Name);
+        sb.Append(' ');
+        sb.AppendLine(item.Name2);
       }
+
+      return Ok(sb);
     }
   }
 }
