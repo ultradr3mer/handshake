@@ -7,10 +7,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
+using System;
+using System.IO;
+using System.Reflection;
 
 namespace handshake
 {
-  public class Startup
+  internal class Startup
   {
     private IServiceCollection services;
 
@@ -33,7 +37,19 @@ namespace handshake
 
       services.AddScoped<IUserService, UserService>();
 
+      services.AddSwaggerGen(setupAction =>
+      {
+        setupAction.SwaggerDoc("shake", new OpenApiInfo()
+        {
+          Title = "Handshake",
+          Version = "0.0.1"
+        });
 
+        var xmlCommentsFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+        var xmlCommentsFullPath = Path.Combine(AppContext.BaseDirectory, xmlCommentsFile);
+
+        setupAction.IncludeXmlComments(xmlCommentsFullPath);
+      });
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,6 +61,12 @@ namespace handshake
       }
 
       app.UseHttpsRedirection();
+
+      app.UseSwagger();
+      app.UseSwaggerUI(setupAction =>
+      {
+        setupAction.SwaggerEndpoint("/swagger/shake/swagger.json", "Handshake");
+      });
 
       app.UseRouting();
 

@@ -1,0 +1,96 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>handshake</name>
+    </assembly>
+    <members>
+        <member name="T:handshake.Controllers.PostController">
+            <summary>
+            The post controller provides functionality to manage posts.
+            </summary>
+        </member>
+        <member name="M:handshake.Controllers.PostController.#ctor(handshake.Services.IUserService)">
+            <summary>
+            Creates a new instance of the PostController class.
+            </summary>
+            <param name="userService">The user / login service.</param>
+        </member>
+        <member name="M:handshake.Controllers.PostController.GetClosePosts">
+            <summary>
+            Gets all posts nearby.
+            </summary>
+            <returns>Retruncode ok, when the retrival was a success.</returns>
+        </member>
+        <member name="M:handshake.Controllers.PostController.Post(handshake.SetDaten.InsertPostData)">
+            <summary>
+            Posts a new post.
+            </summary>
+            <param name="daten">The post to post.</param>
+            <returns>Retruncode ok, whenn success.</returns>
+        </member>
+        <member name="T:handshake.Controllers.UserController">
+            <summary>
+            The user controller provides functionality to manage posts.
+            </summary>
+        </member>
+        <member name="M:handshake.Controllers.UserController.#ctor(handshake.Services.IUserService)">
+            <summary>
+            Creates a new instance of the UserController class.
+            </summary>
+            <param name="userService">The user / login service.</param>
+        </member>
+        <member name="M:handshake.Controllers.UserController.GetCloseUsers(System.Decimal,System.Decimal)">
+            <summary>
+            Gets all users nearby.
+            </summary>
+            <returns>Retruncode ok, when the retrival was a success.</returns>
+        </member>
+        <member name="M:handshake.Controllers.UserController.Post(handshake.PostDaten.InsertUserDaten)">
+            <summary>
+            Creates a new user.
+            </summary>
+            <param name="daten">The user to create.</param>
+            <returns>Retruncode ok, whenn success.</returns>
+        </member>
+        <member name="T:handshake.Data.AuthenticateModel">
+            <summary>
+            The authentication model represents all data needed to sign in.
+            </summary>
+        </member>
+        <member name="P:handshake.Data.AuthenticateModel.Username">
+            <summary>
+            The login username.
+            </summary>
+        </member>
+        <member name="P:handshake.Data.AuthenticateModel.Password">
+            <summary>
+            The login password.
+            </summary>
+        </member>
+        <member name="T:handshake.SetDaten.InsertPostData">
+            <summary>
+            The insert post data is class for inserting new posts.
+            </summary>
+        </member>
+        <member name="P:handshake.SetDaten.InsertPostData.Author">
+            <summary>
+            The author who made the post.
+            </summary>
+        </member>
+        <member name="P:handshake.SetDaten.InsertPostData.Content">
+            <summary>
+            The contetn of the post.
+            </summary>
+        </member>
+        <member name="P:handshake.SetDaten.InsertPostData.Longitude">
+            <summary>
+            The post location longitude;
+            </summary>
+        </member>
+        <member name="P:handshake.SetDaten.InsertPostData.Latitude">
+            <summary>
+            The post location latitude;
+            </summary>
+        </member>
+    </members>
+</doc>

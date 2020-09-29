@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace handshake.Entities
 {
-  public class Post
+  internal class Post
   {
     [Key]
     public Guid Id { get; set; }

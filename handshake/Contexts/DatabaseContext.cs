@@ -4,7 +4,7 @@ using System.Data.Common;
 
 namespace handshake.Contexts
 {
-  public class DatabaseContext : DbContext
+  internal class DatabaseContext : DbContext
   {
     private readonly DbConnection connection;
 

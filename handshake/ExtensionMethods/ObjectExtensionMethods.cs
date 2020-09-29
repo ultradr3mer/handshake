@@ -2,7 +2,7 @@
 
 namespace handshake.ExtensionMethods
 {
-  public static class ObjectExtensionMethods
+  internal static class ObjectExtensionMethods
   {
     public static void CopyPropertiesFrom(this object self, object parent)
     {

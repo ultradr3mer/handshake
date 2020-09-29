@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using handshake.Contexts;
@@ -13,6 +11,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace handshake.Controllers
 {
+  /// <summary>
+  /// The post controller provides functionality to manage posts.
+  /// </summary>
   [Authorize]
   [Route("[controller]")]
   [ApiController]
@@ -20,11 +21,19 @@ namespace handshake.Controllers
   {
     private readonly IUserService userService;
 
-    public PostController(IUserService userService)
+    /// <summary>
+    /// Creates a new instance of the PostController class.
+    /// </summary>
+    /// <param name="userService">The user / login service.</param>
+    internal PostController(IUserService userService)
     {
       this.userService = userService;
     }
 
+    /// <summary>
+    /// Gets all posts nearby.
+    /// </summary>
+    /// <returns>Retruncode ok, when the retrival was a success.</returns>
     [HttpGet]
     [Route("getcloseposts")]
     public IActionResult GetClosePosts()
@@ -36,7 +45,13 @@ namespace handshake.Controllers
       }
     }
 
-    public async Task<IActionResult> Post([FromBody] InsertPostDaten daten)
+    /// <summary>
+    /// Posts a new post.
+    /// </summary>
+    /// <param name="daten">The post to post.</param>
+    /// <returns>Retruncode ok, whenn success.</returns>
+    [HttpPost]
+    public async Task<IActionResult> Post([FromBody] InsertPostData daten)
     {
       using (var connection = this.userService.GetConnection())
       {

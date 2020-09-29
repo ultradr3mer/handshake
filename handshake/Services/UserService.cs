@@ -3,14 +3,14 @@ using System.Threading.Tasks;
 
 namespace handshake.Services
 {
-  public interface IUserService
+  internal interface IUserService
   {
     Task<SqlConnection> Authenticate(string username, string password);
 
     SqlConnection GetConnection();
   }
 
-  public class UserService : IUserService
+  internal class UserService : IUserService
   {
     private SqlConnection connection;
 

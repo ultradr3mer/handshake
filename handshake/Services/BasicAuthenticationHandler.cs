@@ -19,7 +19,7 @@ using System.Threading.Tasks;
 
 namespace handshake.Services
 {
-  public class BasicAuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions>
+  internal class BasicAuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions>
   {
     private readonly IUserService userService;
 
