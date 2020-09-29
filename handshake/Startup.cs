@@ -56,18 +56,18 @@ namespace handshake
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
-      //if (env.IsDevelopment())
-      //{
-        app.UseDeveloperExceptionPage();
-      //}
+      app.UseDeveloperExceptionPage();
 
       app.UseHttpsRedirection();
 
-      app.UseSwagger();
-      app.UseSwaggerUI(setupAction =>
+      if (env.IsDevelopment())
       {
-        setupAction.SwaggerEndpoint("/swagger/shake/swagger.json", "Handshake");
-      });
+        app.UseSwagger();
+        app.UseSwaggerUI(setupAction =>
+        {
+          setupAction.SwaggerEndpoint("/swagger/shake/swagger.json", "Handshake");
+        });
+      }
 
       app.UseRouting();
 
