@@ -9,7 +9,7 @@
             The post controller provides functionality to manage posts.
             </summary>
         </member>
-        <member name="M:handshake.Controllers.PostController.#ctor(handshake.Services.IAuthService)">
+        <member name="M:handshake.Controllers.PostController.#ctor(handshake.Interfaces.IAuthService)">
             <summary>
             Creates a new instance of the PostController class.
             </summary>
@@ -33,7 +33,7 @@
             The user controller provides functionality to manage posts.
             </summary>
         </member>
-        <member name="M:handshake.Controllers.UserController.#ctor(handshake.Services.IAuthService)">
+        <member name="M:handshake.Controllers.UserController.#ctor(handshake.Interfaces.IAuthService)">
             <summary>
             Creates a new instance of the UserController class.
             </summary>
@@ -67,6 +67,25 @@
             The login password.
             </summary>
         </member>
+        <member name="T:handshake.Interfaces.IAuthService">
+            <summary>
+            The <see cref="T:handshake.Interfaces.IAuthService"/> interface represents the authentication service.
+            </summary>
+        </member>
+        <member name="M:handshake.Interfaces.IAuthService.Authenticate(System.String,System.String)">
+            <summary>
+            Performs the Authentication and retrives a connection.
+            </summary>
+            <param name="username">The SQL username.</param>
+            <param name="password">The SQL password.</param>
+            <returns>An open connection.</returns>
+        </member>
+        <member name="M:handshake.Interfaces.IAuthService.GetConnection">
+            <summary>
+            Retrives the current connection.
+            </summary>
+            <returns>the current connection.</returns>
+        </member>
         <member name="T:handshake.SetDaten.InsertPostData">
             <summary>
             The insert post data is class for inserting new posts.
@@ -94,19 +113,22 @@
         </member>
         <member name="T:handshake.Services.AuthService">
             <summary>
-            The <see cref="T:handshake.Services.IAuthService"/> class is a service for authentication.
+            The <see cref="T:handshake.Interfaces.IAuthService"/> class is a service for authentication.
             </summary>
+        </member>
+        <member name="M:handshake.Services.AuthService.Authenticate(System.String,System.String)">
+            <summary>
+            Performs the Authentication with the SQL Server and retrives a connection.
+            </summary>
+            <param name="username">The SQL username.</param>
+            <param name="password">The SQL password.</param>
+            <returns>An open connection.</returns>
         </member>
         <member name="M:handshake.Services.AuthService.GetConnection">
             <summary>
-            Retrives the current connection;
+            Retrives the current connection.
             </summary>
-            <returns>the current connection;</returns>
-        </member>
-        <member name="T:handshake.Services.IAuthService">
-            <summary>
-            The <see cref="T:handshake.Services.IAuthService"/> interface represents the authentication service.
-            </summary>
+            <returns>the current connection.</returns>
         </member>
     </members>
 </doc>

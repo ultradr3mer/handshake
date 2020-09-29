@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 using handshake.Contexts;
 using handshake.Entities;
 using handshake.ExtensionMethods;
+using handshake.Interfaces;
 using handshake.PostDaten;
-using handshake.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

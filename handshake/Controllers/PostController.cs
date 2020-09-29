@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using handshake.Contexts;
 using handshake.Entities;
 using handshake.ExtensionMethods;
-using handshake.Services;
+using handshake.Interfaces;
 using handshake.SetDaten;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

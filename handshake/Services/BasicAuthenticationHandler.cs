@@ -1,5 +1,6 @@
 ﻿using handshake.Contexts;
 using handshake.Data;
+using handshake.Interfaces;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
