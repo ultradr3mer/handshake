@@ -4,16 +4,17 @@ using System.Data.Common;
 
 namespace handshake.Contexts
 {
-  public class PersonInfoContext : DbContext
+  public class DatabaseContext : DbContext
   {
     private readonly DbConnection connection;
 
-    public PersonInfoContext(DbConnection connection)
+    public DatabaseContext(DbConnection connection)
     {
       this.connection = connection;
     }
 
-    public DbSet<People> People { get; set; }
+    public DbSet<User> User { get; set; }
+    public DbSet<Post> Post { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

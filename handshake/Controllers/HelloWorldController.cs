@@ -21,17 +21,18 @@ namespace handshake.Controllers
     [HttpGet]
     public IActionResult Get()
     {
-      var context = new PersonInfoContext(this.userService.GetConnection());
-
-      var sb = new StringBuilder();
-      foreach (var item in context.People)
+      using (var connection = this.userService.GetConnection())
       {
-        sb.Append(item.Name);
-        sb.Append(' ');
-        sb.AppendLine(item.Name2);
-      }
+        var context = new DatabaseContext(connection);
 
-      return Ok(sb);
+        var sb = new StringBuilder();
+        foreach (var item in context.User)
+        {
+          sb.Append(item.Nickname);
+        }
+
+        return Ok(sb);
+      }
     }
   }
 }
