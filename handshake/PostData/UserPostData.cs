@@ -1,9 +1,9 @@
-﻿namespace handshake.PostDaten
+﻿namespace handshake.PostData
 {
   /// <summary>
   /// This class contains all information needed to insert an user.
   /// </summary>
-  public class InsertUserDaten
+  public class UserPostData
   {
     /// <summary>
     /// The nickname.

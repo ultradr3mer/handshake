@@ -7,7 +7,7 @@ using handshake.Contexts;
 using handshake.Entities;
 using handshake.ExtensionMethods;
 using handshake.Interfaces;
-using handshake.SetDaten;
+using handshake.PostData;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -38,12 +38,24 @@ namespace handshake.Controllers
     /// <returns>The Posts nearby.</returns>
     [HttpGet]
     [Route("getcloseposts")]
-    public IList<Post> GetClosePosts(decimal longitude, decimal latitude)
+    public IList<GetData.PostGetData> GetClosePosts(decimal longitude, decimal latitude)
     {
       using (var connection = this.userService.GetConnection())
       {
         var context = new DatabaseContext(connection);
-        return context.Post.ToList();
+
+        var result = (from post in context.Post
+                      join author in context.User on post.Author equals author.Id
+                      select new GetData.PostGetData()
+                      {
+                        Author = post.Author,
+                        AuthorName = author.Nickname,
+                        Content = post.Content,
+                        Creationdate = post.Creationdate,
+                        Id = post.Id
+                      }).OrderBy(o => o.Creationdate).ToList();
+
+        return result;
       }
     }
 
@@ -53,12 +65,12 @@ namespace handshake.Controllers
     /// <param name="daten">The post to post.</param>
     /// <returns>The posted post.</returns>
     [HttpPost]
-    public async Task<Post> Post([FromBody] InsertPostData daten)
+    public async Task<PostEntity> Post([FromBody] PostPostData daten)
     {
       using (var connection = this.userService.GetConnection())
       {
         var context = new DatabaseContext(connection);
-        var newPost = new Post();
+        var newPost = new PostEntity();
         newPost.CopyPropertiesFrom(daten);
         newPost.Creationdate = DateTime.Now;
         await context.Post.AddAsync(newPost);

@@ -1,11 +1,11 @@
 ﻿using System;
 
-namespace handshake.SetDaten
+namespace handshake.PostData
 {
   /// <summary>
   /// The insert post data is class for inserting new posts.
   /// </summary>
-  public class InsertPostData
+  public class PostPostData
   {
     /// <summary>
     /// The author who made the post.

@@ -6,7 +6,7 @@ namespace handshake.Entities
   /// <summary>
   /// A user.
   /// </summary>
-  public class User
+  public class UserEntity
   {
     /// <summary>
     /// The id.

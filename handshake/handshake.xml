@@ -26,7 +26,7 @@
             </summary>
             <returns>The Posts nearby.</returns>
         </member>
-        <member name="M:handshake.Controllers.PostController.Post(handshake.SetDaten.InsertPostData)">
+        <member name="M:handshake.Controllers.PostController.Post(handshake.PostData.PostPostData)">
             <summary>
             Posts a new post.
             </summary>
@@ -50,7 +50,7 @@
             </summary>
             <returns>Close users.</returns>
         </member>
-        <member name="M:handshake.Controllers.UserController.Post(handshake.PostDaten.InsertUserDaten)">
+        <member name="M:handshake.Controllers.UserController.Post(handshake.PostData.UserPostData)">
             <summary>
             Creates a new user.
             </summary>
@@ -72,59 +72,89 @@
             The login password.
             </summary>
         </member>
-        <member name="T:handshake.Entities.Post">
+        <member name="T:handshake.Entities.PostEntity">
             <summary>
             A post.
             </summary>
         </member>
-        <member name="P:handshake.Entities.Post.Id">
+        <member name="P:handshake.Entities.PostEntity.Id">
             <summary>
             The id.
             </summary>
         </member>
-        <member name="P:handshake.Entities.Post.Author">
+        <member name="P:handshake.Entities.PostEntity.Author">
             <summary>
             The author.
             </summary>
         </member>
-        <member name="P:handshake.Entities.Post.Content">
+        <member name="P:handshake.Entities.PostEntity.Content">
             <summary>
             The content.
             </summary>
         </member>
-        <member name="P:handshake.Entities.Post.Creationdate">
+        <member name="P:handshake.Entities.PostEntity.Creationdate">
             <summary>
             The creation date.
             </summary>
         </member>
-        <member name="P:handshake.Entities.Post.Longitude">
+        <member name="P:handshake.Entities.PostEntity.Longitude">
             <summary>
             The location longitude.
             </summary>
         </member>
-        <member name="P:handshake.Entities.Post.Latitude">
+        <member name="P:handshake.Entities.PostEntity.Latitude">
             <summary>
             The location lattitude.
             </summary>
         </member>
-        <member name="T:handshake.Entities.User">
+        <member name="T:handshake.Entities.UserEntity">
             <summary>
             A user.
             </summary>
         </member>
-        <member name="P:handshake.Entities.User.Id">
+        <member name="P:handshake.Entities.UserEntity.Id">
             <summary>
             The id.
             </summary>
         </member>
-        <member name="P:handshake.Entities.User.Nickname">
+        <member name="P:handshake.Entities.UserEntity.Nickname">
             <summary>
             The users nickname.
             </summary>
         </member>
-        <member name="P:handshake.Entities.User.Description">
+        <member name="P:handshake.Entities.UserEntity.Description">
             <summary>
             The description.
+            </summary>
+        </member>
+        <member name="T:handshake.GetData.PostGetData">
+            <summary>
+            A post.
+            </summary>
+        </member>
+        <member name="P:handshake.GetData.PostGetData.Id">
+            <summary>
+            The id.
+            </summary>
+        </member>
+        <member name="P:handshake.GetData.PostGetData.Author">
+            <summary>
+            The author.
+            </summary>
+        </member>
+        <member name="P:handshake.GetData.PostGetData.AuthorName">
+            <summary>
+            The author name.
+            </summary>
+        </member>
+        <member name="P:handshake.GetData.PostGetData.Content">
+            <summary>
+            The content.
+            </summary>
+        </member>
+        <member name="P:handshake.GetData.PostGetData.Creationdate">
+            <summary>
+            The creation date.
             </summary>
         </member>
         <member name="T:handshake.Interfaces.IAuthService">
@@ -146,42 +176,42 @@
             </summary>
             <returns>the current connection.</returns>
         </member>
-        <member name="T:handshake.SetDaten.InsertPostData">
+        <member name="T:handshake.PostData.PostPostData">
             <summary>
             The insert post data is class for inserting new posts.
             </summary>
         </member>
-        <member name="P:handshake.SetDaten.InsertPostData.Author">
+        <member name="P:handshake.PostData.PostPostData.Author">
             <summary>
             The author who made the post.
             </summary>
         </member>
-        <member name="P:handshake.SetDaten.InsertPostData.Content">
+        <member name="P:handshake.PostData.PostPostData.Content">
             <summary>
             The contetn of the post.
             </summary>
         </member>
-        <member name="P:handshake.SetDaten.InsertPostData.Longitude">
+        <member name="P:handshake.PostData.PostPostData.Longitude">
             <summary>
             The post location longitude;
             </summary>
         </member>
-        <member name="P:handshake.SetDaten.InsertPostData.Latitude">
+        <member name="P:handshake.PostData.PostPostData.Latitude">
             <summary>
             The post location latitude;
             </summary>
         </member>
-        <member name="T:handshake.PostDaten.InsertUserDaten">
+        <member name="T:handshake.PostData.UserPostData">
             <summary>
             This class contains all information needed to insert an user.
             </summary>
         </member>
-        <member name="P:handshake.PostDaten.InsertUserDaten.Nickname">
+        <member name="P:handshake.PostData.UserPostData.Nickname">
             <summary>
             The nickname.
             </summary>
         </member>
-        <member name="P:handshake.PostDaten.InsertUserDaten.Description">
+        <member name="P:handshake.PostData.UserPostData.Description">
             <summary>
             The description.
             </summary>
