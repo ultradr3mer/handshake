@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using handshake.Contexts;
@@ -33,15 +35,15 @@ namespace handshake.Controllers
     /// <summary>
     /// Gets all posts nearby.
     /// </summary>
-    /// <returns>Retruncode ok, when the retrival was a success.</returns>
+    /// <returns>The Posts nearby.</returns>
     [HttpGet]
     [Route("getcloseposts")]
-    public IActionResult GetClosePosts()
+    public IList<Post> GetClosePosts(decimal longitude, decimal latitude)
     {
       using (var connection = this.userService.GetConnection())
       {
         var context = new DatabaseContext(connection);
-        return Ok(context.Post.ToList());
+        return context.Post.ToList();
       }
     }
 
@@ -49,9 +51,9 @@ namespace handshake.Controllers
     /// Posts a new post.
     /// </summary>
     /// <param name="daten">The post to post.</param>
-    /// <returns>Retruncode ok, whenn success.</returns>
+    /// <returns>The posted post.</returns>
     [HttpPost]
-    public async Task<IActionResult> Post([FromBody] InsertPostData daten)
+    public async Task<Post> Post([FromBody] InsertPostData daten)
     {
       using (var connection = this.userService.GetConnection())
       {
@@ -61,7 +63,7 @@ namespace handshake.Controllers
         newPost.Creationdate = DateTime.Now;
         await context.Post.AddAsync(newPost);
         await context.SaveChangesAsync();
-        return Ok(newPost);
+        return newPost;
       }
     }
   }

@@ -2,6 +2,10 @@
 
 namespace handshake.Classes
 {
+
+  /// <summary>
+  /// 
+  /// </summary>
   [AttributeUsage(AttributeTargets.Property)]
   public class MatchParentAttribute : Attribute
   {

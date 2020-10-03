@@ -3,7 +3,7 @@
 namespace handshake.Data
 {
   /// <summary>
-  /// The authentication model represents all data needed to sign in.
+  /// The authentication model contains all data needed to sign in.
   /// </summary>
   public class AuthenticateModel
   {

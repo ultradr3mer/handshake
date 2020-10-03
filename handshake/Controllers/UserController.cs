@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using handshake.Contexts;
 using handshake.Entities;
@@ -32,22 +33,22 @@ namespace handshake.Controllers
     /// <summary>
     /// Gets all users nearby.
     /// </summary>
-    /// <returns>Retruncode ok, when the retrival was a success.</returns>
+    /// <returns>Close users.</returns>
     [HttpGet]
     [Route("getcloseusers")]
-    public IActionResult GetCloseUsers(decimal Longitude, decimal Latitude)
+    public IList<User> GetCloseUsers(decimal longitude, decimal latitude)
     {
       using var connection = this.userService.GetConnection();
       var context = new DatabaseContext(connection);
 
-      return Ok(context.User.ToList());
+      return context.User.ToList();
     }
 
     /// <summary>
     /// Creates a new user.
     /// </summary>
     /// <param name="daten">The user to create.</param>
-    /// <returns>Retruncode ok, whenn success.</returns>
+    /// <returns>The created user.</returns>
     [HttpPost]
     public async Task<IActionResult> Post([FromBody] InsertUserDaten daten)
     {

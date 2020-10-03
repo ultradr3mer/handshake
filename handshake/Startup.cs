@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 
@@ -50,6 +51,45 @@ namespace handshake
         var xmlCommentsFullPath = Path.Combine(AppContext.BaseDirectory, xmlCommentsFile);
 
         setupAction.IncludeXmlComments(xmlCommentsFullPath);
+
+        setupAction.AddSecurityDefinition("http", new OpenApiSecurityScheme
+        {
+          Description = "Basic",
+          Name = "Authorization",
+          In = ParameterLocation.Header,
+          Type = SecuritySchemeType.Http,
+          Scheme = "basic"
+        });
+
+        setupAction.AddSecurityRequirement(new OpenApiSecurityRequirement()
+        {
+          {
+            new OpenApiSecurityScheme
+            {
+              Reference = new OpenApiReference
+              {
+                Type = ReferenceType.SecurityScheme,
+                Id = "http"
+              },
+              Scheme = "basic",
+              Name = "basic",
+              In = ParameterLocation.Header
+            },
+            new List<string>()
+          }
+        }); ;
+
+        setupAction.AddServer(new OpenApiServer()
+        {
+          Url = "https://handshake.azurewebsites.net",
+          Description = "Azure host"
+        });
+
+        setupAction.AddServer(new OpenApiServer()
+        {
+          Url = "https://localhost:44370",
+          Description = "Local host"
+        });
       });
     }
 

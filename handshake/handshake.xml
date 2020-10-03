@@ -4,6 +4,11 @@
         <name>handshake</name>
     </assembly>
     <members>
+        <member name="T:handshake.Classes.MatchParentAttribute">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="T:handshake.Controllers.PostController">
             <summary>
             The post controller provides functionality to manage posts.
@@ -15,18 +20,18 @@
             </summary>
             <param name="userService">The user / login service.</param>
         </member>
-        <member name="M:handshake.Controllers.PostController.GetClosePosts">
+        <member name="M:handshake.Controllers.PostController.GetClosePosts(System.Decimal,System.Decimal)">
             <summary>
             Gets all posts nearby.
             </summary>
-            <returns>Retruncode ok, when the retrival was a success.</returns>
+            <returns>The Posts nearby.</returns>
         </member>
         <member name="M:handshake.Controllers.PostController.Post(handshake.SetDaten.InsertPostData)">
             <summary>
             Posts a new post.
             </summary>
             <param name="daten">The post to post.</param>
-            <returns>Retruncode ok, whenn success.</returns>
+            <returns>The posted post.</returns>
         </member>
         <member name="T:handshake.Controllers.UserController">
             <summary>
@@ -43,18 +48,18 @@
             <summary>
             Gets all users nearby.
             </summary>
-            <returns>Retruncode ok, when the retrival was a success.</returns>
+            <returns>Close users.</returns>
         </member>
         <member name="M:handshake.Controllers.UserController.Post(handshake.PostDaten.InsertUserDaten)">
             <summary>
             Creates a new user.
             </summary>
             <param name="daten">The user to create.</param>
-            <returns>Retruncode ok, whenn success.</returns>
+            <returns>The created user.</returns>
         </member>
         <member name="T:handshake.Data.AuthenticateModel">
             <summary>
-            The authentication model represents all data needed to sign in.
+            The authentication model contains all data needed to sign in.
             </summary>
         </member>
         <member name="P:handshake.Data.AuthenticateModel.Username">
@@ -65,6 +70,61 @@
         <member name="P:handshake.Data.AuthenticateModel.Password">
             <summary>
             The login password.
+            </summary>
+        </member>
+        <member name="T:handshake.Entities.Post">
+            <summary>
+            A post.
+            </summary>
+        </member>
+        <member name="P:handshake.Entities.Post.Id">
+            <summary>
+            The id.
+            </summary>
+        </member>
+        <member name="P:handshake.Entities.Post.Author">
+            <summary>
+            The author.
+            </summary>
+        </member>
+        <member name="P:handshake.Entities.Post.Content">
+            <summary>
+            The content.
+            </summary>
+        </member>
+        <member name="P:handshake.Entities.Post.Creationdate">
+            <summary>
+            The creation date.
+            </summary>
+        </member>
+        <member name="P:handshake.Entities.Post.Longitude">
+            <summary>
+            The location longitude.
+            </summary>
+        </member>
+        <member name="P:handshake.Entities.Post.Latitude">
+            <summary>
+            The location lattitude.
+            </summary>
+        </member>
+        <member name="T:handshake.Entities.User">
+            <summary>
+            A user.
+            </summary>
+        </member>
+        <member name="P:handshake.Entities.User.Id">
+            <summary>
+            The id.
+            </summary>
+        </member>
+        <member name="P:handshake.Entities.User.Nickname">
+            <summary>
+            The users nickname.
+            </summary>
+        </member>
+        <member name="P:handshake.Entities.User.Description">
+            <summary>
+            The description.
             </summary>
         </member>
         <member name="T:handshake.Interfaces.IAuthService">
@@ -109,6 +169,21 @@
         <member name="P:handshake.SetDaten.InsertPostData.Latitude">
             <summary>
             The post location latitude;
+            </summary>
+        </member>
+        <member name="T:handshake.PostDaten.InsertUserDaten">
+            <summary>
+            This class contains all information needed to insert an user.
+            </summary>
+        </member>
+        <member name="P:handshake.PostDaten.InsertUserDaten.Nickname">
+            <summary>
+            The nickname.
+            </summary>
+        </member>
+        <member name="P:handshake.PostDaten.InsertUserDaten.Description">
+            <summary>
+            The description.
             </summary>
         </member>
         <member name="T:handshake.Services.AuthService">
