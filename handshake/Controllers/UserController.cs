@@ -1,46 +1,61 @@
-﻿using System;
+﻿using handshake.Contexts;
+using handshake.Entities;
+using handshake.ExtensionMethods;
+using handshake.Extensions;
+using handshake.GetData;
+using handshake.Interfaces;
+using handshake.PostData;
+using handshake.Repositories;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using handshake.Contexts;
-using handshake.Entities;
-using handshake.ExtensionMethods;
-using handshake.Extensions;
-using handshake.Interfaces;
-using handshake.PostData;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 
 namespace handshake.Controllers
 {
-
-
   /// <summary>
-  /// The user controller provides functionality to manage posts.
+  /// The <see cref="UserController"/> provides functionality to manage users.
   /// </summary>
   [Authorize]
   [ApiController]
   [Route("[controller]")]
   public class UserController : ControllerBase
   {
-    private static Regex alphanumericRegex = new Regex("^[a-zA-Z0-9]*$", RegexOptions.Compiled);
-    private static Regex latinUppercaseRegex = new Regex("[A-Z]", RegexOptions.Compiled);
-    private static Regex latinLowercaseRegex = new Regex("[a-z]", RegexOptions.Compiled);
-    private static Regex base10DigitRegex = new Regex("[0-9]", RegexOptions.Compiled);
-    private static Regex nonAlphanumericRegex = new Regex("[^a-zA-Z0-9]", RegexOptions.Compiled);
+    #region Fields
+
+    private static readonly Regex alphanumericRegex = new Regex("^[a-zA-Z0-9]*$", RegexOptions.Compiled);
+    private static readonly Regex base10DigitRegex = new Regex("[0-9]", RegexOptions.Compiled);
+    private static readonly Regex latinLowercaseRegex = new Regex("[a-z]", RegexOptions.Compiled);
+    private static readonly Regex latinUppercaseRegex = new Regex("[A-Z]", RegexOptions.Compiled);
+    private static readonly Regex nonAlphanumericRegex = new Regex("[^a-zA-Z0-9]", RegexOptions.Compiled);
 
     private readonly IAuthService userService;
+    private readonly IConfiguration configuration;
+
+    #endregion Fields
+
+    #region Constructors
 
     /// <summary>
-    /// Creates a new instance of the UserController class.
+    /// Creates a new instance of the <see cref="UserController"/> class.
     /// </summary>
     /// <param name="userService">The user / login service.</param>
-    public UserController(IAuthService userService)
+    /// <param name="configuration">The configuration.</param>
+    public UserController(IAuthService userService, IConfiguration configuration)
     {
       this.userService = userService;
+      this.configuration = configuration;
     }
+
+    #endregion Constructors
+
+    #region Methods
 
     /// <summary>
     /// Gets all users nearby.
@@ -50,8 +65,8 @@ namespace handshake.Controllers
     [Route("GetCloseUsers")]
     public IList<UserEntity> GetCloseUsers(decimal longitude, decimal latitude)
     {
-      using var connection = this.userService.GetConnection();
-      using var context = new DatabaseContext(connection);
+      using SqlConnection connection = this.userService.Connection;
+      using DatabaseContext context = new DatabaseContext(connection);
 
       return context.User.ToList();
     }
@@ -68,11 +83,11 @@ namespace handshake.Controllers
       ValidateUsername(daten);
       ValidatePassword(daten);
 
-      var username = System.Configuration.ConfigurationManager.AppSettings["AdminUsername"];
-      var password = System.Configuration.ConfigurationManager.AppSettings["AdminPassword"];
+      string username = this.configuration["AdminUsername"];
+      string password = this.configuration["AdminPassword"];
 
       await this.userService.AuthenticateMaster(username, password);
-      using (SqlConnection connection = this.userService.GetConnection())
+      using (SqlConnection connection = this.userService.Connection)
       {
         SqlCommand commandCreateUser = new SqlCommand($"CREATE LOGIN {daten.Username} WITH PASSWORD = '{daten.Password.Replace("'", "''")}'", connection);
         await commandCreateUser.ExecuteNonQueryAsync();
@@ -80,18 +95,30 @@ namespace handshake.Controllers
       }
 
       await this.userService.Authenticate(username, password);
-      using (SqlConnection connection = this.userService.GetConnection())
+      using (SqlConnection connection = this.userService.Connection)
       {
         SqlCommand commandAddUser = new SqlCommand($"CREATE USER {daten.Username} FOR LOGIN {daten.Username} WITH DEFAULT_SCHEMA = dbo", connection);
         await commandAddUser.ExecuteNonQueryAsync();
 
         SqlCommand commandAddRole = new SqlCommand($"ALTER ROLE [DB_USER] ADD MEMBER {daten.Username}", connection);
         await commandAddRole.ExecuteNonQueryAsync();
+
         await CreateUserProfile(daten, connection);
         connection.Close();
       }
 
-      return Ok();
+      return this.Ok();
+    }
+
+    private static async Task<DatabaseContext> CreateUserProfile(UserPostData daten, SqlConnection connection)
+    {
+      DatabaseContext context = new DatabaseContext(connection);
+
+      UserEntity newUser = new UserEntity();
+      newUser.CopyPropertiesFrom(daten);
+      await context.User.AddAsync(newUser);
+      await context.SaveChangesAsync();
+      return context;
     }
 
     private static void ValidatePassword(UserPostData daten)
@@ -135,25 +162,6 @@ namespace handshake.Controllers
       }
     }
 
-    private async Task<SqlConnection> GetAdminConnectionFromSettings()
-    {
-      var username = System.Configuration.ConfigurationManager.AppSettings["AdminUsername"];
-      var password = System.Configuration.ConfigurationManager.AppSettings["AdminPassword"];
-
-      await this.userService.AuthenticateMaster(username, password);
-      var connection = this.userService.GetConnection();
-      return connection;
-    }
-
-    private static async Task<DatabaseContext> CreateUserProfile(UserPostData daten, SqlConnection connection)
-    {
-      var context = new DatabaseContext(connection);
-
-      var newUser = new UserEntity();
-      newUser.CopyPropertiesFrom(daten);
-      await context.User.AddAsync(newUser);
-      await context.SaveChangesAsync();
-      return context;
-    }
+    #endregion Methods
   }
 }

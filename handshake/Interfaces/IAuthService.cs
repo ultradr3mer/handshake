@@ -8,6 +8,24 @@ namespace handshake.Interfaces
   /// </summary>
   public interface IAuthService
   {
+    #region Properties
+
+    /// <summary>
+    /// Retrives the current <see cref="SqlConnection"/>.
+    /// </summary>
+    /// <returns>the current connection.</returns>
+    SqlConnection Connection { get; }
+
+    /// <summary>
+    /// Retrives the current username.
+    /// </summary>
+    /// <returns>the current connection.</returns>
+    string Username { get; }
+
+    #endregion Properties
+
+    #region Methods
+
     /// <summary>
     /// Performs the Authentication and retrives a connection.
     /// </summary>
@@ -24,10 +42,6 @@ namespace handshake.Interfaces
     /// <returns>An open connection.</returns>
     Task<SqlConnection> AuthenticateMaster(string username, string password);
 
-    /// <summary>
-    /// Retrives the current connection.
-    /// </summary>
-    /// <returns>the current connection.</returns>
-    SqlConnection GetConnection();
+    #endregion Methods
   }
 }

@@ -1,18 +1,39 @@
 ﻿using handshake.Interfaces;
-using System.Data.Common;
 using System.Data.SqlClient;
-using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace handshake.Services
 {
-
   /// <summary>
   /// The <see cref="IAuthService"/> class is a service for authentication.
   /// </summary>
   internal class AuthService : IAuthService
   {
-    private SqlConnection connection;
+    #region Properties
+
+    /// <summary>
+    /// Retrives the current <see cref="SqlConnection"/>.
+    /// </summary>
+    /// <returns>the current connection.</returns>
+    public SqlConnection Connection
+    {
+      get;
+      private set;
+    }
+
+    /// <summary>
+    /// Retrives the current username.
+    /// </summary>
+    /// <returns>the current connection.</returns>
+    public string Username
+    {
+      get;
+      private set;
+    }
+
+    #endregion Properties
+
+    #region Methods
 
     /// <summary>
     /// Performs the Authentication with the SQL Server and retrives a connection.
@@ -22,8 +43,8 @@ namespace handshake.Services
     /// <returns>An open connection.</returns>
     public async Task<SqlConnection> Authenticate(string username, string password)
     {
-      await AuthenticateInternal(username, password, "handshake");
-      return connection;
+      await this.AuthenticateInternal(username, password, "handshake");
+      return this.Connection;
     }
 
     /// <summary>
@@ -34,36 +55,29 @@ namespace handshake.Services
     /// <returns>An open connection.</returns>
     public async Task<SqlConnection> AuthenticateMaster(string username, string password)
     {
-      await AuthenticateInternal(username, password, "master");
-      return connection;
-    }
-
-    /// <summary>
-    /// Retrives the current connection.
-    /// </summary>
-    /// <returns>the current connection.</returns>
-    public SqlConnection GetConnection()
-    {
-      return this.connection;
+      await this.AuthenticateInternal(username, password, "master");
+      return this.Connection;
     }
 
     private async Task AuthenticateInternal(string username, string password, string catalog)
     {
-      if (this.connection != null)
+      if (this.Connection != null)
       {
-        this.connection.Dispose();
-        this.connection = null;
+        this.Connection.Dispose();
+        this.Connection = null;
       }
 
-      var connectionString = $"Server=tcp:server2.database.windows.net,1433;Initial Catalog={catalog};Persist Security Info=False;User ID={username};Password={password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+      string connectionString = $"Server=tcp:server2.database.windows.net,1433;Initial Catalog={catalog};Persist Security Info=False;User ID={username};Password={password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
 
-      this.connection = await Task.Run(() =>
+      this.Connection = await Task.Run(() =>
       {
-        var connection = new SqlConnection(connectionString);
+        SqlConnection connection = new SqlConnection(connectionString);
         connection.Open();
+        this.Username = username;
         return connection;
       });
     }
 
+    #endregion Methods
   }
 }

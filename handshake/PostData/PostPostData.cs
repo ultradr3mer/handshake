@@ -8,11 +8,6 @@ namespace handshake.PostData
   public class PostPostData
   {
     /// <summary>
-    /// The author who made the post.
-    /// </summary>
-    public Guid Author { get; set; }
-
-    /// <summary>
     /// The contetn of the post.
     /// </summary>
     public string Content { get; set; }

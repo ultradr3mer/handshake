@@ -1,10 +1,9 @@
-using handshake.Contexts;
 using handshake.Interfaces;
+using handshake.Repositories;
 using handshake.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -18,14 +17,48 @@ namespace handshake
 {
   internal class Startup
   {
+    #region Fields
+
     private IServiceCollection services;
+
+    #endregion Fields
+
+    #region Constructors
 
     public Startup(IConfiguration configuration)
     {
-      Configuration = configuration;
     }
 
-    public IConfiguration Configuration { get; }
+    #endregion Constructors
+
+    #region Methods
+
+    // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    {
+      app.UseDeveloperExceptionPage();
+
+      app.UseHttpsRedirection();
+
+      if (env.IsDevelopment())
+      {
+        app.UseSwagger();
+        app.UseSwaggerUI(setupAction =>
+        {
+          setupAction.SwaggerEndpoint("/swagger/shake/swagger.json", "Handshake");
+        });
+      }
+
+      app.UseRouting();
+
+      app.UseAuthentication();
+      app.UseAuthorization();
+
+      app.UseEndpoints(endpoints =>
+      {
+        endpoints.MapControllers();
+      });
+    }
 
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
@@ -39,6 +72,8 @@ namespace handshake
 
       services.AddScoped<IAuthService, AuthService>();
 
+      services.AddScoped<UserDatabaseAccess>();
+
       services.AddSwaggerGen(setupAction =>
       {
         setupAction.SwaggerDoc("shake", new OpenApiInfo()
@@ -47,8 +82,8 @@ namespace handshake
           Version = "0.0.1"
         });
 
-        var xmlCommentsFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-        var xmlCommentsFullPath = Path.Combine(AppContext.BaseDirectory, xmlCommentsFile);
+        string xmlCommentsFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+        string xmlCommentsFullPath = Path.Combine(AppContext.BaseDirectory, xmlCommentsFile);
 
         setupAction.IncludeXmlComments(xmlCommentsFullPath);
 
@@ -93,31 +128,6 @@ namespace handshake
       });
     }
 
-    // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-    {
-      app.UseDeveloperExceptionPage();
-
-      app.UseHttpsRedirection();
-
-      if (env.IsDevelopment())
-      {
-        app.UseSwagger();
-        app.UseSwaggerUI(setupAction =>
-        {
-          setupAction.SwaggerEndpoint("/swagger/shake/swagger.json", "Handshake");
-        });
-      }
-
-      app.UseRouting();
-
-      app.UseAuthentication();
-      app.UseAuthorization();
-
-      app.UseEndpoints(endpoints =>
-      {
-        endpoints.MapControllers();
-      });
-    }
+    #endregion Methods
   }
 }

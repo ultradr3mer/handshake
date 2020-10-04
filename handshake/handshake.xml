@@ -11,14 +11,15 @@
         </member>
         <member name="T:handshake.Controllers.PostController">
             <summary>
-            The post controller provides functionality to manage posts.
+            The <see cref="T:handshake.Controllers.PostController"/> provides functionality to manage posts.
             </summary>
         </member>
-        <member name="M:handshake.Controllers.PostController.#ctor(handshake.Interfaces.IAuthService)">
+        <member name="M:handshake.Controllers.PostController.#ctor(handshake.Interfaces.IAuthService,handshake.Repositories.UserDatabaseAccess)">
             <summary>
-            Creates a new instance of the PostController class.
+            Creates a new instance of the <see cref="T:handshake.Controllers.PostController"/> class.
             </summary>
             <param name="userService">The user / login service.</param>
+            <param name="userDatabaseAccess">The database access for the user.</param>
         </member>
         <member name="M:handshake.Controllers.PostController.GetClosePosts(System.Decimal,System.Decimal)">
             <summary>
@@ -30,19 +31,20 @@
             <summary>
             Posts a new post.
             </summary>
-            <param name="daten">The post to post.</param>
-            <returns>The posted post.</returns>
+            <param name="daten">The <see cref="T:handshake.PostData.PostPostData"/> to post.</param>
+            <returns>The posted <see cref="T:handshake.Entities.PostEntity"/>.</returns>
         </member>
         <member name="T:handshake.Controllers.UserController">
             <summary>
-            The user controller provides functionality to manage posts.
+            The <see cref="T:handshake.Controllers.UserController"/> provides functionality to manage users.
             </summary>
         </member>
-        <member name="M:handshake.Controllers.UserController.#ctor(handshake.Interfaces.IAuthService)">
+        <member name="M:handshake.Controllers.UserController.#ctor(handshake.Interfaces.IAuthService,Microsoft.Extensions.Configuration.IConfiguration)">
             <summary>
-            Creates a new instance of the UserController class.
+            Creates a new instance of the <see cref="T:handshake.Controllers.UserController"/> class.
             </summary>
             <param name="userService">The user / login service.</param>
+            <param name="configuration">The configuration.</param>
         </member>
         <member name="M:handshake.Controllers.UserController.GetCloseUsers(System.Decimal,System.Decimal)">
             <summary>
@@ -162,10 +164,47 @@
             The creation date.
             </summary>
         </member>
+        <member name="T:handshake.GetData.UserGetData">
+            <summary>
+            A user.
+            </summary>
+        </member>
+        <member name="P:handshake.GetData.UserGetData.Description">
+            <summary>
+            The description.
+            </summary>
+        </member>
+        <member name="P:handshake.GetData.UserGetData.Id">
+            <summary>
+            The id.
+            </summary>
+        </member>
+        <member name="P:handshake.GetData.UserGetData.Nickname">
+            <summary>
+            The users nickname.
+            </summary>
+        </member>
+        <member name="P:handshake.GetData.UserGetData.Username">
+            <summary>
+            The username for login.
+            </summary>
+        </member>
         <member name="T:handshake.Interfaces.IAuthService">
             <summary>
             The <see cref="T:handshake.Interfaces.IAuthService"/> interface represents the authentication service.
             </summary>
+        </member>
+        <member name="P:handshake.Interfaces.IAuthService.Connection">
+            <summary>
+            Retrives the current <see cref="T:System.Data.SqlClient.SqlConnection"/>.
+            </summary>
+            <returns>the current connection.</returns>
+        </member>
+        <member name="P:handshake.Interfaces.IAuthService.Username">
+            <summary>
+            Retrives the current username.
+            </summary>
+            <returns>the current connection.</returns>
         </member>
         <member name="M:handshake.Interfaces.IAuthService.Authenticate(System.String,System.String)">
             <summary>
@@ -183,20 +222,9 @@
             <param name="password">The SQL password.</param>
             <returns>An open connection.</returns>
         </member>
-        <member name="M:handshake.Interfaces.IAuthService.GetConnection">
-            <summary>
-            Retrives the current connection.
-            </summary>
-            <returns>the current connection.</returns>
-        </member>
         <member name="T:handshake.PostData.PostPostData">
             <summary>
             The insert post data is class for inserting new posts.
-            </summary>
-        </member>
-        <member name="P:handshake.PostData.PostPostData.Author">
-            <summary>
-            The author who made the post.
             </summary>
         </member>
         <member name="P:handshake.PostData.PostPostData.Content">
@@ -234,10 +262,35 @@
             The password.
             </summary>
         </member>
+        <member name="T:handshake.Repositories.UserDatabaseAccess">
+            <summary>
+            The <see cref="T:handshake.Repositories.UserDatabaseAccess"/> class is the database access for users.
+            </summary>
+        </member>
+        <member name="M:handshake.Repositories.UserDatabaseAccess.Get(System.String,System.Data.SqlClient.SqlConnection)">
+            <summary>
+            Gets a user by its username.
+            </summary>
+            <param name="username">The login username of the user.</param>
+            <param name="connection">The <see cref="T:System.Data.SqlClient.SqlConnection"/> to use.</param>
+            <returns>The <see cref="T:handshake.GetData.UserGetData"/> for the user.</returns>
+        </member>
         <member name="T:handshake.Services.AuthService">
             <summary>
             The <see cref="T:handshake.Interfaces.IAuthService"/> class is a service for authentication.
             </summary>
+        </member>
+        <member name="P:handshake.Services.AuthService.Connection">
+            <summary>
+            Retrives the current <see cref="T:System.Data.SqlClient.SqlConnection"/>.
+            </summary>
+            <returns>the current connection.</returns>
+        </member>
+        <member name="P:handshake.Services.AuthService.Username">
+            <summary>
+            Retrives the current username.
+            </summary>
+            <returns>the current connection.</returns>
         </member>
         <member name="M:handshake.Services.AuthService.Authenticate(System.String,System.String)">
             <summary>
@@ -254,12 +307,6 @@
             <param name="username">The SQL username.</param>
             <param name="password">The SQL password.</param>
             <returns>An open connection.</returns>
-        </member>
-        <member name="M:handshake.Services.AuthService.GetConnection">
-            <summary>
-            Retrives the current connection.
-            </summary>
-            <returns>the current connection.</returns>
         </member>
     </members>
 </doc>
