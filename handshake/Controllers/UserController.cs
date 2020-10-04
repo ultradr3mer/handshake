@@ -68,7 +68,7 @@ namespace handshake.Controllers
       using SqlConnection connection = this.userService.Connection;
       using DatabaseContext context = new DatabaseContext(connection);
 
-      return context.User.ToList();
+      return context.ShakeUser.ToList();
     }
 
     /// <summary>
@@ -116,7 +116,8 @@ namespace handshake.Controllers
 
       UserEntity newUser = new UserEntity();
       newUser.CopyPropertiesFrom(daten);
-      await context.User.AddAsync(newUser);
+      newUser.Nickname = newUser.Nickname ?? newUser.Username;
+      await context.ShakeUser.AddAsync(newUser);
       await context.SaveChangesAsync();
       return context;
     }

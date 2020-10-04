@@ -24,7 +24,7 @@ namespace handshake.Repositories
     {
       using DatabaseContext context = new DatabaseContext(connection);
 
-      Entities.UserEntity user = await context.User.FirstAsync(o => o.Username == username);
+      Entities.UserEntity user = await context.ShakeUser.FirstAsync(o => o.Username == username);
       UserGetData result = new UserGetData();
       result.CopyPropertiesFrom(user);
 

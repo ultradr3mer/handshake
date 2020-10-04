@@ -13,7 +13,7 @@ namespace handshake.Contexts
       this.connection = connection;
     }
 
-    public DbSet<UserEntity> User { get; set; }
+    public DbSet<UserEntity> ShakeUser { get; set; }
     public DbSet<PostEntity> Post { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

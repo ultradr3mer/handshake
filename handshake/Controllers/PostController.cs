@@ -1,6 +1,7 @@
 ﻿using handshake.Contexts;
 using handshake.Entities;
 using handshake.ExtensionMethods;
+using handshake.GetData;
 using handshake.Interfaces;
 using handshake.PostData;
 using handshake.Repositories;
@@ -8,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -51,21 +53,56 @@ namespace handshake.Controllers
     /// <returns>The Posts nearby.</returns>
     [HttpGet]
     [Route("GetClosePosts")]
-    public IList<GetData.PostGetData> GetClosePosts(decimal longitude, decimal latitude)
+    public async Task<IList<GetData.PostGetData>> GetClosePosts(decimal? latitude, decimal? longitude)
     {
+      if (latitude == null)
+      {
+        throw new ArgumentNullException(nameof(latitude));
+      }
+
+      if (longitude == null)
+      {
+        throw new ArgumentNullException(nameof(longitude));
+      }
+
       using var connection = this.userService.Connection;
       using var context = new DatabaseContext(connection);
 
-      var result = (from post in context.Post
-                    join author in context.User on post.Author equals author.Id
-                    select new GetData.PostGetData()
-                    {
-                      Author = post.Author,
-                      AuthorName = author.Nickname,
-                      Content = post.Content,
-                      Creationdate = post.Creationdate,
-                      Id = post.Id
-                    }).OrderBy(o => o.Creationdate).ToList();
+      var commandString = $@"SELECT CONTENT
+                            ,USERID
+	                          ,NICKNAME
+	                          ,CREATIONDATE
+	                          ,POSTID
+	                          ,DIST + AGO AS RELEVANCE
+                          FROM (
+	                          SELECT POST.CONTENT
+		                          ,SHAKEUSER.ID AS USERID
+		                          ,SHAKEUSER.NICKNAME
+		                          ,POST.CREATIONDATE
+		                          ,POST.ID AS POSTID
+		                          ,DBO.DISTANCE(POST.LATITUDE, POST.LONGITUDE, {latitude}, {longitude}) AS DIST
+		                          ,DATEDIFF(MINUTE, POST.CREATIONDATE, GETDATE()) AS AGO
+	                          FROM POST
+	                          JOIN SHAKEUSER ON SHAKEUSER.ID = POST.AUTHOR
+	                          ) DATA
+                          ORDER BY RELEVANCE";
+
+      using var command = new SqlCommand(commandString, connection);
+      using var reader = command.ExecuteReader();
+
+      var result = new List<PostGetData>();
+
+      while(await reader.ReadAsync())
+      {
+        result.Add(new PostGetData()
+        {
+          Content = (string)reader[0],
+          Author = (Guid)reader[1],
+          AuthorName = (string)reader[2],
+          Creationdate = (DateTime)reader[3],
+          Id = (Guid)reader[4]
+        });
+      }
 
       return result;
     }

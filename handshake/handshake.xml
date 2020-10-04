@@ -21,7 +21,7 @@
             <param name="userService">The user / login service.</param>
             <param name="userDatabaseAccess">The database access for the user.</param>
         </member>
-        <member name="M:handshake.Controllers.PostController.GetClosePosts(System.Decimal,System.Decimal)">
+        <member name="M:handshake.Controllers.PostController.GetClosePosts(System.Nullable{System.Decimal},System.Nullable{System.Decimal})">
             <summary>
             Gets all posts nearby.
             </summary>
