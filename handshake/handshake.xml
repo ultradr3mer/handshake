@@ -127,6 +127,11 @@
             The description.
             </summary>
         </member>
+        <member name="P:handshake.Entities.UserEntity.Username">
+            <summary>
+            The username for login.
+            </summary>
+        </member>
         <member name="T:handshake.GetData.PostGetData">
             <summary>
             A post.
@@ -170,6 +175,14 @@
             <param name="password">The SQL password.</param>
             <returns>An open connection.</returns>
         </member>
+        <member name="M:handshake.Interfaces.IAuthService.AuthenticateMaster(System.String,System.String)">
+            <summary>
+            Performs the Authentication for the master database and retrives a connection.
+            </summary>
+            <param name="username">The SQL username.</param>
+            <param name="password">The SQL password.</param>
+            <returns>An open connection.</returns>
+        </member>
         <member name="M:handshake.Interfaces.IAuthService.GetConnection">
             <summary>
             Retrives the current connection.
@@ -203,17 +216,22 @@
         </member>
         <member name="T:handshake.PostData.UserPostData">
             <summary>
-            This class contains all information needed to insert an user.
+            This class contains all information needed to create an account.
             </summary>
         </member>
         <member name="P:handshake.PostData.UserPostData.Nickname">
             <summary>
-            The nickname.
+            The public nickname.
             </summary>
         </member>
-        <member name="P:handshake.PostData.UserPostData.Description">
+        <member name="P:handshake.PostData.UserPostData.Username">
             <summary>
-            The description.
+            The username for login.
+            </summary>
+        </member>
+        <member name="P:handshake.PostData.UserPostData.Password">
+            <summary>
+            The password.
             </summary>
         </member>
         <member name="T:handshake.Services.AuthService">
@@ -224,6 +242,14 @@
         <member name="M:handshake.Services.AuthService.Authenticate(System.String,System.String)">
             <summary>
             Performs the Authentication with the SQL Server and retrives a connection.
+            </summary>
+            <param name="username">The SQL username.</param>
+            <param name="password">The SQL password.</param>
+            <returns>An open connection.</returns>
+        </member>
+        <member name="M:handshake.Services.AuthService.AuthenticateMaster(System.String,System.String)">
+            <summary>
+            Performs the Authentication for the master database and retrives a connection.
             </summary>
             <param name="username">The SQL username.</param>
             <param name="password">The SQL password.</param>

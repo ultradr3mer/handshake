@@ -25,5 +25,11 @@ namespace handshake.Entities
     /// </summary>
     [MaxLength(500)]
     public string Description { get; set; }
+
+    /// <summary>
+    /// The username for login.
+    /// </summary>
+    [MaxLength(50)]
+    public string Username { get; set; }
   }
 }

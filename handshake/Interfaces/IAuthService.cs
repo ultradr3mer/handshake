@@ -17,6 +17,14 @@ namespace handshake.Interfaces
     Task<SqlConnection> Authenticate(string username, string password);
 
     /// <summary>
+    /// Performs the Authentication for the master database and retrives a connection.
+    /// </summary>
+    /// <param name="username">The SQL username.</param>
+    /// <param name="password">The SQL password.</param>
+    /// <returns>An open connection.</returns>
+    Task<SqlConnection> AuthenticateMaster(string username, string password);
+
+    /// <summary>
     /// Retrives the current connection.
     /// </summary>
     /// <returns>the current connection.</returns>

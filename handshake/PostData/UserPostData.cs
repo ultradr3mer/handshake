@@ -1,18 +1,28 @@
-﻿namespace handshake.PostData
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace handshake.PostData
 {
   /// <summary>
-  /// This class contains all information needed to insert an user.
+  /// This class contains all information needed to create an account.
   /// </summary>
   public class UserPostData
   {
     /// <summary>
-    /// The nickname.
+    /// The public nickname.
     /// </summary>
+    [MaxLength(200)]
     public string Nickname { get; set; }
 
     /// <summary>
-    /// The description.
+    /// The username for login.
     /// </summary>
-    public string Description { get; set; }
+    [MaxLength(50)]
+    public string Username { get; set; }
+
+    /// <summary>
+    /// The password.
+    /// </summary>
+    [MaxLength(50)]
+    public string Password { get; set; }
   }
 }

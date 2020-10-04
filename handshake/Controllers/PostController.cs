@@ -37,26 +37,25 @@ namespace handshake.Controllers
     /// </summary>
     /// <returns>The Posts nearby.</returns>
     [HttpGet]
-    [Route("getcloseposts")]
+    [Route("GetClosePosts")]
     public IList<GetData.PostGetData> GetClosePosts(decimal longitude, decimal latitude)
     {
-      using (var connection = this.userService.GetConnection())
-      {
-        var context = new DatabaseContext(connection);
+      using var connection = this.userService.GetConnection();
+      using var context = new DatabaseContext(connection);
 
-        var result = (from post in context.Post
-                      join author in context.User on post.Author equals author.Id
-                      select new GetData.PostGetData()
-                      {
-                        Author = post.Author,
-                        AuthorName = author.Nickname,
-                        Content = post.Content,
-                        Creationdate = post.Creationdate,
-                        Id = post.Id
-                      }).OrderBy(o => o.Creationdate).ToList();
+      var result = (from post in context.Post
+                    join author in context.User on post.Author equals author.Id
+                    select new GetData.PostGetData()
+                    {
+                      Author = post.Author,
+                      AuthorName = author.Nickname,
+                      Content = post.Content,
+                      Creationdate = post.Creationdate,
+                      Id = post.Id
+                    }).OrderBy(o => o.Creationdate).ToList();
 
-        return result;
-      }
+      return result;
+
     }
 
     /// <summary>
@@ -67,16 +66,16 @@ namespace handshake.Controllers
     [HttpPost]
     public async Task<PostEntity> Post([FromBody] PostPostData daten)
     {
-      using (var connection = this.userService.GetConnection())
-      {
-        var context = new DatabaseContext(connection);
-        var newPost = new PostEntity();
-        newPost.CopyPropertiesFrom(daten);
-        newPost.Creationdate = DateTime.Now;
-        await context.Post.AddAsync(newPost);
-        await context.SaveChangesAsync();
-        return newPost;
-      }
+      using var connection = this.userService.GetConnection();
+      using var context = new DatabaseContext(connection);
+
+      var newPost = new PostEntity();
+      newPost.CopyPropertiesFrom(daten);
+      newPost.Creationdate = DateTime.Now;
+      await context.Post.AddAsync(newPost);
+      await context.SaveChangesAsync();
+      return newPost;
+
     }
   }
 }
