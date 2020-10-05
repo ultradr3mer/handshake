@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations;
 namespace handshake.Entities
 {
   /// <summary>
-  /// A post.
+  /// A reply.
   /// </summary>
-  public class PostEntity
+  public class ReplyEntity
   {
     #region Properties
 
@@ -16,7 +16,7 @@ namespace handshake.Entities
     public Guid Author { get; set; }
 
     /// <summary>
-    /// The content.
+    /// The content of this reply.
     /// </summary>
     [MaxLength(1000)]
     public string Content { get; set; }
@@ -33,14 +33,9 @@ namespace handshake.Entities
     public Guid Id { get; set; }
 
     /// <summary>
-    /// The location lattitude.
+    /// The post replyed on.
     /// </summary>
-    public decimal Latitude { get; set; }
-
-    /// <summary>
-    /// The location longitude.
-    /// </summary>
-    public decimal Longitude { get; set; }
+    public Guid Post { get; set; }
 
     #endregion Properties
   }

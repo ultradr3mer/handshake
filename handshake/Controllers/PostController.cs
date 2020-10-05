@@ -48,6 +48,46 @@ namespace handshake.Controllers
     #region Methods
 
     /// <summary>
+    /// Gets a post by its id.
+    /// </summary>
+    /// <param name="Id">The id of the post to get.</param>
+    /// <returns>The detailed post information.</returns>
+    [HttpGet]
+    public PostDetailGetData GetPost(Guid Id)
+    {
+      using var connection = this.userService.Connection;
+      using var context = new DatabaseContext(connection);
+
+      var result = (from p in context.Post
+                    join a in context.ShakeUser on p.Author equals a.Id
+                    where p.Id == Id
+                    select new PostDetailGetData()
+                    {
+                      Id = p.Id,
+                      Author = a.Id,
+                      AuthorName = a.Nickname,
+                      Content = p.Content,
+                      Creationdate = p.Creationdate
+                    }).First();
+
+      var replys = (from r in context.Reply
+                    join a in context.ShakeUser on r.Author equals a.Id
+                    where r.Post == Id
+                    select new PostReplyGetData()
+                    {
+                      Id = r.Id,
+                      Author = a.Id,
+                      AuthorName = a.Nickname,
+                      Content = r.Content,
+                      Creationdate = r.Creationdate
+                    }).ToList();
+
+      result.Replys = replys;
+
+      return result;
+    }
+
+    /// <summary>
     /// Gets all posts nearby.
     /// </summary>
     /// <returns>The Posts nearby.</returns>

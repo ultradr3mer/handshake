@@ -21,6 +21,13 @@
             <param name="userService">The user / login service.</param>
             <param name="userDatabaseAccess">The database access for the user.</param>
         </member>
+        <member name="M:handshake.Controllers.PostController.GetPost(System.Guid)">
+            <summary>
+            Gets a post by its id.
+            </summary>
+            <param name="Id">The id of the post to get.</param>
+            <returns>The detailed post information.</returns>
+        </member>
         <member name="M:handshake.Controllers.PostController.GetClosePosts(System.Nullable{System.Decimal},System.Nullable{System.Decimal})">
             <summary>
             Gets all posts nearby.
@@ -33,6 +40,25 @@
             </summary>
             <param name="daten">The <see cref="T:handshake.PostData.PostPostData"/> to post.</param>
             <returns>The posted <see cref="T:handshake.Entities.PostEntity"/>.</returns>
+        </member>
+        <member name="T:handshake.Controllers.ReplyController">
+            <summary>
+            The <see cref="T:handshake.Controllers.ReplyController"/> provides functionality to manage replys.
+            </summary>
+        </member>
+        <member name="M:handshake.Controllers.ReplyController.#ctor(handshake.Interfaces.IAuthService,handshake.Repositories.UserDatabaseAccess)">
+            <summary>
+            Creates a new instance of the <see cref="T:handshake.Controllers.PostController"/> class.
+            </summary>
+            <param name="userService">The user / login service.</param>
+            <param name="userDatabaseAccess">The database access for the user.</param>
+        </member>
+        <member name="M:handshake.Controllers.ReplyController.Post(handshake.PostData.ReplyPostData)">
+            <summary>
+            Posts a new reply.
+            </summary>
+            <param name="daten">The <see cref="T:handshake.PostData.ReplyPostData"/> to post.</param>
+            <returns>The posted <see cref="T:handshake.Entities.ReplyEntity"/> entity.</returns>
         </member>
         <member name="T:handshake.Controllers.UserController">
             <summary>
@@ -79,11 +105,6 @@
             A post.
             </summary>
         </member>
-        <member name="P:handshake.Entities.PostEntity.Id">
-            <summary>
-            The id.
-            </summary>
-        </member>
         <member name="P:handshake.Entities.PostEntity.Author">
             <summary>
             The author.
@@ -99,9 +120,9 @@
             The creation date.
             </summary>
         </member>
-        <member name="P:handshake.Entities.PostEntity.Longitude">
+        <member name="P:handshake.Entities.PostEntity.Id">
             <summary>
-            The location longitude.
+            The id.
             </summary>
         </member>
         <member name="P:handshake.Entities.PostEntity.Latitude">
@@ -109,9 +130,49 @@
             The location lattitude.
             </summary>
         </member>
+        <member name="P:handshake.Entities.PostEntity.Longitude">
+            <summary>
+            The location longitude.
+            </summary>
+        </member>
+        <member name="T:handshake.Entities.ReplyEntity">
+            <summary>
+            A reply.
+            </summary>
+        </member>
+        <member name="P:handshake.Entities.ReplyEntity.Author">
+            <summary>
+            The author.
+            </summary>
+        </member>
+        <member name="P:handshake.Entities.ReplyEntity.Content">
+            <summary>
+            The content of this reply.
+            </summary>
+        </member>
+        <member name="P:handshake.Entities.ReplyEntity.Creationdate">
+            <summary>
+            The creation date.
+            </summary>
+        </member>
+        <member name="P:handshake.Entities.ReplyEntity.Id">
+            <summary>
+            The id.
+            </summary>
+        </member>
+        <member name="P:handshake.Entities.ReplyEntity.Post">
+            <summary>
+            The post replyed on.
+            </summary>
+        </member>
         <member name="T:handshake.Entities.UserEntity">
             <summary>
             A user.
+            </summary>
+        </member>
+        <member name="P:handshake.Entities.UserEntity.Description">
+            <summary>
+            The description.
             </summary>
         </member>
         <member name="P:handshake.Entities.UserEntity.Id">
@@ -124,14 +185,44 @@
             The users nickname.
             </summary>
         </member>
-        <member name="P:handshake.Entities.UserEntity.Description">
-            <summary>
-            The description.
-            </summary>
-        </member>
         <member name="P:handshake.Entities.UserEntity.Username">
             <summary>
             The username for login.
+            </summary>
+        </member>
+        <member name="T:handshake.GetData.PostDetailGetData">
+            <summary>
+            The detailed post information.
+            </summary>
+        </member>
+        <member name="P:handshake.GetData.PostDetailGetData.Id">
+            <summary>
+            The id.
+            </summary>
+        </member>
+        <member name="P:handshake.GetData.PostDetailGetData.Author">
+            <summary>
+            The author.
+            </summary>
+        </member>
+        <member name="P:handshake.GetData.PostDetailGetData.AuthorName">
+            <summary>
+            The author name.
+            </summary>
+        </member>
+        <member name="P:handshake.GetData.PostDetailGetData.Content">
+            <summary>
+            The content.
+            </summary>
+        </member>
+        <member name="P:handshake.GetData.PostDetailGetData.Creationdate">
+            <summary>
+            The creation date.
+            </summary>
+        </member>
+        <member name="P:handshake.GetData.PostDetailGetData.Replys">
+            <summary>
+            The post reply.
             </summary>
         </member>
         <member name="T:handshake.GetData.PostGetData">
@@ -162,6 +253,36 @@
         <member name="P:handshake.GetData.PostGetData.Creationdate">
             <summary>
             The creation date.
+            </summary>
+        </member>
+        <member name="T:handshake.GetData.PostReplyGetData">
+            <summary>
+            A reply.
+            </summary>
+        </member>
+        <member name="P:handshake.GetData.PostReplyGetData.Author">
+            <summary>
+            The author.
+            </summary>
+        </member>
+        <member name="P:handshake.GetData.PostReplyGetData.AuthorName">
+            <summary>
+            The author name.
+            </summary>
+        </member>
+        <member name="P:handshake.GetData.PostReplyGetData.Content">
+            <summary>
+            The content of this reply.
+            </summary>
+        </member>
+        <member name="P:handshake.GetData.PostReplyGetData.Creationdate">
+            <summary>
+            The creation date.
+            </summary>
+        </member>
+        <member name="P:handshake.GetData.PostReplyGetData.Id">
+            <summary>
+            The id.
             </summary>
         </member>
         <member name="T:handshake.GetData.UserGetData">
@@ -240,6 +361,21 @@
         <member name="P:handshake.PostData.PostPostData.Latitude">
             <summary>
             The post location latitude;
+            </summary>
+        </member>
+        <member name="T:handshake.PostData.ReplyPostData">
+            <summary>
+            A post.
+            </summary>
+        </member>
+        <member name="P:handshake.PostData.ReplyPostData.Content">
+            <summary>
+            The content.
+            </summary>
+        </member>
+        <member name="P:handshake.PostData.ReplyPostData.Post">
+            <summary>
+            The post replyed on.
             </summary>
         </member>
         <member name="T:handshake.PostData.UserPostData">

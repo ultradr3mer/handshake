@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace handshake.PostData
 {
@@ -10,6 +11,7 @@ namespace handshake.PostData
     /// <summary>
     /// The contetn of the post.
     /// </summary>
+    [MaxLength(1000)]
     public string Content { get; set; }
 
     /// <summary>

@@ -1,12 +1,11 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 
-namespace handshake.Entities
+namespace handshake.GetData
 {
   /// <summary>
-  /// A post.
+  /// A reply.
   /// </summary>
-  public class PostEntity
+  public class PostReplyGetData
   {
     #region Properties
 
@@ -16,9 +15,13 @@ namespace handshake.Entities
     public Guid Author { get; set; }
 
     /// <summary>
-    /// The content.
+    /// The author name.
     /// </summary>
-    [MaxLength(1000)]
+    public string AuthorName { get; set; }
+
+    /// <summary>
+    /// The content of this reply.
+    /// </summary>
     public string Content { get; set; }
 
     /// <summary>
@@ -29,18 +32,7 @@ namespace handshake.Entities
     /// <summary>
     /// The id.
     /// </summary>
-    [Key]
     public Guid Id { get; set; }
-
-    /// <summary>
-    /// The location lattitude.
-    /// </summary>
-    public decimal Latitude { get; set; }
-
-    /// <summary>
-    /// The location longitude.
-    /// </summary>
-    public decimal Longitude { get; set; }
 
     #endregion Properties
   }

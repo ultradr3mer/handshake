@@ -8,6 +8,14 @@ namespace handshake.Entities
   /// </summary>
   public class UserEntity
   {
+    #region Properties
+
+    /// <summary>
+    /// The description.
+    /// </summary>
+    [MaxLength(500)]
+    public string Description { get; set; }
+
     /// <summary>
     /// The id.
     /// </summary>
@@ -21,15 +29,11 @@ namespace handshake.Entities
     public string Nickname { get; set; }
 
     /// <summary>
-    /// The description.
-    /// </summary>
-    [MaxLength(500)]
-    public string Description { get; set; }
-
-    /// <summary>
     /// The username for login.
     /// </summary>
     [MaxLength(50)]
     public string Username { get; set; }
+
+    #endregion Properties
   }
 }
