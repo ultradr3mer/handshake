@@ -65,12 +65,13 @@
             The <see cref="T:handshake.Controllers.UserController"/> provides functionality to manage users.
             </summary>
         </member>
-        <member name="M:handshake.Controllers.UserController.#ctor(handshake.Interfaces.IAuthService,Microsoft.Extensions.Configuration.IConfiguration)">
+        <member name="M:handshake.Controllers.UserController.#ctor(handshake.Interfaces.IAuthService,Microsoft.Extensions.Configuration.IConfiguration,handshake.Repositories.UserDatabaseAccess)">
             <summary>
             Creates a new instance of the <see cref="T:handshake.Controllers.UserController"/> class.
             </summary>
             <param name="userService">The user / login service.</param>
             <param name="configuration">The configuration.</param>
+            <param name="userDatabaseAccess">The <see cref="T:handshake.Repositories.UserDatabaseAccess"/>.</param>
         </member>
         <member name="M:handshake.Controllers.UserController.GetCloseUsers(System.Decimal,System.Decimal)">
             <summary>
@@ -82,8 +83,14 @@
             <summary>
             Creates a new user.
             </summary>
-            <param name="daten">The user to create.</param>
-            <returns>The created user.</returns>
+            <param name="daten">The <see cref="T:handshake.PostData.UserPostData"/> to create.</param>
+            <returns><see cref="T:Microsoft.AspNetCore.Mvc.OkResult"/>, when the user was created.</returns>
+        </member>
+        <member name="M:handshake.Controllers.UserController.Get">
+            <summary>
+            Gets the current User.
+            </summary>
+            <returns>The <see cref="T:handshake.Entities.UserEntity"/>.</returns>
         </member>
         <member name="T:handshake.Data.AuthenticateModel">
             <summary>

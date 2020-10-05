@@ -37,6 +37,7 @@ namespace handshake.Controllers
 
     private readonly IAuthService userService;
     private readonly IConfiguration configuration;
+    private readonly UserDatabaseAccess userDatabaseAccess;
 
     #endregion Fields
 
@@ -47,10 +48,12 @@ namespace handshake.Controllers
     /// </summary>
     /// <param name="userService">The user / login service.</param>
     /// <param name="configuration">The configuration.</param>
-    public UserController(IAuthService userService, IConfiguration configuration)
+    /// <param name="userDatabaseAccess">The <see cref="UserDatabaseAccess"/>.</param>
+    public UserController(IAuthService userService, IConfiguration configuration, UserDatabaseAccess userDatabaseAccess)
     {
       this.userService = userService;
       this.configuration = configuration;
+      this.userDatabaseAccess = userDatabaseAccess;
     }
 
     #endregion Constructors
@@ -74,8 +77,8 @@ namespace handshake.Controllers
     /// <summary>
     /// Creates a new user.
     /// </summary>
-    /// <param name="daten">The user to create.</param>
-    /// <returns>The created user.</returns>
+    /// <param name="daten">The <see cref="UserPostData"/> to create.</param>
+    /// <returns><see cref="OkResult"/>, when the user was created.</returns>
     [AllowAnonymous]
     [HttpPost]
     public async Task<IActionResult> Post([FromBody] UserPostData daten)
@@ -108,6 +111,19 @@ namespace handshake.Controllers
       }
 
       return this.Ok();
+    }
+
+    /// <summary>
+    /// Gets the current User.
+    /// </summary>
+    /// <returns>The <see cref="UserEntity"/>.</returns>
+    [HttpGet]
+    public async Task<UserGetData> Get()
+    {
+      using SqlConnection connection = this.userService.Connection;
+      var user = await this.userDatabaseAccess.Get(this.userService.Username, connection);
+
+      return user;
     }
 
     private static async Task<DatabaseContext> CreateUserProfile(UserPostData daten, SqlConnection connection)
