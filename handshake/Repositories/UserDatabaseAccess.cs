@@ -1,5 +1,5 @@
 ﻿using handshake.Contexts;
-using handshake.ExtensionMethods;
+using handshake.Extensions;
 using handshake.GetData;
 using Microsoft.EntityFrameworkCore;
 using System.Data.SqlClient;

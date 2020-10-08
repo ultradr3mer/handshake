@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using handshake.Contexts;
 using handshake.Entities;
-using handshake.ExtensionMethods;
+using handshake.Extensions;
 using handshake.Interfaces;
 using handshake.PostData;
 using handshake.Repositories;

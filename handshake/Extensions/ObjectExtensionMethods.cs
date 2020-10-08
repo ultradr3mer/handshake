@@ -1,4 +1,4 @@
-﻿namespace handshake.ExtensionMethods
+﻿namespace handshake.Extensions
 {
   internal static class ObjectExtensionMethods
   {

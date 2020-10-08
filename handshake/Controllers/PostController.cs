@@ -1,6 +1,6 @@
 ﻿using handshake.Contexts;
 using handshake.Entities;
-using handshake.ExtensionMethods;
+using handshake.Extensions;
 using handshake.GetData;
 using handshake.Interfaces;
 using handshake.PostData;

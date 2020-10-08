@@ -60,17 +60,35 @@
             <param name="daten">The <see cref="T:handshake.PostData.ReplyPostData"/> to post.</param>
             <returns>The posted <see cref="T:handshake.Entities.ReplyEntity"/> entity.</returns>
         </member>
+        <member name="T:handshake.Controllers.SignupController">
+            <summary>
+            The <see cref="T:handshake.Controllers.SignupController"/> provides functionality to signup a new user.
+            </summary>
+        </member>
+        <member name="M:handshake.Controllers.SignupController.#ctor(handshake.Interfaces.IAuthService,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Creates a new instance of the <see cref="T:handshake.Controllers.SignupController"/> class.
+            </summary>
+            <param name="userService">The user / login service.</param>
+            <param name="configuration">The configuration.</param>
+        </member>
+        <member name="M:handshake.Controllers.SignupController.Post(handshake.PostData.UserPostData)">
+            <summary>
+            Creates a new user.
+            </summary>
+            <param name="daten">The <see cref="T:handshake.PostData.UserPostData"/> to create.</param>
+            <returns><see cref="T:Microsoft.AspNetCore.Mvc.OkResult"/>, when the user was created.</returns>
+        </member>
         <member name="T:handshake.Controllers.UserController">
             <summary>
             The <see cref="T:handshake.Controllers.UserController"/> provides functionality to manage users.
             </summary>
         </member>
-        <member name="M:handshake.Controllers.UserController.#ctor(handshake.Interfaces.IAuthService,Microsoft.Extensions.Configuration.IConfiguration,handshake.Repositories.UserDatabaseAccess)">
+        <member name="M:handshake.Controllers.UserController.#ctor(handshake.Interfaces.IAuthService,handshake.Repositories.UserDatabaseAccess)">
             <summary>
             Creates a new instance of the <see cref="T:handshake.Controllers.UserController"/> class.
             </summary>
             <param name="userService">The user / login service.</param>
-            <param name="configuration">The configuration.</param>
             <param name="userDatabaseAccess">The <see cref="T:handshake.Repositories.UserDatabaseAccess"/>.</param>
         </member>
         <member name="M:handshake.Controllers.UserController.GetCloseUsers(System.Decimal,System.Decimal)">
@@ -78,13 +96,6 @@
             Gets all users nearby.
             </summary>
             <returns>Close users.</returns>
-        </member>
-        <member name="M:handshake.Controllers.UserController.Post(handshake.PostData.UserPostData)">
-            <summary>
-            Creates a new user.
-            </summary>
-            <param name="daten">The <see cref="T:handshake.PostData.UserPostData"/> to create.</param>
-            <returns><see cref="T:Microsoft.AspNetCore.Mvc.OkResult"/>, when the user was created.</returns>
         </member>
         <member name="M:handshake.Controllers.UserController.Get">
             <summary>
@@ -105,6 +116,26 @@
         <member name="P:handshake.Data.AuthenticateModel.Password">
             <summary>
             The login password.
+            </summary>
+        </member>
+        <member name="T:handshake.Entities.InviteEntity">
+            <summary>
+            An invite.
+            </summary>
+        </member>
+        <member name="P:handshake.Entities.InviteEntity.GeneratedBy">
+            <summary>
+            The Id of the user that generated the invite.
+            </summary>
+        </member>
+        <member name="P:handshake.Entities.InviteEntity.Id">
+            <summary>
+            The id.
+            </summary>
+        </member>
+        <member name="P:handshake.Entities.InviteEntity.UsedBy">
+            <summary>
+            The Id of the user that used the invite.
             </summary>
         </member>
         <member name="T:handshake.Entities.PostEntity">
@@ -390,19 +421,24 @@
             This class contains all information needed to create an account.
             </summary>
         </member>
+        <member name="P:handshake.PostData.UserPostData.InviteCode">
+            <summary>
+            The invite code.
+            </summary>
+        </member>
         <member name="P:handshake.PostData.UserPostData.Nickname">
             <summary>
             The public nickname.
             </summary>
         </member>
-        <member name="P:handshake.PostData.UserPostData.Username">
-            <summary>
-            The username for login.
-            </summary>
-        </member>
         <member name="P:handshake.PostData.UserPostData.Password">
             <summary>
             The password.
+            </summary>
+        </member>
+        <member name="P:handshake.PostData.UserPostData.Username">
+            <summary>
+            The username for login.
             </summary>
         </member>
         <member name="T:handshake.Repositories.UserDatabaseAccess">
