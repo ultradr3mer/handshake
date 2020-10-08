@@ -72,6 +72,19 @@
             <param name="userService">The user / login service.</param>
             <param name="configuration">The configuration.</param>
         </member>
+        <member name="M:handshake.Controllers.SignupController.ShowInvite(System.Guid)">
+            <summary>
+            Shows an invite in the browser.
+            </summary>
+            <param name="id">The id for the invite.</param>
+            <returns>The html document.</returns>
+        </member>
+        <member name="M:handshake.Controllers.SignupController.Get">
+            <summary>
+            If this is called, the app is not installed. Redirect to play store.
+            </summary>
+            <returns>The redirect.</returns>
+        </member>
         <member name="M:handshake.Controllers.SignupController.Post(handshake.PostData.UserPostData)">
             <summary>
             Creates a new user.
@@ -440,6 +453,52 @@
             <summary>
             The username for login.
             </summary>
+        </member>
+        <member name="T:handshake.Properties.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:handshake.Properties.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:handshake.Properties.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:handshake.Properties.Resources.InvitePage">
+             <summary>
+               Looks up a localized string similar to &lt;!DOCTYPE html&gt;
+            &lt;html&gt;
+               &lt;head&gt;
+                  &lt;style&gt;
+                     h2
+                     {
+                       text-align: center;
+                       font-family: calibri;
+                     }
+                     p 
+                     {
+                       text-align: center;
+                       font-family: calibri;
+                     }
+                     .center 
+                     { 
+                       display: block;
+                       margin-left: auto;
+                       margin-right: auto;
+                     }
+                  &lt;/style&gt;
+               &lt;/head&gt;
+               &lt;body&gt;
+                  &lt;div&gt;
+                  &lt;h2&gt;You are invited&lt;/h2&gt;
+                  &lt;p&gt;1. Scan the code below with [rest of string was truncated]&quot;;.
+             </summary>
         </member>
         <member name="T:handshake.Repositories.UserDatabaseAccess">
             <summary>

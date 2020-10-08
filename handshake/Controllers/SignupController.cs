@@ -3,11 +3,12 @@ using handshake.Entities;
 using handshake.Extensions;
 using handshake.Interfaces;
 using handshake.PostData;
-using handshake.Repositories;
+using handshake.Properties;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Data.SqlClient;
+using System.Runtime.Versioning;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -51,6 +52,30 @@ namespace handshake.Controllers
     #region Methods
 
     /// <summary>
+    /// Shows an invite in the browser.
+    /// </summary>
+    /// <param name="id">The id for the invite.</param>
+    /// <returns>The html document.</returns>
+    [HttpGet]
+    [Route("ShowInvite")]
+    public ContentResult ShowInvite(Guid id)
+    {
+      var html = Resources.InvitePage.Replace("{id}", id.ToString());
+      return base.Content(html, "text/html");
+    }
+
+    /// <summary>
+    /// If this is called, the app is not installed. Redirect to play store.
+    /// </summary>
+    /// <returns>The redirect.</returns>
+    [HttpGet]
+    public RedirectResult Get()
+    {
+      string playStoreUrl = this.configuration["PlayStoreUrl"];
+      return Redirect(playStoreUrl);
+    }
+
+    /// <summary>
     /// Creates a new user.
     /// </summary>
     /// <param name="daten">The <see cref="UserPostData"/> to create.</param>
@@ -68,7 +93,7 @@ namespace handshake.Controllers
       using (SqlConnection connection = this.userService.Connection)
       {
         DatabaseContext context = new DatabaseContext(connection);
-        await CheckIfInviteIsValid(context, daten.InviteCode);
+        await this.CheckIfInviteIsValid(context, daten.InviteCode);
 
         connection.Close();
       }
@@ -92,9 +117,9 @@ namespace handshake.Controllers
         await commandAddRole.ExecuteNonQueryAsync();
 
         DatabaseContext context = new DatabaseContext(connection);
-        var user = await CreateUserProfile(daten, context);
+        UserEntity user = await CreateUserProfile(daten, context);
         await context.SaveChangesAsync();
-        await LinkInviteCode(user.Id, daten.InviteCode, context);
+        await this.LinkInviteCode(user.Id, daten.InviteCode, context);
         await context.SaveChangesAsync();
 
         connection.Close();
@@ -105,7 +130,7 @@ namespace handshake.Controllers
 
     private async Task CheckIfInviteIsValid(DatabaseContext context, Guid inviteCode)
     {
-      var invite = await context.Invite.FindAsync(inviteCode);
+      InviteEntity invite = await context.Invite.FindAsync(inviteCode);
 
       if (invite == null)
       {
@@ -120,7 +145,7 @@ namespace handshake.Controllers
 
     private async Task LinkInviteCode(Guid userId, Guid inviteCode, DatabaseContext context)
     {
-      var invite = await context.Invite.FindAsync(inviteCode);
+      InviteEntity invite = await context.Invite.FindAsync(inviteCode);
       invite.UsedBy = userId;
       context.Update(invite);
     }
