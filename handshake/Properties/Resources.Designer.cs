@@ -84,9 +84,10 @@ namespace handshake.Properties {
         ///      &lt;/style&gt;
         ///   &lt;/head&gt;
         ///   &lt;body&gt;
-        ///      &lt;div&gt;
-        ///      &lt;h2&gt;You are invited&lt;/h2&gt;
-        ///      &lt;p&gt;1. Scan the code below with [rest of string was truncated]&quot;;.
+        ///     &lt;div&gt;
+        ///       &lt;h2&gt;You are invited&lt;/h2&gt;
+        ///       &lt;p&gt;
+        ///         1. Scan the cod [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string InvitePage {
             get {
