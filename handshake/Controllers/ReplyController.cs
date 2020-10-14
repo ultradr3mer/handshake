@@ -1,12 +1,14 @@
-﻿using System;
-using System.Threading.Tasks;
-using handshake.Contexts;
+﻿using handshake.Contexts;
 using handshake.Entities;
 using handshake.Extensions;
 using handshake.Interfaces;
 using handshake.PostData;
 using handshake.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Data;
+using System.Data.SqlClient;
+using System.Threading.Tasks;
 
 namespace handshake.Controllers
 {
@@ -17,8 +19,14 @@ namespace handshake.Controllers
   [ApiController]
   public class ReplyController : ControllerBase
   {
-    private IAuthService userService;
+    #region Fields
+
     private UserDatabaseAccess userDatabaseAccess;
+    private IAuthService userService;
+
+    #endregion Fields
+
+    #region Constructors
 
     /// <summary>
     /// Creates a new instance of the <see cref="PostController"/> class.
@@ -31,6 +39,10 @@ namespace handshake.Controllers
       this.userDatabaseAccess = userDatabaseAccess;
     }
 
+    #endregion Constructors
+
+    #region Methods
+
     /// <summary>
     /// Posts a new reply.
     /// </summary>
@@ -40,6 +52,16 @@ namespace handshake.Controllers
     public async Task<ReplyEntity> Post([FromBody] ReplyPostData daten)
     {
       using var connection = this.userService.Connection;
+
+      var newReply = await this.SavePostEntity(daten, connection);
+      await this.UpdatePostReplyCount(daten, connection);
+
+      connection.Close();
+      return newReply;
+    }
+
+    private async Task<ReplyEntity> SavePostEntity(ReplyPostData daten, SqlConnection connection)
+    {
       var user = await this.userDatabaseAccess.Get(this.userService.Username, connection);
 
       var newReply = new ReplyEntity();
@@ -52,5 +74,23 @@ namespace handshake.Controllers
       await context.SaveChangesAsync();
       return newReply;
     }
+
+    private async Task UpdatePostReplyCount(ReplyPostData daten, SqlConnection connection)
+    {
+      const string IdParameterName = "@ID";
+      var commandString = @$"UPDATE POST
+                            SET REPLYCOUNT = (
+                                SELECT COUNT(*) FROM REPLY
+
+                                WHERE REPLY.POST = {IdParameterName}
+		                            )
+                            WHERE POST.ID = {IdParameterName}";
+      var command = new SqlCommand(commandString, connection);
+      command.Parameters.Add(IdParameterName, SqlDbType.UniqueIdentifier);
+      command.Parameters[IdParameterName].Value = daten.Post;
+      await command.ExecuteNonQueryAsync();
+    }
+
+    #endregion Methods
   }
 }

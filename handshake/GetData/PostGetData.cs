@@ -34,5 +34,10 @@ namespace handshake.GetData
     /// The creation date.
     /// </summary>
     public DateTime Creationdate { get; set; }
+
+    /// <summary>
+    /// The count of replys.
+    /// </summary>
+    public int ReplyCount { get; set; }
   }
 }

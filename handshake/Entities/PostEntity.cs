@@ -42,6 +42,11 @@ namespace handshake.Entities
     /// </summary>
     public decimal Longitude { get; set; }
 
+    /// <summary>
+    /// The count of the post replys.
+    /// </summary>
+    public int? ReplyCount { get; set; }
+
     #endregion Properties
   }
 }

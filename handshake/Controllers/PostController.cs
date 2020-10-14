@@ -113,6 +113,7 @@ namespace handshake.Controllers
 	                          ,NICKNAME
 	                          ,CREATIONDATE
 	                          ,POSTID
+		                        ,REPLYCOUNT
 	                          ,DIST + AGO AS RELEVANCE
                           FROM (
 	                          SELECT POST.CONTENT
@@ -120,6 +121,7 @@ namespace handshake.Controllers
 		                          ,SHAKEUSER.NICKNAME
 		                          ,POST.CREATIONDATE
 		                          ,POST.ID AS POSTID
+		                          ,COALESCE(POST.REPLYCOUNT,0) AS REPLYCOUNT
 		                          ,DBO.DISTANCE(POST.LATITUDE, POST.LONGITUDE, {latitude}, {longitude}) AS DIST
 		                          ,DATEDIFF(MINUTE, POST.CREATIONDATE, GETDATE()) AS AGO
 	                          FROM POST
@@ -140,7 +142,8 @@ namespace handshake.Controllers
           Author = (Guid)reader[1],
           AuthorName = (string)reader[2],
           Creationdate = (DateTime)reader[3],
-          Id = (Guid)reader[4]
+          Id = (Guid)reader[4],
+          ReplyCount = (int)reader[5],
         });
       }
 

@@ -186,6 +186,11 @@
             The location longitude.
             </summary>
         </member>
+        <member name="P:handshake.Entities.PostEntity.ReplyCount">
+            <summary>
+            The count of the post replys.
+            </summary>
+        </member>
         <member name="T:handshake.Entities.ReplyEntity">
             <summary>
             A reply.
@@ -304,6 +309,11 @@
         <member name="P:handshake.GetData.PostGetData.Creationdate">
             <summary>
             The creation date.
+            </summary>
+        </member>
+        <member name="P:handshake.GetData.PostGetData.ReplyCount">
+            <summary>
+            The count of replys.
             </summary>
         </member>
         <member name="T:handshake.GetData.PostReplyGetData">
