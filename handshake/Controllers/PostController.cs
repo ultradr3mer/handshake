@@ -1,4 +1,5 @@
 ﻿using handshake.Contexts;
+using handshake.Data;
 using handshake.Entities;
 using handshake.Extensions;
 using handshake.GetData;
@@ -9,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
@@ -108,6 +110,9 @@ namespace handshake.Controllers
       using var connection = this.userService.Connection;
       using var context = new DatabaseContext(connection);
 
+      var now = DateTime.Now;
+
+      var nowParameterName = "@NOW";
       var commandString = $@"SELECT CONTENT
                             ,USERID
 	                          ,NICKNAME
@@ -122,14 +127,17 @@ namespace handshake.Controllers
 		                          ,POST.CREATIONDATE
 		                          ,POST.ID AS POSTID
 		                          ,COALESCE(POST.REPLYCOUNT,0) AS REPLYCOUNT
-		                          ,DBO.DISTANCE(POST.LATITUDE, POST.LONGITUDE, {latitude}, {longitude}) AS DIST
-		                          ,DATEDIFF(MINUTE, POST.CREATIONDATE, GETDATE()) AS AGO
+		                          ,DBO.DISTANCE(POST.LATITUDE, POST.LONGITUDE, {latitude}, {longitude}) AS DIST                     
+		                          ,DATEDIFF(MINUTE, POST.CREATIONDATE, {nowParameterName}) AS AGO
 	                          FROM POST
 	                          JOIN SHAKEUSER ON SHAKEUSER.ID = POST.AUTHOR
 	                          ) DATA
                           ORDER BY RELEVANCE";
 
       using var command = new SqlCommand(commandString, connection);
+      command.Parameters.Add(nowParameterName, SqlDbType.DateTime);
+      command.Parameters[nowParameterName].Value = now;
+
       using var reader = command.ExecuteReader();
 
       var result = new List<PostGetData>();
@@ -144,6 +152,7 @@ namespace handshake.Controllers
           Creationdate = (DateTime)reader[3],
           Id = (Guid)reader[4],
           ReplyCount = (int)reader[5],
+          TimeAgo = new SimpleTimeSpan(now - (DateTime)reader[3]),
         });
       }
 

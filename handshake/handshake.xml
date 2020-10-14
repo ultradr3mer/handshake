@@ -131,6 +131,37 @@
             The login password.
             </summary>
         </member>
+        <member name="T:handshake.Data.SimpleTimeSpan">
+            <summary>
+            The <see cref="T:handshake.Data.SimpleTimeSpan"/> class is a simple time span.
+            </summary>
+        </member>
+        <member name="M:handshake.Data.SimpleTimeSpan.#ctor(System.TimeSpan)">
+            <summary>
+            Creates a new <see cref="T:handshake.Data.SimpleTimeSpan"/> from a system <see cref="T:System.TimeSpan"/>.
+            </summary>
+            <param name="timeSpan">The <see cref="T:System.TimeSpan"/>.</param>
+        </member>
+        <member name="M:handshake.Data.SimpleTimeSpan.#ctor">
+            <summary>
+            Creates a new <see cref="T:handshake.Data.SimpleTimeSpan"/> instance.
+            </summary>
+        </member>
+        <member name="P:handshake.Data.SimpleTimeSpan.Minutes">
+            <summary>
+            The minutes part.
+            </summary>
+        </member>
+        <member name="P:handshake.Data.SimpleTimeSpan.Seconds">
+            <summary>
+            The seconds part.
+            </summary>
+        </member>
+        <member name="P:handshake.Data.SimpleTimeSpan.TotalDays">
+            <summary>
+            The total days.
+            </summary>
+        </member>
         <member name="T:handshake.Entities.InviteEntity">
             <summary>
             An invite.
@@ -314,6 +345,11 @@
         <member name="P:handshake.GetData.PostGetData.ReplyCount">
             <summary>
             The count of replys.
+            </summary>
+        </member>
+        <member name="P:handshake.GetData.PostGetData.TimeAgo">
+            <summary>
+            The timespan since posted.
             </summary>
         </member>
         <member name="T:handshake.GetData.PostReplyGetData">

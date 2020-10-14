@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using handshake.Data;
+using System;
 
 namespace handshake.GetData
 {
@@ -39,5 +37,10 @@ namespace handshake.GetData
     /// The count of replys.
     /// </summary>
     public int ReplyCount { get; set; }
+
+    /// <summary>
+    /// The timespan since posted.
+    /// </summary>
+    public SimpleTimeSpan TimeAgo { get; set; }
   }
 }
