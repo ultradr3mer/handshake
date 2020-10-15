@@ -52,24 +52,6 @@ namespace handshake.Controllers
     #region Methods
 
     /// <summary>
-    /// Shows an invite in the browser.
-    /// </summary>
-    /// <param name="id">The id for the invite.</param>
-    /// <returns>The html document.</returns>
-    [HttpGet]
-    [Route("ShowInvite")]
-    public ContentResult ShowInvite(Guid id)
-    {
-      string playStoreUrl = this.configuration["PlayStoreUrl"];
-
-      var html = Resources.InvitePage
-        .Replace("{id}", id.ToString())
-        .Replace("{gp}", playStoreUrl);
-
-      return base.Content(html, "text/html");
-    }
-
-    /// <summary>
     /// If this is called, the app is not installed. Redirect to play store.
     /// </summary>
     /// <returns>The redirect.</returns>

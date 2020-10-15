@@ -9,6 +9,24 @@
             
             </summary>
         </member>
+        <member name="T:handshake.Controllers.InviteController">
+            <summary>
+            The <see cref="T:handshake.Controllers.InviteController"/> provited functionality for user invites.
+            </summary>
+        </member>
+        <member name="M:handshake.Controllers.InviteController.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Creates a new instance of the <see cref="T:handshake.Controllers.InviteController"/> class.
+            </summary>
+            <param name="configuration">The configuration.</param>
+        </member>
+        <member name="M:handshake.Controllers.InviteController.Get(System.Guid)">
+            <summary>
+            Shows an invite in the browser.
+            </summary>
+            <param name="id">The id for the invite.</param>
+            <returns>The html document.</returns>
+        </member>
         <member name="T:handshake.Controllers.PostController">
             <summary>
             The <see cref="T:handshake.Controllers.PostController"/> provides functionality to manage posts.
@@ -71,13 +89,6 @@
             </summary>
             <param name="userService">The user / login service.</param>
             <param name="configuration">The configuration.</param>
-        </member>
-        <member name="M:handshake.Controllers.SignupController.ShowInvite(System.Guid)">
-            <summary>
-            Shows an invite in the browser.
-            </summary>
-            <param name="id">The id for the invite.</param>
-            <returns>The html document.</returns>
         </member>
         <member name="M:handshake.Controllers.SignupController.Get">
             <summary>
