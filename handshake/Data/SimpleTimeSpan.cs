@@ -17,6 +17,7 @@ namespace handshake.Data
     {
       this.Seconds = timeSpan.Seconds;
       this.Minutes = timeSpan.Minutes;
+      this.Hours = timeSpan.Hours;
       this.TotalDays = (int)timeSpan.TotalDays;
     }
 
@@ -30,6 +31,11 @@ namespace handshake.Data
     #endregion Constructors
 
     #region Properties
+
+    /// <summary>
+    /// The hours part.
+    /// </summary>
+    public int Hours { get; set; }
 
     /// <summary>
     /// The minutes part.
