@@ -63,31 +63,32 @@ namespace handshake.Properties {
         /// <summary>
         ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
         ///&lt;html&gt;
-        ///   &lt;head&gt;
-        ///      &lt;style&gt;
-        ///         h2
-        ///         {
-        ///           text-align: center;
-        ///           font-family: calibri;
-        ///         }
-        ///         p 
-        ///         {
-        ///           text-align: center;
-        ///           font-family: calibri;
-        ///         }
-        ///         .center 
-        ///         { 
-        ///           display: block;
-        ///           margin-left: auto;
-        ///           margin-right: auto;
-        ///         }
-        ///      &lt;/style&gt;
-        ///   &lt;/head&gt;
-        ///   &lt;body&gt;
-        ///     &lt;div&gt;
-        ///       &lt;h2&gt;You are invited&lt;/h2&gt;
-        ///       &lt;p&gt;
-        ///         1. Scan the cod [rest of string was truncated]&quot;;.
+        ///&lt;head&gt;
+        ///  &lt;style&gt;
+        ///    h2 {
+        ///      text-align: center;
+        ///      font-family: calibri;
+        ///    }
+        ///
+        ///    p {
+        ///      text-align: center;
+        ///      font-family: calibri;
+        ///    }
+        ///
+        ///    .center {
+        ///      display: block;
+        ///      margin-left: auto;
+        ///      margin-right: auto;
+        ///    }
+        ///  &lt;/style&gt;
+        ///&lt;/head&gt;
+        ///&lt;body&gt;
+        ///  &lt;div&gt;
+        ///    &lt;h2&gt;You are invited&lt;/h2&gt;
+        ///    &lt;p&gt;
+        ///      1. Scan the code below with your phone to open the play store and install the app.&lt;br /&gt;
+        ///      2. Scan the code again to signup.&lt;br /&gt;
+        ///  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string InvitePage {
             get {

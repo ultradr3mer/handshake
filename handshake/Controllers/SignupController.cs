@@ -60,7 +60,12 @@ namespace handshake.Controllers
     [Route("ShowInvite")]
     public ContentResult ShowInvite(Guid id)
     {
-      var html = Resources.InvitePage.Replace("{id}", id.ToString());
+      string playStoreUrl = this.configuration["PlayStoreUrl"];
+
+      var html = Resources.InvitePage
+        .Replace("{id}", id.ToString())
+        .Replace("{gp}", playStoreUrl);
+
       return base.Content(html, "text/html");
     }
 
