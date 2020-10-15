@@ -1,4 +1,5 @@
-﻿using System;
+﻿using handshake.Data;
+using System;
 
 namespace handshake.GetData
 {
@@ -7,8 +8,6 @@ namespace handshake.GetData
   /// </summary>
   public class PostReplyGetData
   {
-    #region Properties
-
     /// <summary>
     /// The author.
     /// </summary>
@@ -34,6 +33,10 @@ namespace handshake.GetData
     /// </summary>
     public Guid Id { get; set; }
 
-    #endregion Properties
+    /// <summary>
+    /// The timme since the reply creation
+    /// </summary>
+    public SimpleTimeSpan TimeAgo { get; internal set; }
+
   }
 }

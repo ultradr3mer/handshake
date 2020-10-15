@@ -1,4 +1,5 @@
-﻿using System;
+﻿using handshake.Data;
+using System;
 using System.Collections.Generic;
 
 namespace handshake.GetData
@@ -8,11 +9,6 @@ namespace handshake.GetData
   /// </summary>
   public class PostDetailGetData
   {
-    /// <summary>
-    /// The id.
-    /// </summary>
-    public Guid Id { get; set; }
-
     /// <summary>
     /// The author.
     /// </summary>
@@ -32,6 +28,16 @@ namespace handshake.GetData
     /// The creation date.
     /// </summary>
     public DateTime Creationdate { get; set; }
+
+    /// <summary>
+    /// The id.
+    /// </summary>
+    public Guid Id { get; set; }
+
+    /// <summary>
+    /// The time since the post creation.
+    /// </summary>
+    public SimpleTimeSpan TimeAgo { get; set; }
 
     /// <summary>
     /// The post reply.

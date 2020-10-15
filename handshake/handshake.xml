@@ -328,6 +328,11 @@
             The post reply.
             </summary>
         </member>
+        <member name="P:handshake.GetData.PostDetailGetData.TimeAgo">
+            <summary>
+            The time since the post creation.
+            </summary>
+        </member>
         <member name="T:handshake.GetData.PostGetData">
             <summary>
             A post.
@@ -396,6 +401,11 @@
         <member name="P:handshake.GetData.PostReplyGetData.Id">
             <summary>
             The id.
+            </summary>
+        </member>
+        <member name="P:handshake.GetData.PostReplyGetData.TimeAgo">
+            <summary>
+            The timme since the reply creation
             </summary>
         </member>
         <member name="T:handshake.GetData.UserGetData">

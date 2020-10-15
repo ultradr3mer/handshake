@@ -60,6 +60,8 @@ namespace handshake.Controllers
       using var connection = this.userService.Connection;
       using var context = new DatabaseContext(connection);
 
+      var now = DateTime.Now;
+
       var result = (from p in context.Post
                     join a in context.ShakeUser on p.Author equals a.Id
                     where p.Id == Id
@@ -69,7 +71,8 @@ namespace handshake.Controllers
                       Author = a.Id,
                       AuthorName = a.Nickname,
                       Content = p.Content,
-                      Creationdate = p.Creationdate
+                      Creationdate = p.Creationdate,
+                      TimeAgo = new SimpleTimeSpan(now - p.Creationdate)
                     }).First();
 
       var replys = (from r in context.Reply
@@ -81,7 +84,8 @@ namespace handshake.Controllers
                       Author = a.Id,
                       AuthorName = a.Nickname,
                       Content = r.Content,
-                      Creationdate = r.Creationdate
+                      Creationdate = r.Creationdate,
+                      TimeAgo = new SimpleTimeSpan(now - r.Creationdate)
                     }).ToList();
 
       result.Replys = replys;
