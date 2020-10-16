@@ -19,13 +19,13 @@ namespace handshake.Repositories
     /// </summary>
     /// <param name="username">The login username of the user.</param>
     /// <param name="connection">The <see cref="SqlConnection"/> to use.</param>
-    /// <returns>The <see cref="UserGetData"/> for the user.</returns>
-    public async Task<UserGetData> Get(string username, SqlConnection connection)
+    /// <returns>The <see cref="ProfileGetData"/> for the user.</returns>
+    public async Task<ProfileGetData> Get(string username, SqlConnection connection)
     {
       using DatabaseContext context = new DatabaseContext(connection);
 
       Entities.UserEntity user = await context.ShakeUser.FirstAsync(o => o.Username == username);
-      UserGetData result = new UserGetData();
+      ProfileGetData result = new ProfileGetData();
       result.CopyPropertiesFrom(user);
 
       return result;

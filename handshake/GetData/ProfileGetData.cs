@@ -5,7 +5,7 @@ namespace handshake.GetData
   /// <summary>
   /// A user.
   /// </summary>
-  public class UserGetData
+  public class ProfileGetData
   {
     #region Properties
 

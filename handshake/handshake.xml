@@ -298,11 +298,6 @@
             The detailed post information.
             </summary>
         </member>
-        <member name="P:handshake.GetData.PostDetailGetData.Id">
-            <summary>
-            The id.
-            </summary>
-        </member>
         <member name="P:handshake.GetData.PostDetailGetData.Author">
             <summary>
             The author.
@@ -323,14 +318,19 @@
             The creation date.
             </summary>
         </member>
-        <member name="P:handshake.GetData.PostDetailGetData.Replys">
+        <member name="P:handshake.GetData.PostDetailGetData.Id">
             <summary>
-            The post reply.
+            The id.
             </summary>
         </member>
         <member name="P:handshake.GetData.PostDetailGetData.TimeAgo">
             <summary>
             The time since the post creation.
+            </summary>
+        </member>
+        <member name="P:handshake.GetData.PostDetailGetData.Replys">
+            <summary>
+            The post reply.
             </summary>
         </member>
         <member name="T:handshake.GetData.PostGetData">
