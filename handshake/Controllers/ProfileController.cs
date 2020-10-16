@@ -58,7 +58,7 @@ namespace handshake.Controllers
     }
 
     /// <summary>
-    /// Updates the users profile
+    /// Updates the users profile.
     /// </summary>
     /// <param name="putData">The new <see cref="ProfilePutData"/>.</param>
     /// <returns>The updated <see cref="ProfileGetData"/>./returns>

@@ -28,6 +28,7 @@ namespace handshake.Controllers
     #region Fields
 
     private readonly IAuthService userService;
+    private readonly UserDatabaseAccess userDatabaseAccess;
 
     #endregion Fields
 
@@ -37,9 +38,11 @@ namespace handshake.Controllers
     /// Creates a new instance of the <see cref="UserController"/> class.
     /// </summary>
     /// <param name="userService">The user / login service.</param>
-    public UserController(IAuthService userService)
+    /// <param name="userDatabaseAccess">The database access for the user.</param>
+    public UserController(IAuthService userService, UserDatabaseAccess userDatabaseAccess)
     {
       this.userService = userService;
+      this.userDatabaseAccess = userDatabaseAccess;
     }
 
     #endregion Constructors

@@ -77,6 +77,7 @@
             </summary>
             <returns>The <see cref="T:handshake.GetData.ProfileGetData"/>.</returns>
         </member>
+        <!-- Badly formed XML comment ignored for member "M:handshake.Controllers.ProfileController.Put(handshake.PutData.ProfilePutData)" -->
         <member name="T:handshake.Controllers.ReplyController">
             <summary>
             The <see cref="T:handshake.Controllers.ReplyController"/> provides functionality to manage replys.
@@ -126,17 +127,24 @@
             The <see cref="T:handshake.Controllers.UserController"/> provides functionality to manage users.
             </summary>
         </member>
-        <member name="M:handshake.Controllers.UserController.#ctor(handshake.Interfaces.IAuthService)">
+        <member name="M:handshake.Controllers.UserController.#ctor(handshake.Interfaces.IAuthService,handshake.Repositories.UserDatabaseAccess)">
             <summary>
             Creates a new instance of the <see cref="T:handshake.Controllers.UserController"/> class.
             </summary>
             <param name="userService">The user / login service.</param>
+            <param name="userDatabaseAccess">The database access for the user.</param>
         </member>
         <member name="M:handshake.Controllers.UserController.GetCloseUsers(System.Decimal,System.Decimal)">
             <summary>
             Gets all users nearby.
             </summary>
             <returns>Close users.</returns>
+        </member>
+        <member name="M:handshake.Controllers.UserController.Get">
+            <summary>
+            Gets the current user profile.
+            </summary>
+            <returns>The <see cref="T:handshake.Entities.UserEntity"/>.</returns>
         </member>
         <member name="T:handshake.Data.AuthenticateModel">
             <summary>
