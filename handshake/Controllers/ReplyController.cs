@@ -4,6 +4,7 @@ using handshake.Extensions;
 using handshake.Interfaces;
 using handshake.PostData;
 using handshake.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Data;
@@ -15,6 +16,7 @@ namespace handshake.Controllers
   /// <summary>
   /// The <see cref="ReplyController"/> provides functionality to manage replys.
   /// </summary>
+  [Authorize]
   [Route("[controller]")]
   [ApiController]
   public class ReplyController : ControllerBase

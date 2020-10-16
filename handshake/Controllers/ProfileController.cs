@@ -1,6 +1,7 @@
 ﻿using handshake.GetData;
 using handshake.Interfaces;
 using handshake.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
@@ -10,6 +11,7 @@ namespace handshake.Controllers
   /// <summary>
   /// The <see cref="ProfileController"/> provides functions to manage the user profile.
   /// </summary>
+  [Authorize]
   [Route("[controller]")]
   [ApiController]
   public class ProfileController : ControllerBase
