@@ -64,11 +64,11 @@ namespace handshake.Controllers
     }
 
     /// <summary>
-    /// Gets the current User.
+    /// Gets the current user profile.
     /// </summary>
     /// <returns>The <see cref="UserEntity"/>.</returns>
     [HttpGet]
-    public async Task<UserGetData> Get()
+    public async Task<ProfileGetData> Get()
     {
       using SqlConnection connection = this.userService.Connection;
       var user = await this.userDatabaseAccess.Get(this.userService.Username, connection);

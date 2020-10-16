@@ -59,6 +59,24 @@
             <param name="daten">The <see cref="T:handshake.PostData.PostPostData"/> to post.</param>
             <returns>The posted <see cref="T:handshake.Entities.PostEntity"/>.</returns>
         </member>
+        <member name="T:handshake.Controllers.ProfileController">
+            <summary>
+            The <see cref="T:handshake.Controllers.ProfileController"/> provides functions to manage the user profile.
+            </summary>
+        </member>
+        <member name="M:handshake.Controllers.ProfileController.#ctor(handshake.Interfaces.IAuthService,handshake.Repositories.UserDatabaseAccess)">
+            <summary>
+            Creates a new instance of the <see cref="T:handshake.Controllers.PostController"/> class.
+            </summary>
+            <param name="userService">The user / login service.</param>
+            <param name="userDatabaseAccess">The database access for the user.</param>
+        </member>
+        <member name="M:handshake.Controllers.ProfileController.Get">
+            <summary>
+            Gets the current profile.
+            </summary>
+            <returns>The <see cref="T:handshake.GetData.ProfileGetData"/>.</returns>
+        </member>
         <member name="T:handshake.Controllers.ReplyController">
             <summary>
             The <see cref="T:handshake.Controllers.ReplyController"/> provides functionality to manage replys.
@@ -408,27 +426,27 @@
             The timme since the reply creation
             </summary>
         </member>
-        <member name="T:handshake.GetData.UserGetData">
+        <member name="T:handshake.GetData.ProfileGetData">
             <summary>
             A user.
             </summary>
         </member>
-        <member name="P:handshake.GetData.UserGetData.Description">
+        <member name="P:handshake.GetData.ProfileGetData.Description">
             <summary>
             The description.
             </summary>
         </member>
-        <member name="P:handshake.GetData.UserGetData.Id">
+        <member name="P:handshake.GetData.ProfileGetData.Id">
             <summary>
             The id.
             </summary>
         </member>
-        <member name="P:handshake.GetData.UserGetData.Nickname">
+        <member name="P:handshake.GetData.ProfileGetData.Nickname">
             <summary>
             The users nickname.
             </summary>
         </member>
-        <member name="P:handshake.GetData.UserGetData.Username">
+        <member name="P:handshake.GetData.ProfileGetData.Username">
             <summary>
             The username for login.
             </summary>
@@ -585,7 +603,7 @@
             </summary>
             <param name="username">The login username of the user.</param>
             <param name="connection">The <see cref="T:System.Data.SqlClient.SqlConnection"/> to use.</param>
-            <returns>The <see cref="T:handshake.GetData.UserGetData"/> for the user.</returns>
+            <returns>The <see cref="T:handshake.GetData.ProfileGetData"/> for the user.</returns>
         </member>
         <member name="T:handshake.Services.AuthService">
             <summary>
