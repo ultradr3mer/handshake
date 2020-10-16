@@ -126,24 +126,17 @@
             The <see cref="T:handshake.Controllers.UserController"/> provides functionality to manage users.
             </summary>
         </member>
-        <member name="M:handshake.Controllers.UserController.#ctor(handshake.Interfaces.IAuthService,handshake.Repositories.UserDatabaseAccess)">
+        <member name="M:handshake.Controllers.UserController.#ctor(handshake.Interfaces.IAuthService)">
             <summary>
             Creates a new instance of the <see cref="T:handshake.Controllers.UserController"/> class.
             </summary>
             <param name="userService">The user / login service.</param>
-            <param name="userDatabaseAccess">The <see cref="T:handshake.Repositories.UserDatabaseAccess"/>.</param>
         </member>
         <member name="M:handshake.Controllers.UserController.GetCloseUsers(System.Decimal,System.Decimal)">
             <summary>
             Gets all users nearby.
             </summary>
             <returns>Close users.</returns>
-        </member>
-        <member name="M:handshake.Controllers.UserController.Get">
-            <summary>
-            Gets the current User.
-            </summary>
-            <returns>The <see cref="T:handshake.Entities.UserEntity"/>.</returns>
         </member>
         <member name="T:handshake.Data.AuthenticateModel">
             <summary>
@@ -591,6 +584,21 @@
                   2. Scan the code again to signup.&lt;br /&gt;
               [rest of string was truncated]&quot;;.
              </summary>
+        </member>
+        <member name="T:handshake.PutData.ProfilePutData">
+            <summary>
+            The data to update a user.
+            </summary>
+        </member>
+        <member name="P:handshake.PutData.ProfilePutData.Description">
+            <summary>
+            The description.
+            </summary>
+        </member>
+        <member name="P:handshake.PutData.ProfilePutData.Nickname">
+            <summary>
+            The users nickname.
+            </summary>
         </member>
         <member name="T:handshake.Repositories.UserDatabaseAccess">
             <summary>
