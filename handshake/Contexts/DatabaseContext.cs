@@ -17,6 +17,7 @@ namespace handshake.Contexts
     public DbSet<PostEntity> Post { get; set; }
     public DbSet<ReplyEntity> Reply { get; set; }
     public DbSet<InviteEntity> Invite { get; set; }
+    public DbSet<FileAccessTokenEntity> FileAccessToken { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
