@@ -10,9 +10,9 @@
             </summary>
         </member>
         <member name="T:handshake.Controllers.FileController">
-             <summary>
-            
-             </summary>
+            <summary>
+            The <see cref="T:handshake.Controllers.FileController"/> provides functionality to upload and download files.
+            </summary>
         </member>
         <member name="M:handshake.Controllers.FileController.#ctor(Microsoft.Extensions.Configuration.IConfiguration,handshake.Interfaces.IAuthService,handshake.Repositories.UserDatabaseAccess)">
             <summary>
@@ -201,14 +201,14 @@
             The data needed to access a file.
             </summary>
         </member>
-        <member name="P:handshake.Data.FileTokenData.Token">
-            <summary>
-            The access token.
-            </summary>
-        </member>
         <member name="P:handshake.Data.FileTokenData.FileName">
             <summary>
             The file name.
+            </summary>
+        </member>
+        <member name="P:handshake.Data.FileTokenData.Token">
+            <summary>
+            The access token.
             </summary>
         </member>
         <member name="T:handshake.Data.SimpleTimeSpan">
@@ -252,14 +252,14 @@
             A file access token.
             </summary>
         </member>
+        <member name="P:handshake.Entities.FileAccessTokenEntity.Filename">
+            <summary>
+            The filename.
+            </summary>
+        </member>
         <member name="P:handshake.Entities.FileAccessTokenEntity.Id">
             <summary>
             The id.
-            </summary>
-        </member>
-        <member name="P:handshake.Entities.FileAccessTokenEntity.User">
-            <summary>
-            The user that uploaded the file.
             </summary>
         </member>
         <member name="P:handshake.Entities.FileAccessTokenEntity.Token">
@@ -267,9 +267,9 @@
             The token.
             </summary>
         </member>
-        <member name="P:handshake.Entities.FileAccessTokenEntity.Filename">
+        <member name="P:handshake.Entities.FileAccessTokenEntity.User">
             <summary>
-            The filename.
+            The user that uploaded the file.
             </summary>
         </member>
         <member name="T:handshake.Entities.InviteEntity">

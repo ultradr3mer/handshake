@@ -205,7 +205,7 @@ namespace handshake.Controllers
         throw new Exception("File exceeds 50MB.");
       }
 
-      this.GetContentTypeForExtension(file.FileName);
+      this.GetContentTypeForExtension(Path.GetExtension(file.FileName));
 
       long token = await this.CreateTokenIfNotExists(file.FileName);
       BlobContainerClient azureContainer = await this.GetAzureContainer(this.userService.Username);
