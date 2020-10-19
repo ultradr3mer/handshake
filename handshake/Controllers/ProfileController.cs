@@ -1,13 +1,16 @@
 ﻿using handshake.Contexts;
+using handshake.Data;
 using handshake.Extensions;
 using handshake.GetData;
 using handshake.Interfaces;
 using handshake.PutData;
 using handshake.Repositories;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Data.SqlClient;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace handshake.Controllers
@@ -23,6 +26,7 @@ namespace handshake.Controllers
     #region Fields
 
     private readonly UserDatabaseAccess userDatabaseAccess;
+    private readonly FileRepository fileRepository;
     private readonly IAuthService userService;
 
     #endregion Fields
@@ -34,10 +38,12 @@ namespace handshake.Controllers
     /// </summary>
     /// <param name="userService">The user / login service.</param>
     /// <param name="userDatabaseAccess">The database access for the user.</param>
-    public ProfileController(IAuthService userService, UserDatabaseAccess userDatabaseAccess)
+    /// <param name="fileRepository">The file repo</param>
+    public ProfileController(IAuthService userService, UserDatabaseAccess userDatabaseAccess, FileRepository fileRepository)
     {
       this.userService = userService;
       this.userDatabaseAccess = userDatabaseAccess;
+      this.fileRepository = fileRepository;
     }
 
     #endregion Constructors
@@ -75,6 +81,33 @@ namespace handshake.Controllers
 
       var result = new ProfileGetData();
       result.CopyPropertiesFrom(user);
+
+      return result;
+    }
+
+    /// <summary>
+    /// Update the user avatar.
+    /// </summary>
+    /// <param name="file">The file.</param>
+    /// <returns>The avatar info.</returns>
+    [HttpPut("Avatar")]
+    public async Task<ProfileGetData> AvatarPut([FromForm] IFormFile file)
+    {
+      using SqlConnection connection = this.userService.Connection;
+      var token = await this.fileRepository.UploadInternal("avatar" + Path.GetExtension(file.FileName),
+                                                           file.OpenReadStream(),
+                                                           connection,
+                                                           true);
+
+      using DatabaseContext context = new DatabaseContext(connection);
+      Entities.UserEntity user = await context.ShakeUser.FirstAsync(o => o.Username == this.userService.Username);
+      user.Avatar = token.Id;
+      await context.SaveChangesAsync();
+      connection.Close();
+
+      var result = new ProfileGetData();
+      result.CopyPropertiesFrom(user);
+      result.Avatar = token.GetUrl();
 
       return result;
     }

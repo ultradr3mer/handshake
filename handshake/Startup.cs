@@ -71,8 +71,8 @@ namespace handshake
        .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
 
       services.AddScoped<IAuthService, AuthService>();
-
       services.AddScoped<UserDatabaseAccess>();
+      services.AddScoped<FileRepository>();
 
       services.AddSwaggerGen(setupAction =>
       {

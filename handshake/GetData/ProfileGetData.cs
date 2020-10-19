@@ -10,6 +10,11 @@ namespace handshake.GetData
     #region Properties
 
     /// <summary>
+    /// The url of the Avatar.
+    /// </summary>
+    public string Avatar { get; set; }
+
+    /// <summary>
     /// The description.
     /// </summary>
     public string Description { get; set; }

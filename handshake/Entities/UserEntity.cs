@@ -34,6 +34,11 @@ namespace handshake.Entities
     [MaxLength(50)]
     public string Username { get; set; }
 
+    /// <summary>
+    /// The id of the avatar image.
+    /// </summary>
+    public Guid? Avatar { get; set; }
+
     #endregion Properties
   }
 }

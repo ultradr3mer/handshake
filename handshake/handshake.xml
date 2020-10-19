@@ -14,13 +14,13 @@
             The <see cref="T:handshake.Controllers.FileController"/> provides functionality to upload and download files.
             </summary>
         </member>
-        <member name="M:handshake.Controllers.FileController.#ctor(Microsoft.Extensions.Configuration.IConfiguration,handshake.Interfaces.IAuthService,handshake.Repositories.UserDatabaseAccess)">
+        <member name="M:handshake.Controllers.FileController.#ctor(handshake.Interfaces.IAuthService,handshake.Repositories.UserDatabaseAccess,handshake.Repositories.FileRepository)">
             <summary>
-            Creates a new instance of the <see cref="T:handshake.Controllers.FileController"/> class.
+            Creates a new instance of the <see cref="T:handshake.Controllers.PostController"/> class.
             </summary>
-            <param name="configuration">The configuration.</param>
-            <param name="userService">The user service.</param>
+            <param name="userService">The user / login service.</param>
             <param name="userDatabaseAccess">The database access for the user.</param>
+            <param name="fileRepository">The file repository.</param>
         </member>
         <member name="M:handshake.Controllers.FileController.Get(System.String,System.String)">
             <summary>
@@ -99,12 +99,13 @@
             The <see cref="T:handshake.Controllers.ProfileController"/> provides functions to manage the user profile.
             </summary>
         </member>
-        <member name="M:handshake.Controllers.ProfileController.#ctor(handshake.Interfaces.IAuthService,handshake.Repositories.UserDatabaseAccess)">
+        <member name="M:handshake.Controllers.ProfileController.#ctor(handshake.Interfaces.IAuthService,handshake.Repositories.UserDatabaseAccess,handshake.Repositories.FileRepository)">
             <summary>
             Creates a new instance of the <see cref="T:handshake.Controllers.PostController"/> class.
             </summary>
             <param name="userService">The user / login service.</param>
             <param name="userDatabaseAccess">The database access for the user.</param>
+            <param name="fileRepository">The file repo</param>
         </member>
         <member name="M:handshake.Controllers.ProfileController.Get">
             <summary>
@@ -113,6 +114,13 @@
             <returns>The <see cref="T:handshake.GetData.ProfileGetData"/>.</returns>
         </member>
         <!-- Badly formed XML comment ignored for member "M:handshake.Controllers.ProfileController.Put(handshake.PutData.ProfilePutData)" -->
+        <member name="M:handshake.Controllers.ProfileController.AvatarPut(Microsoft.AspNetCore.Http.IFormFile)">
+            <summary>
+            Update the user avatar.
+            </summary>
+            <param name="file">The file.</param>
+            <returns>The avatar info.</returns>
+        </member>
         <member name="T:handshake.Controllers.ReplyController">
             <summary>
             The <see cref="T:handshake.Controllers.ReplyController"/> provides functionality to manage replys.
@@ -201,15 +209,26 @@
             The data needed to access a file.
             </summary>
         </member>
-        <member name="P:handshake.Data.FileTokenData.FileName">
+        <member name="P:handshake.Data.FileTokenData.Filename">
             <summary>
-            The file name.
+            The filename.
+            </summary>
+        </member>
+        <member name="P:handshake.Data.FileTokenData.Id">
+            <summary>
+            The id of the token.
             </summary>
         </member>
         <member name="P:handshake.Data.FileTokenData.Token">
             <summary>
             The access token.
             </summary>
+        </member>
+        <member name="M:handshake.Data.FileTokenData.GetUrl">
+            <summary>
+            Generates the url.
+            </summary>
+            <returns>The local url.</returns>
         </member>
         <member name="T:handshake.Data.SimpleTimeSpan">
             <summary>
@@ -387,6 +406,11 @@
             The username for login.
             </summary>
         </member>
+        <member name="P:handshake.Entities.UserEntity.Avatar">
+            <summary>
+            The id of the avatar image.
+            </summary>
+        </member>
         <member name="T:handshake.GetData.PostDetailGetData">
             <summary>
             The detailed post information.
@@ -527,6 +551,11 @@
             The username for login.
             </summary>
         </member>
+        <member name="P:handshake.GetData.ProfileGetData.Avatar">
+            <summary>
+            The url of the Avatar.
+            </summary>
+        </member>
         <member name="T:handshake.Interfaces.IAuthService">
             <summary>
             The <see cref="T:handshake.Interfaces.IAuthService"/> interface represents the authentication service.
@@ -567,7 +596,7 @@
         </member>
         <member name="P:handshake.PostData.PostPostData.Content">
             <summary>
-            The contetn of the post.
+            The content of the post.
             </summary>
         </member>
         <member name="P:handshake.PostData.PostPostData.Longitude">
@@ -682,6 +711,52 @@
             <summary>
             The users nickname.
             </summary>
+        </member>
+        <member name="T:handshake.Repositories.FileRepository">
+            <summary>
+            The file repository.
+            </summary>
+        </member>
+        <member name="M:handshake.Repositories.FileRepository.#ctor(Microsoft.Extensions.Configuration.IConfiguration,handshake.Interfaces.IAuthService,handshake.Repositories.UserDatabaseAccess)">
+            <summary>
+            Creates a new instance of the <see cref="T:handshake.Repositories.FileRepository"/> class.
+            </summary>
+            <param name="configuration">The configuration.</param>
+            <param name="userService">The user service.</param>
+            <param name="userDatabaseAccess">The database access for the user.</param>
+        </member>
+        <member name="M:handshake.Repositories.FileRepository.CreateTokenIfNotExists(System.String,System.Data.SqlClient.SqlConnection)">
+            <summary>
+            Creates the token for the file or retrives the existing one.
+            </summary>
+            <param name="fileName">The filename.</param>
+            <param name="connection">The connection.</param>
+            <returns>The token.</returns>
+        </member>
+        <member name="M:handshake.Repositories.FileRepository.GetContentTypeForExtension(System.String)">
+            <summary>
+            Retrives the corresponding content type for the file extension.
+            </summary>
+            <param name="extension">The file extension.</param>
+            <returns>The content type.</returns>
+        </member>
+        <member name="M:handshake.Repositories.FileRepository.GetFile(System.Int64,System.String)">
+            <summary>
+            Gets the file coresponding to the token and filename.
+            </summary>
+            <param name="token">The token.</param>
+            <param name="filename">The filename.</param>
+            <returns>The container.</returns>
+        </member>
+        <member name="M:handshake.Repositories.FileRepository.UploadInternal(System.String,System.IO.Stream,System.Data.SqlClient.SqlConnection,System.Boolean)">
+            <summary>
+            The internal upload function.
+            </summary>
+            <param name="filename">The filename of the file to upload.</param>
+            <param name="content">The content of the file to upload.</param>
+            <param name="connection">The sql connection.</param>
+            <param name="overwrite">True, if an existing file should be overwriten.</param>
+            <returns>The token data of the uploaded file.</returns>
         </member>
         <member name="T:handshake.Repositories.UserDatabaseAccess">
             <summary>
