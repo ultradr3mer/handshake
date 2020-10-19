@@ -1,8 +1,10 @@
 ﻿using handshake.Contexts;
+using handshake.Data;
 using handshake.Extensions;
 using handshake.GetData;
 using Microsoft.EntityFrameworkCore;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace handshake.Repositories
@@ -24,9 +26,13 @@ namespace handshake.Repositories
     {
       using DatabaseContext context = new DatabaseContext(connection);
 
-      Entities.UserEntity user = await context.ShakeUser.FirstAsync(o => o.Username == username);
-      ProfileGetData result = new ProfileGetData();
-      result.CopyPropertiesFrom(user);
+      var result = await (from s in context.ShakeUser
+                          join f in context.FileAccessToken on s.Avatar equals f.Id
+                          where s.Username == username
+                          select new ProfileGetData
+                          { 
+                            Avatar = new FileTokenData(f).GetUrl() 
+                          }.CopyPropertiesFrom(s)).FirstAsync();
 
       return result;
     }

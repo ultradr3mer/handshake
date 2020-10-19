@@ -209,6 +209,17 @@
             The data needed to access a file.
             </summary>
         </member>
+        <member name="M:handshake.Data.FileTokenData.#ctor">
+            <summary>
+            Create a new instance of the <see cref="T:handshake.Data.FileTokenData"/> class.
+            </summary>
+        </member>
+        <member name="M:handshake.Data.FileTokenData.#ctor(handshake.Entities.FileAccessTokenEntity)">
+            <summary>
+            Create a new instance of the <see cref="T:handshake.Data.FileTokenData"/> class from the given entity.
+            </summary>
+            <param name="entity">The base entity.</param>
+        </member>
         <member name="P:handshake.Data.FileTokenData.Filename">
             <summary>
             The filename.

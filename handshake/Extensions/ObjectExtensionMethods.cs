@@ -2,7 +2,7 @@
 {
   internal static class ObjectExtensionMethods
   {
-    public static void CopyPropertiesFrom(this object self, object parent)
+    public static T CopyPropertiesFrom<T>(this T self, object parent)
     {
       var fromProperties = parent.GetType().GetProperties();
       var toProperties = self.GetType().GetProperties();
@@ -18,6 +18,8 @@
           }
         }
       }
+
+      return self;
     }
   }
 }

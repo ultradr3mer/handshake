@@ -1,4 +1,5 @@
-﻿using System;
+﻿using handshake.Entities;
+using System;
 
 namespace handshake.Data
 {
@@ -7,6 +8,26 @@ namespace handshake.Data
   /// </summary>
   public class FileTokenData
   {
+    #region Constructors
+
+    /// <summary>
+    /// Create a new instance of the <see cref="FileTokenData"/> class.
+    /// </summary>
+    public FileTokenData() { }
+
+    /// <summary>
+    /// Create a new instance of the <see cref="FileTokenData"/> class from the given entity.
+    /// </summary>
+    /// <param name="entity">The base entity.</param>
+    public FileTokenData(FileAccessTokenEntity entity)
+    {
+      this.Id = entity.Id;
+      this.Filename = entity.Filename;
+      this.Token = entity.Token.ToString("X");
+    }
+
+    #endregion Constructors
+
     #region Properties
 
     /// <summary>
@@ -24,6 +45,10 @@ namespace handshake.Data
     /// </summary>
     public string Token { get; set; }
 
+    #endregion Properties
+
+    #region Methods
+
     /// <summary>
     /// Generates the url.
     /// </summary>
@@ -33,6 +58,6 @@ namespace handshake.Data
       return Token + "/" + Filename;
     }
 
-    #endregion Properties
+    #endregion Methods
   }
 }

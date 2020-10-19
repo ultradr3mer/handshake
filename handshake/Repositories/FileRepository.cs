@@ -145,12 +145,7 @@ namespace handshake.Repositories
       BlobClient blob = azureContainer.GetBlobClient(filename);
       await blob.UploadAsync(content, overwrite);
 
-      return new FileTokenData()
-      {
-        Id = tokenEntity.Id,
-        Token = tokenEntity.Token.ToString("X"),
-        Filename = filename
-      };
+      return new FileTokenData(tokenEntity);
     }
 
     private static async Task<FileAccessTokenEntity> CreateToken(string fileName, Guid userId, DatabaseContext context)
