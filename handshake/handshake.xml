@@ -531,6 +531,11 @@
             A user.
             </summary>
         </member>
+        <member name="P:handshake.GetData.ProfileGetData.Avatar">
+            <summary>
+            The url of the Avatar.
+            </summary>
+        </member>
         <member name="P:handshake.GetData.ProfileGetData.Description">
             <summary>
             The description.
@@ -549,11 +554,6 @@
         <member name="P:handshake.GetData.ProfileGetData.Username">
             <summary>
             The username for login.
-            </summary>
-        </member>
-        <member name="P:handshake.GetData.ProfileGetData.Avatar">
-            <summary>
-            The url of the Avatar.
             </summary>
         </member>
         <member name="T:handshake.Interfaces.IAuthService">
@@ -599,14 +599,14 @@
             The content of the post.
             </summary>
         </member>
-        <member name="P:handshake.PostData.PostPostData.Longitude">
-            <summary>
-            The post location longitude;
-            </summary>
-        </member>
         <member name="P:handshake.PostData.PostPostData.Latitude">
             <summary>
             The post location latitude;
+            </summary>
+        </member>
+        <member name="P:handshake.PostData.PostPostData.Longitude">
+            <summary>
+            The post location longitude;
             </summary>
         </member>
         <member name="T:handshake.PostData.ReplyPostData">

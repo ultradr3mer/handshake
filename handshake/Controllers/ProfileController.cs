@@ -91,7 +91,7 @@ namespace handshake.Controllers
     /// <param name="file">The file.</param>
     /// <returns>The avatar info.</returns>
     [HttpPut("Avatar")]
-    public async Task<ProfileGetData> AvatarPut([FromForm] IFormFile file)
+    public async Task<ProfileGetData> AvatarPut(IFormFile file)
     {
       using SqlConnection connection = this.userService.Connection;
       var token = await this.fileRepository.UploadInternal("avatar" + Path.GetExtension(file.FileName),

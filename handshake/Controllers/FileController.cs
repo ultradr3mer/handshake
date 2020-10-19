@@ -78,10 +78,10 @@ namespace handshake.Controllers
     /// <param name="file">The actual file.</param>
     /// <returns>Ok, when upload succeded.</returns>
     [HttpPost("Upload")]
-    public async Task<FileTokenData> Post([FromForm] IFormFile file)
+    public async Task<FileTokenData> Post(IFormFile file)
     {
       using SqlConnection connection = this.userService.Connection;
-      var result = await this.fileRepository.UploadInternal(file.Name, file.OpenReadStream(), connection, overwrite: false);
+      var result = await this.fileRepository.UploadInternal(file.FileName, file.OpenReadStream(), connection, overwrite: false);
       connection.Close();
 
       return result;
@@ -93,10 +93,10 @@ namespace handshake.Controllers
     /// <param name="file">The actual file.</param>
     /// <returns>Ok, when upload succeded.</returns>
     [HttpPost("UploadWithReplace")]
-    public async Task<FileTokenData> PostWithReplace([FromForm] IFormFile file)
+    public async Task<FileTokenData> PostWithReplace(IFormFile file)
     {
       using SqlConnection connection = this.userService.Connection;
-      var result = await this.fileRepository.UploadInternal(file.Name, file.OpenReadStream(), connection, overwrite: true);
+      var result = await this.fileRepository.UploadInternal(file.FileName, file.OpenReadStream(), connection, overwrite: true);
       connection.Close();
 
       return result;
