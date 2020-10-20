@@ -24,9 +24,9 @@ namespace handshake.Repositories
 
     private const string UserContainerPrefix = "user-";
 
-    private IConfiguration configuration;
-    private UserDatabaseAccess userDatabaseAccess;
-    private IAuthService userService;
+    private readonly IConfiguration configuration;
+    private readonly UserDatabaseAccess userDatabaseAccess;
+    private readonly IAuthService userService;
 
     #endregion Fields
 
@@ -60,7 +60,7 @@ namespace handshake.Repositories
       GetData.ProfileGetData user = await this.userDatabaseAccess.Get(this.userService.Username, connection);
 
       using DatabaseContext context = new DatabaseContext(connection);
-      FileAccessTokenEntity existingToken = await this.TryGetToken(context, user.Id, fileName);
+      FileAccessTokenEntity existingToken = await this.TryUpdateToken(context, user.Id, fileName);
       if (existingToken != null)
       {
         return existingToken;
@@ -150,21 +150,26 @@ namespace handshake.Repositories
 
     private static async Task<FileAccessTokenEntity> CreateToken(string fileName, Guid userId, DatabaseContext context)
     {
-      RNGCryptoServiceProvider provider = new RNGCryptoServiceProvider();
-      byte[] tokenBytes = new byte[8];
-      provider.GetBytes(tokenBytes);
-      long token = BitConverter.ToInt64(tokenBytes);
-      FileAccessTokenEntity newToken = new FileAccessTokenEntity()
+      FileAccessTokenEntity token = new FileAccessTokenEntity()
       {
-        Token = token,
+        Token = GenerateToken(),
         Filename = fileName,
         User = userId
       };
 
-      await context.FileAccessToken.AddAsync(newToken);
+      await context.FileAccessToken.AddAsync(token);
       await context.SaveChangesAsync();
 
-      return newToken;
+      return token;
+    }
+
+    private static long GenerateToken()
+    {
+      RNGCryptoServiceProvider provider = new RNGCryptoServiceProvider();
+      byte[] tokenBytes = new byte[8];
+      provider.GetBytes(tokenBytes);
+      long token = BitConverter.ToInt64(tokenBytes);
+      return token;
     }
 
     private async Task<BlobContainerClient> GetAzureContainer(string username)
@@ -177,7 +182,7 @@ namespace handshake.Repositories
       return client;
     }
 
-    private async Task<FileAccessTokenEntity> TryGetToken(DatabaseContext context, Guid userId, string fileName)
+    private async Task<FileAccessTokenEntity> TryUpdateToken(DatabaseContext context, Guid userId, string fileName)
     {
       FileAccessTokenEntity token = await (from t in context.FileAccessToken
                                            where t.Filename == fileName
@@ -188,6 +193,10 @@ namespace handshake.Repositories
                                              Filename = t.Filename,
                                              Token = t.Token,
                                            }).FirstOrDefaultAsync();
+
+      token.Token = GenerateToken();
+      await context.SaveChangesAsync();
+
       return token;
     }
 
