@@ -32,7 +32,7 @@ namespace handshake.Repositories
                           where s.Username == username
                           select new ProfileGetData
                           {
-                            Avatar = f == null ? null : new FileTokenData(f).GetUrl()
+                            Avatar = FileTokenData.CreateUrl(f)
                           }.CopyPropertiesFrom(s)).FirstAsync();
 
       return result;

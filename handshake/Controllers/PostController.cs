@@ -122,7 +122,9 @@ namespace handshake.Controllers
 	                          ,NICKNAME
 	                          ,CREATIONDATE
 	                          ,POSTID
-		                        ,REPLYCOUNT
+	                          ,REPLYCOUNT
+	                          ,TOKEN
+	                          ,FILENAME
 	                          ,DIST + AGO AS RELEVANCE
                           FROM (
 	                          SELECT POST.CONTENT
@@ -133,8 +135,11 @@ namespace handshake.Controllers
 		                          ,COALESCE(POST.REPLYCOUNT,0) AS REPLYCOUNT
 		                          ,DBO.DISTANCE(POST.LATITUDE, POST.LONGITUDE, {latitude}, {longitude}) AS DIST                     
 		                          ,DATEDIFF(MINUTE, POST.CREATIONDATE, {nowParameterName}) AS AGO
+		                          ,FILEACCESSTOKEN.TOKEN
+		                          ,FILEACCESSTOKEN.FILENAME
 	                          FROM POST
 	                          JOIN SHAKEUSER ON SHAKEUSER.ID = POST.AUTHOR
+	                          LEFT OUTER JOIN FILEACCESSTOKEN ON FILEACCESSTOKEN.ID = SHAKEUSER.AVATAR 
 	                          ) DATA
                           ORDER BY RELEVANCE";
 
@@ -148,6 +153,14 @@ namespace handshake.Controllers
 
       while(await reader.ReadAsync())
       {
+        object token = reader[6];
+        object filename = reader[7];
+        string avatar = string.Empty;
+        if(!(token is System.DBNull))
+        {
+          avatar = FileTokenData.CreateUrl((long)token, (string)filename);
+        }
+
         result.Add(new PostGetData()
         {
           Content = (string)reader[0],
@@ -157,6 +170,7 @@ namespace handshake.Controllers
           Id = (Guid)reader[4],
           ReplyCount = (int)reader[5],
           TimeAgo = new SimpleTimeSpan(now - (DateTime)reader[3]),
+          Avatar = avatar
         });
       }
 

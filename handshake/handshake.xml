@@ -241,6 +241,21 @@
             </summary>
             <returns>The local url.</returns>
         </member>
+        <member name="M:handshake.Data.FileTokenData.CreateUrl(handshake.Entities.FileAccessTokenEntity)">
+            <summary>
+            Generates the url.
+            </summary>
+            <param name="tokenEntity">The token entity.</param>
+            <returns>The local url.</returns>
+        </member>
+        <member name="M:handshake.Data.FileTokenData.CreateUrl(System.Nullable{System.Int64},System.String)">
+            <summary>
+            Generates the url.
+            </summary>
+            <param name="token">The token.</param>
+            <param name="fileName">The filename.</param>
+            <returns>The local url.</returns>
+        </member>
         <member name="T:handshake.Data.SimpleTimeSpan">
             <summary>
             The <see cref="T:handshake.Data.SimpleTimeSpan"/> class is a simple time span.
@@ -500,6 +515,11 @@
         <member name="P:handshake.GetData.PostGetData.TimeAgo">
             <summary>
             The timespan since posted.
+            </summary>
+        </member>
+        <member name="P:handshake.GetData.PostGetData.Avatar">
+            <summary>
+            The avatar url.
             </summary>
         </member>
         <member name="T:handshake.GetData.PostReplyGetData">

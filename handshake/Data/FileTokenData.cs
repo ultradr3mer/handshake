@@ -55,7 +55,28 @@ namespace handshake.Data
     /// <returns>The local url.</returns>
     internal string GetUrl()
     {
-      return Token + "/" + Filename;
+      return $"{Token:X}/{Filename}";
+    }
+
+    /// <summary>
+    /// Generates the url.
+    /// </summary>
+    /// <param name="tokenEntity">The token entity.</param>
+    /// <returns>The local url.</returns>
+    internal static string CreateUrl(FileAccessTokenEntity tokenEntity)
+    {
+      return tokenEntity == null ? string.Empty : CreateUrl(tokenEntity.Token, tokenEntity.Filename);
+    }
+
+    /// <summary>
+    /// Generates the url.
+    /// </summary>
+    /// <param name="token">The token.</param>
+    /// <param name="fileName">The filename.</param>
+    /// <returns>The local url.</returns>
+    internal static string CreateUrl(long? token, string fileName)
+    {
+      return string.IsNullOrEmpty(fileName) ? string.Empty : $"{token:X}/{fileName}";
     }
 
     #endregion Methods

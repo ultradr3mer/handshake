@@ -187,15 +187,13 @@ namespace handshake.Repositories
       FileAccessTokenEntity token = await (from t in context.FileAccessToken
                                            where t.Filename == fileName
                                            && t.User == userId
-                                           select new FileAccessTokenEntity()
-                                           {
-                                             Id = t.Id,
-                                             Filename = t.Filename,
-                                             Token = t.Token,
-                                           }).FirstOrDefaultAsync();
+                                           select t).FirstOrDefaultAsync();
 
-      token.Token = GenerateToken();
-      await context.SaveChangesAsync();
+      if (token != null)
+      {
+        token.Token = GenerateToken();
+        await context.SaveChangesAsync();
+      }
 
       return token;
     }

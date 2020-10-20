@@ -42,5 +42,10 @@ namespace handshake.GetData
     /// The timespan since posted.
     /// </summary>
     public SimpleTimeSpan TimeAgo { get; set; }
+
+    /// <summary>
+    /// The avatar url.
+    /// </summary>
+    public string Avatar { get; set; }
   }
 }
