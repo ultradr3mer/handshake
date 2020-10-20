@@ -64,6 +64,8 @@ namespace handshake.Controllers
 
       var result = (from p in context.Post
                     join a in context.ShakeUser on p.Author equals a.Id
+                    join f in context.FileAccessToken on a.Avatar equals f.Id into grouping
+                    from f in grouping.DefaultIfEmpty()
                     where p.Id == Id
                     select new PostDetailGetData()
                     {
@@ -72,11 +74,14 @@ namespace handshake.Controllers
                       AuthorName = a.Nickname,
                       Content = p.Content,
                       Creationdate = p.Creationdate,
-                      TimeAgo = new SimpleTimeSpan(now - p.Creationdate)
+                      TimeAgo = new SimpleTimeSpan(now - p.Creationdate),
+                      Avatar = FileTokenData.CreateUrl(f)
                     }).First();
 
       var replys = (from r in context.Reply
                     join a in context.ShakeUser on r.Author equals a.Id
+                    join f in context.FileAccessToken on a.Avatar equals f.Id into grouping
+                    from f in grouping.DefaultIfEmpty()
                     where r.Post == Id
                     select new PostReplyGetData()
                     {
@@ -85,7 +90,8 @@ namespace handshake.Controllers
                       AuthorName = a.Nickname,
                       Content = r.Content,
                       Creationdate = r.Creationdate,
-                      TimeAgo = new SimpleTimeSpan(now - r.Creationdate)
+                      TimeAgo = new SimpleTimeSpan(now - r.Creationdate),
+                      Avatar = FileTokenData.CreateUrl(f)
                     }).ToList();
 
       result.Replys = replys;

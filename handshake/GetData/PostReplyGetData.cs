@@ -8,6 +8,8 @@ namespace handshake.GetData
   /// </summary>
   public class PostReplyGetData
   {
+    #region Properties
+
     /// <summary>
     /// The author.
     /// </summary>
@@ -17,6 +19,11 @@ namespace handshake.GetData
     /// The author name.
     /// </summary>
     public string AuthorName { get; set; }
+
+    /// <summary>
+    /// The url of the Avatar.
+    /// </summary>
+    public string Avatar { get; set; }
 
     /// <summary>
     /// The content of this reply.
@@ -36,7 +43,8 @@ namespace handshake.GetData
     /// <summary>
     /// The timme since the reply creation
     /// </summary>
-    public SimpleTimeSpan TimeAgo { get; internal set; }
+    public SimpleTimeSpan TimeAgo { get; set; }
 
+    #endregion Properties
   }
 }

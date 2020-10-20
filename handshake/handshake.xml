@@ -452,6 +452,11 @@
             The author name.
             </summary>
         </member>
+        <member name="P:handshake.GetData.PostDetailGetData.Avatar">
+            <summary>
+            The url of the Avatar.
+            </summary>
+        </member>
         <member name="P:handshake.GetData.PostDetailGetData.Content">
             <summary>
             The content.
@@ -535,6 +540,11 @@
         <member name="P:handshake.GetData.PostReplyGetData.AuthorName">
             <summary>
             The author name.
+            </summary>
+        </member>
+        <member name="P:handshake.GetData.PostReplyGetData.Avatar">
+            <summary>
+            The url of the Avatar.
             </summary>
         </member>
         <member name="P:handshake.GetData.PostReplyGetData.Content">

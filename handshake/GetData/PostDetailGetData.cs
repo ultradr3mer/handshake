@@ -9,6 +9,8 @@ namespace handshake.GetData
   /// </summary>
   public class PostDetailGetData
   {
+    #region Properties
+
     /// <summary>
     /// The author.
     /// </summary>
@@ -18,6 +20,11 @@ namespace handshake.GetData
     /// The author name.
     /// </summary>
     public string AuthorName { get; set; }
+
+    /// <summary>
+    /// The url of the Avatar.
+    /// </summary>
+    public string Avatar { get; set; }
 
     /// <summary>
     /// The content.
@@ -43,5 +50,7 @@ namespace handshake.GetData
     /// The post reply.
     /// </summary>
     public List<PostReplyGetData> Replys { get; set; }
+
+    #endregion Properties
   }
 }
