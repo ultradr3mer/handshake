@@ -47,5 +47,10 @@ namespace handshake.GetData
     /// The avatar url.
     /// </summary>
     public string Avatar { get; set; }
+
+    /// <summary>
+    /// The image url.
+    /// </summary>
+    public string Image { get; set; }
   }
 }

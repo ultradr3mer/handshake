@@ -63,7 +63,7 @@ namespace handshake.Data
     /// </summary>
     /// <param name="tokenEntity">The token entity.</param>
     /// <returns>The local url.</returns>
-    internal static string CreateUrl(FileAccessTokenEntity tokenEntity)
+    public static string CreateUrl(FileAccessTokenEntity tokenEntity)
     {
       return tokenEntity == null ? string.Empty : CreateUrl(tokenEntity.Token, tokenEntity.Filename);
     }
@@ -74,9 +74,25 @@ namespace handshake.Data
     /// <param name="token">The token.</param>
     /// <param name="fileName">The filename.</param>
     /// <returns>The local url.</returns>
-    internal static string CreateUrl(long? token, string fileName)
+    public static string CreateUrl(long? token, string fileName)
     {
       return string.IsNullOrEmpty(fileName) ? string.Empty : $"{token:X}/{fileName}";
+    }
+
+    /// <summary>
+    /// Creates a with data from the sql reader.
+    /// </summary>
+    /// <param name="token">The token.</param>
+    /// <param name="filename">The filename.</param>
+    /// <returns>The local url.</returns>
+    public static string CreateUrl(object token, object filename)
+    {
+      if (token is System.DBNull)
+      {
+        return null;
+      }
+
+      return CreateUrl((long)token, (string)filename);
     }
 
     #endregion Methods

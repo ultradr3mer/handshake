@@ -4,11 +4,6 @@
         <name>handshake</name>
     </assembly>
     <members>
-        <member name="T:handshake.Classes.MatchParentAttribute">
-            <summary>
-            
-            </summary>
-        </member>
         <member name="T:handshake.Controllers.FileController">
             <summary>
             The <see cref="T:handshake.Controllers.FileController"/> provides functionality to upload and download files.
@@ -67,12 +62,19 @@
             The <see cref="T:handshake.Controllers.PostController"/> provides functionality to manage posts.
             </summary>
         </member>
-        <member name="M:handshake.Controllers.PostController.#ctor(handshake.Interfaces.IAuthService,handshake.Repositories.UserDatabaseAccess)">
+        <member name="M:handshake.Controllers.PostController.#ctor(handshake.Interfaces.IAuthService,handshake.Repositories.UserDatabaseAccess,handshake.Repositories.FileRepository)">
             <summary>
             Creates a new instance of the <see cref="T:handshake.Controllers.PostController"/> class.
             </summary>
             <param name="userService">The user / login service.</param>
             <param name="userDatabaseAccess">The database access for the user.</param>
+            <param name="fileRepository">The file repository.</param>
+        </member>
+        <member name="M:handshake.Controllers.PostController.GetClosePosts(System.Nullable{System.Decimal},System.Nullable{System.Decimal})">
+            <summary>
+            Gets all posts nearby.
+            </summary>
+            <returns>The Posts nearby.</returns>
         </member>
         <member name="M:handshake.Controllers.PostController.GetPost(System.Guid)">
             <summary>
@@ -81,18 +83,20 @@
             <param name="Id">The id of the post to get.</param>
             <returns>The detailed post information.</returns>
         </member>
-        <member name="M:handshake.Controllers.PostController.GetClosePosts(System.Nullable{System.Decimal},System.Nullable{System.Decimal})">
-            <summary>
-            Gets all posts nearby.
-            </summary>
-            <returns>The Posts nearby.</returns>
-        </member>
         <member name="M:handshake.Controllers.PostController.Post(handshake.PostData.PostPostData)">
             <summary>
             Posts a new post.
             </summary>
             <param name="daten">The <see cref="T:handshake.PostData.PostPostData"/> to post.</param>
             <returns>The posted <see cref="T:handshake.Entities.PostEntity"/>.</returns>
+        </member>
+        <member name="M:handshake.Controllers.PostController.PostImage(System.Guid,Microsoft.AspNetCore.Http.IFormFile)">
+            <summary>
+            Update the post image.
+            </summary>
+            <param name="id">The post id.</param>
+            <param name="file">The file.</param>
+            <returns>The <see cref="T:handshake.Entities.PostEntity"/>.</returns>
         </member>
         <member name="T:handshake.Controllers.ProfileController">
             <summary>
@@ -256,6 +260,14 @@
             <param name="fileName">The filename.</param>
             <returns>The local url.</returns>
         </member>
+        <member name="M:handshake.Data.FileTokenData.CreateUrl(System.Object,System.Object)">
+            <summary>
+            Creates a with data from the sql reader.
+            </summary>
+            <param name="token">The token.</param>
+            <param name="filename">The filename.</param>
+            <returns>The local url.</returns>
+        </member>
         <member name="T:handshake.Data.SimpleTimeSpan">
             <summary>
             The <see cref="T:handshake.Data.SimpleTimeSpan"/> class is a simple time span.
@@ -377,6 +389,11 @@
             The count of the post replys.
             </summary>
         </member>
+        <member name="P:handshake.Entities.PostEntity.Image">
+            <summary>
+            The image attached to the post.
+            </summary>
+        </member>
         <member name="T:handshake.Entities.ReplyEntity">
             <summary>
             A reply.
@@ -405,6 +422,11 @@
         <member name="P:handshake.Entities.ReplyEntity.Post">
             <summary>
             The post replyed on.
+            </summary>
+        </member>
+        <member name="P:handshake.Entities.ReplyEntity.Image">
+            <summary>
+            The image attached to the post.
             </summary>
         </member>
         <member name="T:handshake.Entities.UserEntity">
@@ -472,6 +494,11 @@
             The id.
             </summary>
         </member>
+        <member name="P:handshake.GetData.PostDetailGetData.Image">
+            <summary>
+            The post image.
+            </summary>
+        </member>
         <member name="P:handshake.GetData.PostDetailGetData.TimeAgo">
             <summary>
             The time since the post creation.
@@ -527,6 +554,11 @@
             The avatar url.
             </summary>
         </member>
+        <member name="P:handshake.GetData.PostGetData.Image">
+            <summary>
+            The image url.
+            </summary>
+        </member>
         <member name="T:handshake.GetData.PostReplyGetData">
             <summary>
             A reply.
@@ -560,6 +592,11 @@
         <member name="P:handshake.GetData.PostReplyGetData.Id">
             <summary>
             The id.
+            </summary>
+        </member>
+        <member name="P:handshake.GetData.PostReplyGetData.Image">
+            <summary>
+            The post image.
             </summary>
         </member>
         <member name="P:handshake.GetData.PostReplyGetData.TimeAgo">

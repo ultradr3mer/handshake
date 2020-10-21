@@ -7,11 +7,13 @@ using handshake.Interfaces;
 using handshake.PostData;
 using handshake.Repositories;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -27,6 +29,7 @@ namespace handshake.Controllers
   {
     #region Fields
 
+    private readonly FileRepository fileRepository;
     private readonly UserDatabaseAccess userDatabaseAccess;
     private readonly IAuthService userService;
 
@@ -39,65 +42,17 @@ namespace handshake.Controllers
     /// </summary>
     /// <param name="userService">The user / login service.</param>
     /// <param name="userDatabaseAccess">The database access for the user.</param>
-    public PostController(IAuthService userService, UserDatabaseAccess userDatabaseAccess)
+    /// <param name="fileRepository">The file repository.</param>
+    public PostController(IAuthService userService, UserDatabaseAccess userDatabaseAccess, FileRepository fileRepository)
     {
       this.userService = userService;
       this.userDatabaseAccess = userDatabaseAccess;
+      this.fileRepository = fileRepository;
     }
 
     #endregion Constructors
 
     #region Methods
-
-    /// <summary>
-    /// Gets a post by its id.
-    /// </summary>
-    /// <param name="Id">The id of the post to get.</param>
-    /// <returns>The detailed post information.</returns>
-    [HttpGet]
-    public PostDetailGetData GetPost(Guid Id)
-    {
-      using var connection = this.userService.Connection;
-      using var context = new DatabaseContext(connection);
-
-      var now = DateTime.Now;
-
-      var result = (from p in context.Post
-                    join a in context.ShakeUser on p.Author equals a.Id
-                    join f in context.FileAccessToken on a.Avatar equals f.Id into grouping
-                    from f in grouping.DefaultIfEmpty()
-                    where p.Id == Id
-                    select new PostDetailGetData()
-                    {
-                      Id = p.Id,
-                      Author = a.Id,
-                      AuthorName = a.Nickname,
-                      Content = p.Content,
-                      Creationdate = p.Creationdate,
-                      TimeAgo = new SimpleTimeSpan(now - p.Creationdate),
-                      Avatar = FileTokenData.CreateUrl(f)
-                    }).First();
-
-      var replys = (from r in context.Reply
-                    join a in context.ShakeUser on r.Author equals a.Id
-                    join f in context.FileAccessToken on a.Avatar equals f.Id into grouping
-                    from f in grouping.DefaultIfEmpty()
-                    where r.Post == Id
-                    select new PostReplyGetData()
-                    {
-                      Id = r.Id,
-                      Author = a.Id,
-                      AuthorName = a.Nickname,
-                      Content = r.Content,
-                      Creationdate = r.Creationdate,
-                      TimeAgo = new SimpleTimeSpan(now - r.Creationdate),
-                      Avatar = FileTokenData.CreateUrl(f)
-                    }).ToList();
-
-      result.Replys = replys;
-
-      return result;
-    }
 
     /// <summary>
     /// Gets all posts nearby.
@@ -129,8 +84,10 @@ namespace handshake.Controllers
 	                          ,CREATIONDATE
 	                          ,POSTID
 	                          ,REPLYCOUNT
-	                          ,TOKEN
-	                          ,FILENAME
+	                          ,AVATARTOKEN
+	                          ,AVATARFILENAME
+                            ,IMAGETOKEN
+                            ,IMAGEFILENAME
 	                          ,DIST + AGO AS RELEVANCE
                           FROM (
 	                          SELECT POST.CONTENT
@@ -139,13 +96,16 @@ namespace handshake.Controllers
 		                          ,POST.CREATIONDATE
 		                          ,POST.ID AS POSTID
 		                          ,COALESCE(POST.REPLYCOUNT,0) AS REPLYCOUNT
-		                          ,DBO.DISTANCE(POST.LATITUDE, POST.LONGITUDE, {latitude}, {longitude}) AS DIST                     
+		                          ,DBO.DISTANCE(POST.LATITUDE, POST.LONGITUDE, {latitude}, {longitude}) AS DIST
 		                          ,DATEDIFF(MINUTE, POST.CREATIONDATE, {nowParameterName}) AS AGO
-		                          ,FILEACCESSTOKEN.TOKEN
-		                          ,FILEACCESSTOKEN.FILENAME
+		                          ,AVATAR.TOKEN AS AVATARTOKEN
+		                          ,AVATAR.FILENAME AS AVATARFILENAME
+		                          ,IMAGE.TOKEN AS IMAGETOKEN
+		                          ,IMAGE.FILENAME AS IMAGEFILENAME
 	                          FROM POST
 	                          JOIN SHAKEUSER ON SHAKEUSER.ID = POST.AUTHOR
-	                          LEFT OUTER JOIN FILEACCESSTOKEN ON FILEACCESSTOKEN.ID = SHAKEUSER.AVATAR 
+	                          LEFT OUTER JOIN FILEACCESSTOKEN AVATAR ON AVATAR.ID = SHAKEUSER.AVATARID
+	                          LEFT OUTER JOIN FILEACCESSTOKEN IMAGE ON IMAGE.ID = POST.IMAGEID
 	                          ) DATA
                           ORDER BY RELEVANCE";
 
@@ -157,16 +117,8 @@ namespace handshake.Controllers
 
       var result = new List<PostGetData>();
 
-      while(await reader.ReadAsync())
+      while (await reader.ReadAsync())
       {
-        object token = reader[6];
-        object filename = reader[7];
-        string avatar = string.Empty;
-        if(!(token is System.DBNull))
-        {
-          avatar = FileTokenData.CreateUrl((long)token, (string)filename);
-        }
-
         result.Add(new PostGetData()
         {
           Content = (string)reader[0],
@@ -176,9 +128,58 @@ namespace handshake.Controllers
           Id = (Guid)reader[4],
           ReplyCount = (int)reader[5],
           TimeAgo = new SimpleTimeSpan(now - (DateTime)reader[3]),
-          Avatar = avatar
+          Avatar = FileTokenData.CreateUrl(reader[6], reader[7]),
+          Image = FileTokenData.CreateUrl(reader[8], reader[9])
         });
       }
+
+      return result;
+    }
+
+    /// <summary>
+    /// Gets a post by its id.
+    /// </summary>
+    /// <param name="Id">The id of the post to get.</param>
+    /// <returns>The detailed post information.</returns>
+    [HttpGet]
+    public PostDetailGetData GetPost(Guid Id)
+    {
+      using var connection = this.userService.Connection;
+      using var context = new DatabaseContext(connection);
+
+      var now = DateTime.Now;
+
+      var result = (from p in context.Post
+                    join a in context.ShakeUser on p.Author equals a.Id
+                    where p.Id == Id
+                    select new PostDetailGetData()
+                    {
+                      Id = p.Id,
+                      Author = a.Id,
+                      AuthorName = a.Nickname,
+                      Content = p.Content,
+                      Creationdate = p.Creationdate,
+                      TimeAgo = new SimpleTimeSpan(now - p.Creationdate),
+                      Avatar = FileTokenData.CreateUrl(a.Avatar),
+                      Image = FileTokenData.CreateUrl(p.Image)
+                    }).First();
+
+      var replys = (from r in context.Reply
+                    join a in context.ShakeUser on r.Author equals a.Id
+                    where r.Post == Id
+                    select new PostReplyGetData()
+                    {
+                      Id = r.Id,
+                      Author = a.Id,
+                      AuthorName = a.Nickname,
+                      Content = r.Content,
+                      Creationdate = r.Creationdate,
+                      TimeAgo = new SimpleTimeSpan(now - r.Creationdate),
+                      Avatar = FileTokenData.CreateUrl(a.Avatar),
+                      Image = FileTokenData.CreateUrl(r.Image)
+                    }).ToList();
+
+      result.Replys = replys;
 
       return result;
     }
@@ -189,7 +190,7 @@ namespace handshake.Controllers
     /// <param name="daten">The <see cref="PostPostData"/> to post.</param>
     /// <returns>The posted <see cref="PostEntity"/>.</returns>
     [HttpPost]
-    public async Task<PostEntity> Post([FromBody] PostPostData daten)
+    public async Task<IActionResult> Post([FromBody] PostPostData daten)
     {
       using var connection = this.userService.Connection;
       var user = await this.userDatabaseAccess.Get(this.userService.Username, connection);
@@ -202,7 +203,40 @@ namespace handshake.Controllers
       using var context = new DatabaseContext(connection);
       await context.Post.AddAsync(newPost);
       await context.SaveChangesAsync();
-      return newPost;
+
+      return Ok();
+    }
+
+    /// <summary>
+    /// Update the post image.
+    /// </summary>
+    /// <param name="id">The post id.</param>
+    /// <param name="file">The file.</param>
+    /// <returns>The <see cref="PostEntity"/>.</returns>
+    [HttpPost("Image")]
+    public async Task<IActionResult> PostImage([FromForm] Guid id, IFormFile file)
+    {
+      using var connection = this.userService.Connection;
+      var user = await this.userDatabaseAccess.Get(this.userService.Username, connection);
+      using var context = new DatabaseContext(connection);
+      var targetPost = await context.Post.FindAsync(id);
+
+      if (targetPost.Author != user.Id)
+      {
+        throw new Exception("This post was made by another user.");
+      }
+
+      var now = DateTime.Now;
+      var token = await this.fileRepository.UploadInternal($"post_{now:yyyyMMdd'_'HHmmss}" + Path.GetExtension(file.FileName),
+                                                           file.OpenReadStream(),
+                                                           connection,
+                                                           true);
+
+      targetPost.Image = token;
+      await context.SaveChangesAsync();
+      connection.Close();
+
+      return Ok();
     }
 
     #endregion Methods

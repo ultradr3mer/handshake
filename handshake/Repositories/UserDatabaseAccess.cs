@@ -27,12 +27,10 @@ namespace handshake.Repositories
       using DatabaseContext context = new DatabaseContext(connection);
 
       var result = await (from s in context.ShakeUser
-                          join f in context.FileAccessToken on s.Avatar equals f.Id into grouping
-                          from f in grouping.DefaultIfEmpty()
                           where s.Username == username
                           select new ProfileGetData
                           {
-                            Avatar = FileTokenData.CreateUrl(f)
+                            Avatar = FileTokenData.CreateUrl(s.Avatar)
                           }.CopyPropertiesFrom(s)).FirstAsync();
 
       return result;

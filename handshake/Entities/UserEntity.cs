@@ -37,7 +37,7 @@ namespace handshake.Entities
     /// <summary>
     /// The id of the avatar image.
     /// </summary>
-    public Guid? Avatar { get; set; }
+    public FileAccessTokenEntity Avatar { get; set; }
 
     #endregion Properties
   }

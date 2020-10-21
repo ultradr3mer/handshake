@@ -84,7 +84,7 @@ namespace handshake.Controllers
       var result = await this.fileRepository.UploadInternal(file.FileName, file.OpenReadStream(), connection, overwrite: false);
       connection.Close();
 
-      return result;
+      return new FileTokenData(result);
     }
 
     /// <summary>
@@ -99,7 +99,7 @@ namespace handshake.Controllers
       var result = await this.fileRepository.UploadInternal(file.FileName, file.OpenReadStream(), connection, overwrite: true);
       connection.Close();
 
-      return result;
+      return new FileTokenData(result);
     }
 
     #endregion Methods

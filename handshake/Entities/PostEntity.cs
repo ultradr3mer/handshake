@@ -47,6 +47,11 @@ namespace handshake.Entities
     /// </summary>
     public int? ReplyCount { get; set; }
 
+    /// <summary>
+    /// The image attached to the post.
+    /// </summary>
+    public FileAccessTokenEntity Image { get; set; }
+
     #endregion Properties
   }
 }

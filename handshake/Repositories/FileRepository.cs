@@ -136,7 +136,7 @@ namespace handshake.Repositories
     /// <param name="connection">The sql connection.</param>
     /// <param name="overwrite">True, if an existing file should be overwriten.</param>
     /// <returns>The token data of the uploaded file.</returns>
-    public async Task<FileTokenData> UploadInternal(string filename, Stream content, SqlConnection connection, bool overwrite)
+    public async Task<FileAccessTokenEntity> UploadInternal(string filename, Stream content, SqlConnection connection, bool overwrite)
     {
       this.GetContentTypeForExtension(Path.GetExtension(filename));
 
@@ -145,7 +145,7 @@ namespace handshake.Repositories
       BlobClient blob = azureContainer.GetBlobClient(filename);
       await blob.UploadAsync(content, overwrite);
 
-      return new FileTokenData(tokenEntity);
+      return tokenEntity;
     }
 
     private static async Task<FileAccessTokenEntity> CreateToken(string fileName, Guid userId, DatabaseContext context)

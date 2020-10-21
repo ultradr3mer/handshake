@@ -41,6 +41,11 @@ namespace handshake.GetData
     public Guid Id { get; set; }
 
     /// <summary>
+    /// The post image.
+    /// </summary>
+    public string Image { get; internal set; }
+
+    /// <summary>
     /// The timme since the reply creation
     /// </summary>
     public SimpleTimeSpan TimeAgo { get; set; }

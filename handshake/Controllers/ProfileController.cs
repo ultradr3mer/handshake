@@ -101,13 +101,13 @@ namespace handshake.Controllers
 
       using DatabaseContext context = new DatabaseContext(connection);
       Entities.UserEntity user = await context.ShakeUser.FirstAsync(o => o.Username == this.userService.Username);
-      user.Avatar = token.Id;
+      user.Avatar = token;
       await context.SaveChangesAsync();
       connection.Close();
 
       var result = new ProfileGetData();
       result.CopyPropertiesFrom(user);
-      result.Avatar = token.GetUrl();
+      result.Avatar = FileTokenData.CreateUrl(token);
 
       return result;
     }
