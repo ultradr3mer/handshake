@@ -51,7 +51,7 @@ namespace handshake.Controllers
     /// <param name="daten">The <see cref="ReplyPostData"/> to post.</param>
     /// <returns>The posted <see cref="ReplyEntity"/> entity.</returns>
     [HttpPost]
-    public async Task<PostPostResultData> Post([FromBody] ReplyPostData daten)
+    public async Task<ReplyPostResultData> Post([FromBody] ReplyPostData daten)
     {
       using var connection = this.userService.Connection;
 
@@ -60,7 +60,7 @@ namespace handshake.Controllers
 
       connection.Close();
 
-      var result = new PostPostResultData();
+      var result = new ReplyPostResultData();
       result.CopyPropertiesFrom(newReply);
 
       return result;
