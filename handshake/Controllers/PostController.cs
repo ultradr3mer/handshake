@@ -190,7 +190,7 @@ namespace handshake.Controllers
     /// <param name="daten">The <see cref="PostPostData"/> to post.</param>
     /// <returns>The posted <see cref="PostEntity"/>.</returns>
     [HttpPost]
-    public async Task<IActionResult> Post([FromBody] PostPostData daten)
+    public async Task<PostPostResultData> Post([FromBody] PostPostData daten)
     {
       using var connection = this.userService.Connection;
       var user = await this.userDatabaseAccess.Get(this.userService.Username, connection);
@@ -204,7 +204,7 @@ namespace handshake.Controllers
       await context.Post.AddAsync(newPost);
       await context.SaveChangesAsync();
 
-      return Ok();
+      return new PostPostResultData() { Id = newPost.Id };
     }
 
     /// <summary>
@@ -214,7 +214,7 @@ namespace handshake.Controllers
     /// <param name="file">The file.</param>
     /// <returns>The <see cref="PostEntity"/>.</returns>
     [HttpPost("Image")]
-    public async Task<IActionResult> PostImage([FromForm] Guid id, IFormFile file)
+    public async Task<FileTokenData> PostImage([FromForm] Guid id, IFormFile file)
     {
       using var connection = this.userService.Connection;
       var user = await this.userDatabaseAccess.Get(this.userService.Username, connection);
@@ -236,7 +236,7 @@ namespace handshake.Controllers
       await context.SaveChangesAsync();
       connection.Close();
 
-      return Ok();
+      return new FileTokenData(token);
     }
 
     #endregion Methods

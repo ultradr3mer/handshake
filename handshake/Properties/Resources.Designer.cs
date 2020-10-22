@@ -95,5 +95,46 @@ namespace handshake.Properties {
                 return ResourceManager.GetString("InvitePage", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
+        ///&lt;html&gt;
+        ///&lt;head&gt;
+        ///  &lt;style&gt;
+        ///    h1 {
+        ///      font-family: calibri;
+        ///    }
+        ///	
+        ///    h2 {
+        ///      font-family: calibri;
+        ///    }
+        ///	
+        ///    h3 {
+        ///      font-family: calibri;
+        ///    }
+        ///
+        ///    p {
+        ///      font-family: calibri;
+        ///    }
+        ///	
+        ///	li {
+        ///      font-family: calibri;
+        ///    }
+        ///	
+        ///	strong {
+        ///	  font-family: calibri;
+        ///    }
+        ///  &lt;/style&gt;
+        ///&lt;/head&gt;
+        ///&lt;body&gt;
+        ///&lt;h1&gt;Privacy Policy&lt;/h1&gt;
+        ///&lt;p&gt;Last updated: October 22, 2020&lt;/p&gt;
+        ///&lt;p&gt;This Privacy Policy describes Our policies and procedures on the collection, use and dis [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string PrivacyPolicy {
+            get {
+                return ResourceManager.GetString("PrivacyPolicy", resourceCulture);
+            }
+        }
     }
 }

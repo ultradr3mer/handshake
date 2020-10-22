@@ -8,10 +8,7 @@ namespace handshake.GetData
   /// </summary>
   public class PostGetData
   {
-    /// <summary>
-    /// The id.
-    /// </summary>
-    public Guid Id { get; set; }
+    #region Properties
 
     /// <summary>
     /// The author.
@@ -24,6 +21,11 @@ namespace handshake.GetData
     public string AuthorName { get; set; }
 
     /// <summary>
+    /// The avatar url.
+    /// </summary>
+    public string Avatar { get; set; }
+
+    /// <summary>
     /// The content.
     /// </summary>
     public string Content { get; set; }
@@ -32,6 +34,16 @@ namespace handshake.GetData
     /// The creation date.
     /// </summary>
     public DateTime Creationdate { get; set; }
+
+    /// <summary>
+    /// The id.
+    /// </summary>
+    public Guid Id { get; set; }
+
+    /// <summary>
+    /// The image url.
+    /// </summary>
+    public string Image { get; set; }
 
     /// <summary>
     /// The count of replys.
@@ -43,14 +55,6 @@ namespace handshake.GetData
     /// </summary>
     public SimpleTimeSpan TimeAgo { get; set; }
 
-    /// <summary>
-    /// The avatar url.
-    /// </summary>
-    public string Avatar { get; set; }
-
-    /// <summary>
-    /// The image url.
-    /// </summary>
-    public string Image { get; set; }
+    #endregion Properties
   }
 }

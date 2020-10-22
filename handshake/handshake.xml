@@ -514,11 +514,6 @@
             A post.
             </summary>
         </member>
-        <member name="P:handshake.GetData.PostGetData.Id">
-            <summary>
-            The id.
-            </summary>
-        </member>
         <member name="P:handshake.GetData.PostGetData.Author">
             <summary>
             The author.
@@ -527,6 +522,11 @@
         <member name="P:handshake.GetData.PostGetData.AuthorName">
             <summary>
             The author name.
+            </summary>
+        </member>
+        <member name="P:handshake.GetData.PostGetData.Avatar">
+            <summary>
+            The avatar url.
             </summary>
         </member>
         <member name="P:handshake.GetData.PostGetData.Content">
@@ -539,6 +539,16 @@
             The creation date.
             </summary>
         </member>
+        <member name="P:handshake.GetData.PostGetData.Id">
+            <summary>
+            The id.
+            </summary>
+        </member>
+        <member name="P:handshake.GetData.PostGetData.Image">
+            <summary>
+            The image url.
+            </summary>
+        </member>
         <member name="P:handshake.GetData.PostGetData.ReplyCount">
             <summary>
             The count of replys.
@@ -547,16 +557,6 @@
         <member name="P:handshake.GetData.PostGetData.TimeAgo">
             <summary>
             The timespan since posted.
-            </summary>
-        </member>
-        <member name="P:handshake.GetData.PostGetData.Avatar">
-            <summary>
-            The avatar url.
-            </summary>
-        </member>
-        <member name="P:handshake.GetData.PostGetData.Image">
-            <summary>
-            The image url.
             </summary>
         </member>
         <member name="T:handshake.GetData.PostReplyGetData">
@@ -773,6 +773,43 @@
                   1. Scan the code below with your phone to open the play store and install the app.&lt;br /&gt;
                   2. Scan the code again to signup.&lt;br /&gt;
               [rest of string was truncated]&quot;;.
+             </summary>
+        </member>
+        <member name="P:handshake.Properties.Resources.PrivacyPolicy">
+             <summary>
+               Looks up a localized string similar to &lt;!DOCTYPE html&gt;
+            &lt;html&gt;
+            &lt;head&gt;
+              &lt;style&gt;
+                h1 {
+                  font-family: calibri;
+                }
+            	
+                h2 {
+                  font-family: calibri;
+                }
+            	
+                h3 {
+                  font-family: calibri;
+                }
+            
+                p {
+                  font-family: calibri;
+                }
+            	
+            	li {
+                  font-family: calibri;
+                }
+            	
+            	strong {
+            	  font-family: calibri;
+                }
+              &lt;/style&gt;
+            &lt;/head&gt;
+            &lt;body&gt;
+            &lt;h1&gt;Privacy Policy&lt;/h1&gt;
+            &lt;p&gt;Last updated: October 22, 2020&lt;/p&gt;
+            &lt;p&gt;This Privacy Policy describes Our policies and procedures on the collection, use and dis [rest of string was truncated]&quot;;.
              </summary>
         </member>
         <member name="T:handshake.PutData.ProfilePutData">
