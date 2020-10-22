@@ -177,7 +177,7 @@ namespace handshake.Controllers
                       TimeAgo = new SimpleTimeSpan(now - r.Creationdate),
                       Avatar = FileTokenData.CreateUrl(a.Avatar),
                       Image = FileTokenData.CreateUrl(r.Image)
-                    }).ToList();
+                    }).OrderBy(o=>o.Creationdate).ToList();
 
       result.Replys = replys;
 

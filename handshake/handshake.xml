@@ -687,6 +687,16 @@
             The post location longitude;
             </summary>
         </member>
+        <member name="T:handshake.PostData.PostPostResultData">
+            <summary>
+            The <see cref="T:handshake.PostData.PostPostData"/> contains information about the newly created post.
+            </summary>
+        </member>
+        <member name="P:handshake.PostData.PostPostResultData.Id">
+            <summary>
+            The id of the post.
+            </summary>
+        </member>
         <member name="T:handshake.PostData.ReplyPostData">
             <summary>
             A post.
@@ -700,6 +710,16 @@
         <member name="P:handshake.PostData.ReplyPostData.Post">
             <summary>
             The post replyed on.
+            </summary>
+        </member>
+        <member name="T:handshake.PostData.ReplyPostResultData">
+            <summary>
+            The <see cref="T:handshake.PostData.PostPostData"/> contains information about the newly created reply.
+            </summary>
+        </member>
+        <member name="P:handshake.PostData.ReplyPostResultData.Id">
+            <summary>
+            The id of the reply.
             </summary>
         </member>
         <member name="T:handshake.PostData.UserPostData">
