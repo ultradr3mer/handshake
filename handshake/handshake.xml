@@ -98,6 +98,23 @@
             <param name="file">The file.</param>
             <returns>The <see cref="T:handshake.Entities.PostEntity"/>.</returns>
         </member>
+        <member name="T:handshake.Controllers.PrivacyController">
+            <summary>
+            The <see cref="T:handshake.Controllers.PrivacyController"/> delivers the privay policy.
+            </summary>
+        </member>
+        <member name="M:handshake.Controllers.PrivacyController.#ctor">
+            <summary>
+            Creates a new instance of the <see cref="T:handshake.Controllers.PrivacyController"/> class.
+            </summary>
+        </member>
+        <member name="M:handshake.Controllers.PrivacyController.Get(System.Guid)">
+            <summary>
+            Shows an invite in the browser.
+            </summary>
+            <param name="id">The id for the invite.</param>
+            <returns>The html document.</returns>
+        </member>
         <member name="T:handshake.Controllers.ProfileController">
             <summary>
             The <see cref="T:handshake.Controllers.ProfileController"/> provides functions to manage the user profile.
