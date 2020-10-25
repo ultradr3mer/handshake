@@ -1,6 +1,5 @@
 ﻿using Azure.Storage.Blobs;
 using handshake.Contexts;
-using handshake.Data;
 using handshake.Entities;
 using handshake.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -57,7 +56,7 @@ namespace handshake.Repositories
     /// <returns>The token.</returns>
     public async Task<FileAccessTokenEntity> CreateTokenIfNotExists(string fileName, SqlConnection connection)
     {
-      GetData.ProfileGetData user = await this.userDatabaseAccess.Get(this.userService.Username, connection);
+      UserEntity user = await this.userDatabaseAccess.Get(this.userService.Username, connection);
 
       using DatabaseContext context = new DatabaseContext(connection);
       FileAccessTokenEntity existingToken = await this.TryUpdateToken(context, user.Id, fileName);

@@ -23,12 +23,11 @@ namespace handshake.Controllers
     #region Methods
 
     /// <summary>
-    /// Shows an invite in the browser.
+    /// Shows the privacy policy in the browser.
     /// </summary>
-    /// <param name="id">The id for the invite.</param>
     /// <returns>The html document.</returns>
     [HttpGet]
-    public ContentResult Get(Guid id)
+    public ContentResult Get()
     {
       var html = Resources.PrivacyPolicy;
       return base.Content(html, "text/html");

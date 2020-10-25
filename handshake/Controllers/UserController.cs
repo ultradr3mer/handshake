@@ -49,33 +49,6 @@ namespace handshake.Controllers
 
     #region Methods
 
-    /// <summary>
-    /// Gets all users nearby.
-    /// </summary>
-    /// <returns>Close users.</returns>
-    [HttpGet]
-    [Route("GetCloseUsers")]
-    public IList<UserEntity> GetCloseUsers(decimal longitude, decimal latitude)
-    {
-      using SqlConnection connection = this.userService.Connection;
-      using DatabaseContext context = new DatabaseContext(connection);
-
-      return context.ShakeUser.ToList();
-    }
-
-    /// <summary>
-    /// Gets the current user profile.
-    /// </summary>
-    /// <returns>The <see cref="UserEntity"/>.</returns>
-    [HttpGet]
-    public async Task<ProfileGetData> Get()
-    {
-      using SqlConnection connection = this.userService.Connection;
-      var user = await this.userDatabaseAccess.Get(this.userService.Username, connection);
-
-      return user;
-    }
-
     #endregion Methods
   }
 }

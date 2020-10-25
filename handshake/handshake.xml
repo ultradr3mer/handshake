@@ -39,6 +39,57 @@
             <param name="file">The actual file.</param>
             <returns>Ok, when upload succeded.</returns>
         </member>
+        <member name="T:handshake.Controllers.GroupController">
+            <summary>
+            The <see cref="T:handshake.Controllers.GroupController"/> provides functionality for groups.
+            </summary>
+        </member>
+        <member name="M:handshake.Controllers.GroupController.#ctor(handshake.Interfaces.IAuthService,handshake.Repositories.UserDatabaseAccess,handshake.Repositories.FileRepository)">
+            <summary>
+            Creates a new instance of the <see cref="T:handshake.Controllers.GroupController"/> class.
+            </summary>
+            <param name="userService">The user / login service.</param>
+            <param name="userDatabaseAccess">The database access for the user.</param>
+            <param name="fileRepository">The file repository.</param>
+        </member>
+        <member name="M:handshake.Controllers.GroupController.AssociatePost(System.Guid,System.Guid)">
+            <summary>
+            Associates the post to a group.
+            </summary>
+            <param name="groupId">The id of the group.</param>
+            <param name="postId">The post id.</param>
+            <returns>Ok, when successfull.</returns>
+        </member>
+        <member name="M:handshake.Controllers.GroupController.AssociateUser(System.Guid)">
+            <summary>
+            Associates the authenticated user to a group.
+            </summary>
+            <param name="groupId">The id of the group.</param>
+            <returns>Ok, when successfull.</returns>
+        </member>
+        <member name="M:handshake.Controllers.GroupController.GetGroup(System.Guid)">
+            <summary>
+            Gets a group.
+            </summary>
+        </member>
+        <member name="M:handshake.Controllers.GroupController.GetGroups">
+            <summary>
+            Gets all groups.
+            </summary>
+        </member>
+        <member name="M:handshake.Controllers.GroupController.PostGroup(handshake.PostData.GroupPostData)">
+            <summary>
+            Posts a new group.
+            </summary>
+        </member>
+        <member name="M:handshake.Controllers.GroupController.PostImage(System.Guid,Microsoft.AspNetCore.Http.IFormFile)">
+            <summary>
+            Update the group icon.
+            </summary>
+            <param name="id">The group id.</param>
+            <param name="file">The file.</param>
+            <returns>The <see cref="T:handshake.Data.FileTokenData"/>.</returns>
+        </member>
         <member name="T:handshake.Controllers.InviteController">
             <summary>
             The <see cref="T:handshake.Controllers.InviteController"/> provited functionality for user invites.
@@ -88,7 +139,7 @@
             Posts a new post.
             </summary>
             <param name="daten">The <see cref="T:handshake.PostData.PostPostData"/> to post.</param>
-            <returns>The posted <see cref="T:handshake.Entities.PostEntity"/>.</returns>
+            <returns>The posted <see cref="T:handshake.PostData.PostPostResultData"/>.</returns>
         </member>
         <member name="M:handshake.Controllers.PostController.PostImage(System.Guid,Microsoft.AspNetCore.Http.IFormFile)">
             <summary>
@@ -96,7 +147,7 @@
             </summary>
             <param name="id">The post id.</param>
             <param name="file">The file.</param>
-            <returns>The <see cref="T:handshake.Entities.PostEntity"/>.</returns>
+            <returns>The <see cref="T:handshake.Data.FileTokenData"/>.</returns>
         </member>
         <member name="T:handshake.Controllers.PrivacyController">
             <summary>
@@ -108,11 +159,10 @@
             Creates a new instance of the <see cref="T:handshake.Controllers.PrivacyController"/> class.
             </summary>
         </member>
-        <member name="M:handshake.Controllers.PrivacyController.Get(System.Guid)">
+        <member name="M:handshake.Controllers.PrivacyController.Get">
             <summary>
-            Shows an invite in the browser.
+            Shows the privacy policy in the browser.
             </summary>
-            <param name="id">The id for the invite.</param>
             <returns>The html document.</returns>
         </member>
         <member name="T:handshake.Controllers.ProfileController">
@@ -197,18 +247,6 @@
             </summary>
             <param name="userService">The user / login service.</param>
             <param name="userDatabaseAccess">The database access for the user.</param>
-        </member>
-        <member name="M:handshake.Controllers.UserController.GetCloseUsers(System.Decimal,System.Decimal)">
-            <summary>
-            Gets all users nearby.
-            </summary>
-            <returns>Close users.</returns>
-        </member>
-        <member name="M:handshake.Controllers.UserController.Get">
-            <summary>
-            Gets the current user profile.
-            </summary>
-            <returns>The <see cref="T:handshake.Entities.UserEntity"/>.</returns>
         </member>
         <member name="T:handshake.Data.AuthenticateModel">
             <summary>
@@ -411,6 +449,31 @@
             The image attached to the post.
             </summary>
         </member>
+        <member name="T:handshake.Entities.PostGroupEntity">
+            <summary>
+            The <see cref="T:handshake.Entities.PostGroupEntity"/> is a relation between a post and a group.
+            </summary>
+        </member>
+        <member name="P:handshake.Entities.PostGroupEntity.CreationDate">
+            <summary>
+            The date/time this link was created.
+            </summary>
+        </member>
+        <member name="P:handshake.Entities.PostGroupEntity.GroupId">
+            <summary>
+            The id of the group.
+            </summary>
+        </member>
+        <member name="P:handshake.Entities.PostGroupEntity.Id">
+            <summary>
+            The id.
+            </summary>
+        </member>
+        <member name="P:handshake.Entities.PostGroupEntity.PostId">
+            <summary>
+            The id of the post.
+            </summary>
+        </member>
         <member name="T:handshake.Entities.ReplyEntity">
             <summary>
             A reply.
@@ -446,6 +509,41 @@
             The image attached to the post.
             </summary>
         </member>
+        <member name="T:handshake.Entities.GroupEntity">
+            <summary>
+            A group.
+            </summary>
+        </member>
+        <member name="P:handshake.Entities.GroupEntity.Description">
+            <summary>
+            The description.
+            </summary>
+        </member>
+        <member name="P:handshake.Entities.GroupEntity.Icon">
+            <summary>
+            The associated icon.
+            </summary>
+        </member>
+        <member name="P:handshake.Entities.GroupEntity.Id">
+            <summary>
+            The id.
+            </summary>
+        </member>
+        <member name="P:handshake.Entities.GroupEntity.Name">
+            <summary>
+            The name of the group.
+            </summary>
+        </member>
+        <member name="P:handshake.Entities.GroupEntity.OwnerId">
+            <summary>
+            The id of the owner.
+            </summary>
+        </member>
+        <member name="P:handshake.Entities.GroupEntity.Owner">
+            <summary>
+            The the owner.
+            </summary>
+        </member>
         <member name="T:handshake.Entities.UserEntity">
             <summary>
             A user.
@@ -474,6 +572,66 @@
         <member name="P:handshake.Entities.UserEntity.Avatar">
             <summary>
             The id of the avatar image.
+            </summary>
+        </member>
+        <member name="T:handshake.Entities.UserGroupEntity">
+            <summary>
+            The <see cref="T:handshake.Entities.UserGroupEntity"/> is a relation between a user and a group.
+            </summary>
+        </member>
+        <member name="P:handshake.Entities.UserGroupEntity.CreationDate">
+            <summary>
+            The date/time this link was created.
+            </summary>
+        </member>
+        <member name="P:handshake.Entities.UserGroupEntity.GroupId">
+            <summary>
+            The id of the group.
+            </summary>
+        </member>
+        <member name="P:handshake.Entities.UserGroupEntity.Id">
+            <summary>
+            The id.
+            </summary>
+        </member>
+        <member name="P:handshake.Entities.UserGroupEntity.UserId">
+            <summary>
+            The id of the user.
+            </summary>
+        </member>
+        <member name="T:handshake.GetData.GroupGetData">
+            <summary>
+            The <see cref="T:handshake.GetData.GroupGetData"/> contains information about the group.
+            </summary>
+        </member>
+        <member name="P:handshake.GetData.GroupGetData.Description">
+            <summary>
+            The description.
+            </summary>
+        </member>
+        <member name="P:handshake.GetData.GroupGetData.Icon">
+            <summary>
+            The associated icon.
+            </summary>
+        </member>
+        <member name="P:handshake.GetData.GroupGetData.Id">
+            <summary>
+            The id.
+            </summary>
+        </member>
+        <member name="P:handshake.GetData.GroupGetData.Name">
+            <summary>
+            The name of the group.
+            </summary>
+        </member>
+        <member name="P:handshake.GetData.GroupGetData.OwnerId">
+            <summary>
+            The id of the owner.
+            </summary>
+        </member>
+        <member name="P:handshake.GetData.GroupGetData.OwnerName">
+            <summary>
+            The name of the owner.
             </summary>
         </member>
         <member name="T:handshake.GetData.PostDetailGetData">
@@ -683,6 +841,31 @@
             <param name="username">The SQL username.</param>
             <param name="password">The SQL password.</param>
             <returns>An open connection.</returns>
+        </member>
+        <member name="T:handshake.PostData.GroupPostData">
+            <summary>
+            A group.
+            </summary>
+        </member>
+        <member name="P:handshake.PostData.GroupPostData.Description">
+            <summary>
+            The description.
+            </summary>
+        </member>
+        <member name="P:handshake.PostData.GroupPostData.Name">
+            <summary>
+            The name of the group.
+            </summary>
+        </member>
+        <member name="T:handshake.PostData.GroupPostResultData">
+            <summary>
+            The <see cref="T:handshake.PostData.GroupPostResultData"/> class is the response to creating a group.
+            </summary>
+        </member>
+        <member name="P:handshake.PostData.GroupPostResultData.Id">
+            <summary>
+            The id of the created group.
+            </summary>
         </member>
         <member name="T:handshake.PostData.PostPostData">
             <summary>

@@ -1,5 +1,6 @@
 ﻿using handshake.Contexts;
 using handshake.Data;
+using handshake.Entities;
 using handshake.Extensions;
 using handshake.GetData;
 using Microsoft.EntityFrameworkCore;
@@ -22,16 +23,13 @@ namespace handshake.Repositories
     /// <param name="username">The login username of the user.</param>
     /// <param name="connection">The <see cref="SqlConnection"/> to use.</param>
     /// <returns>The <see cref="ProfileGetData"/> for the user.</returns>
-    public async Task<ProfileGetData> Get(string username, SqlConnection connection)
+    public async Task<UserEntity> Get(string username, SqlConnection connection)
     {
       using DatabaseContext context = new DatabaseContext(connection);
 
       var result = await (from s in context.ShakeUser
                           where s.Username == username
-                          select new ProfileGetData
-                          {
-                            Avatar = FileTokenData.CreateUrl(s.Avatar)
-                          }.CopyPropertiesFrom(s)).FirstAsync();
+                          select s).FirstAsync();
 
       return result;
     }

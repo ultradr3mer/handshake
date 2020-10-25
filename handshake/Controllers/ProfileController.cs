@@ -60,7 +60,7 @@ namespace handshake.Controllers
       using SqlConnection connection = this.userService.Connection;
       var user = await this.userDatabaseAccess.Get(this.userService.Username, connection);
 
-      return user;
+      return new ProfileGetData().CopyPropertiesFrom(user);
     }
 
     /// <summary>
