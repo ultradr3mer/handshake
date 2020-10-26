@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace handshake.Entities
@@ -38,6 +39,11 @@ namespace handshake.Entities
     /// The id of the avatar image.
     /// </summary>
     public FileAccessTokenEntity Avatar { get; set; }
+
+    /// <summary>
+    /// The groups assiciated with this this user.
+    /// </summary>
+    public ICollection<UserGroupEntity> UserGroups { get; set; }
 
     #endregion Properties
   }

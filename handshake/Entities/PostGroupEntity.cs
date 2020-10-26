@@ -16,6 +16,11 @@ namespace handshake.Entities
     public DateTime CreationDate { get; set; }
 
     /// <summary>
+    /// The group.
+    /// </summary>
+    public GroupEntity Group { get; set; }
+
+    /// <summary>
     /// The id of the group.
     /// </summary>
     public Guid GroupId { get; set; }
@@ -25,6 +30,11 @@ namespace handshake.Entities
     /// </summary>
     [Key]
     public Guid Id { get; set; }
+
+    /// <summary>
+    /// The post.
+    /// </summary>
+    public PostEntity Post { get; set; }
 
     /// <summary>
     /// The id of the post.

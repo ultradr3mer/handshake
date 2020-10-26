@@ -9,6 +9,7 @@ using handshake.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -73,65 +74,9 @@ namespace handshake.Controllers
       }
 
       using SqlConnection connection = this.userService.Connection;
-      using DatabaseContext context = new DatabaseContext(connection);
-
-      DateTime now = DateTime.Now;
-
-      string nowParameterName = "@NOW";
-      string commandString = $@"SELECT CONTENT
-                            ,USERID
-	                          ,NICKNAME
-	                          ,CREATIONDATE
-	                          ,POSTID
-	                          ,REPLYCOUNT
-	                          ,AVATARTOKEN
-	                          ,AVATARFILENAME
-                            ,IMAGETOKEN
-                            ,IMAGEFILENAME
-	                          ,DIST + AGO AS RELEVANCE
-                          FROM (
-	                          SELECT POST.CONTENT
-		                          ,SHAKEUSER.ID AS USERID
-		                          ,SHAKEUSER.NICKNAME
-		                          ,POST.CREATIONDATE
-		                          ,POST.ID AS POSTID
-		                          ,COALESCE(POST.REPLYCOUNT,0) AS REPLYCOUNT
-		                          ,DBO.DISTANCE(POST.LATITUDE, POST.LONGITUDE, {latitude}, {longitude}) AS DIST
-		                          ,DATEDIFF(MINUTE, POST.CREATIONDATE, {nowParameterName}) AS AGO
-		                          ,AVATAR.TOKEN AS AVATARTOKEN
-		                          ,AVATAR.FILENAME AS AVATARFILENAME
-		                          ,IMAGE.TOKEN AS IMAGETOKEN
-		                          ,IMAGE.FILENAME AS IMAGEFILENAME
-	                          FROM POST
-	                          JOIN SHAKEUSER ON SHAKEUSER.ID = POST.AUTHOR
-	                          LEFT OUTER JOIN FILEACCESSTOKEN AVATAR ON AVATAR.ID = SHAKEUSER.AVATARID
-	                          LEFT OUTER JOIN FILEACCESSTOKEN IMAGE ON IMAGE.ID = POST.IMAGEID
-	                          ) DATA
-                          ORDER BY RELEVANCE";
-
-      using SqlCommand command = new SqlCommand(commandString, connection);
-      command.Parameters.Add(nowParameterName, SqlDbType.DateTime);
-      command.Parameters[nowParameterName].Value = now;
-
-      using SqlDataReader reader = command.ExecuteReader();
-
-      List<PostGetData> result = new List<PostGetData>();
-
-      while (await reader.ReadAsync())
-      {
-        result.Add(new PostGetData()
-        {
-          Content = (string)reader[0],
-          Author = (Guid)reader[1],
-          AuthorName = (string)reader[2],
-          Creationdate = (DateTime)reader[3],
-          Id = (Guid)reader[4],
-          ReplyCount = (int)reader[5],
-          TimeAgo = new SimpleTimeSpan(now - (DateTime)reader[3]),
-          Avatar = FileTokenData.CreateUrl(reader[6], reader[7]),
-          Image = FileTokenData.CreateUrl(reader[8], reader[9])
-        });
-      }
+      var result = await this.LoadClosePostEnitiesAsync(connection, latitude, longitude);
+      result = await LoadGroups(connection, result);
+      connection.Close();
 
       return result;
     }
@@ -161,7 +106,8 @@ namespace handshake.Controllers
                                     Creationdate = p.Creationdate,
                                     TimeAgo = new SimpleTimeSpan(now - p.Creationdate),
                                     Avatar = FileTokenData.CreateUrl(a.Avatar),
-                                    Image = FileTokenData.CreateUrl(p.Image)
+                                    Image = FileTokenData.CreateUrl(p.Image),
+                                    Groups = p.PostGroups.Select(o => new AssociatedGroupData(o.Group)).ToList()
                                   }).First();
 
       List<PostReplyGetData> replys = (from r in context.Reply
@@ -237,6 +183,86 @@ namespace handshake.Controllers
       connection.Close();
 
       return new FileTokenData(token);
+    }
+
+    private static async Task<List<PostGetData>> LoadGroups(SqlConnection connection, List<PostGetData> group)
+    {
+      var resultDictionary = group.ToDictionary(o => o.Id);
+      var ids = resultDictionary.Keys.ToArray();
+      DatabaseContext context = new DatabaseContext(connection);
+      var groups = await (from pg in context.PostGroup
+                          where ids.Contains(pg.PostId)
+                          select new { pg.PostId, pg.Group }).ToListAsync();
+
+      foreach (var item in groups)
+      {
+        resultDictionary[item.PostId].Groups.Add(new AssociatedGroupData(item.Group));
+      }
+
+      return group;
+    }
+
+    private async Task<List<PostGetData>> LoadClosePostEnitiesAsync(SqlConnection connection, decimal? latitude, decimal? longitude)
+    {
+      DateTime now = DateTime.Now;
+      string nowParameterName = "@NOW";
+      string commandString = $@"SELECT CONTENT
+                            ,USERID
+	                          ,NICKNAME
+	                          ,CREATIONDATE
+	                          ,POSTID
+	                          ,REPLYCOUNT
+	                          ,AVATARTOKEN
+	                          ,AVATARFILENAME
+                            ,IMAGETOKEN
+                            ,IMAGEFILENAME
+	                          ,DIST + AGO AS RELEVANCE
+                          FROM (
+	                          SELECT POST.CONTENT
+		                          ,SHAKEUSER.ID AS USERID
+		                          ,SHAKEUSER.NICKNAME
+		                          ,POST.CREATIONDATE
+		                          ,POST.ID AS POSTID
+		                          ,COALESCE(POST.REPLYCOUNT,0) AS REPLYCOUNT
+		                          ,DBO.DISTANCE(POST.LATITUDE, POST.LONGITUDE, {latitude}, {longitude}) AS DIST
+		                          ,DATEDIFF(MINUTE, POST.CREATIONDATE, {nowParameterName}) AS AGO
+		                          ,AVATAR.TOKEN AS AVATARTOKEN
+		                          ,AVATAR.FILENAME AS AVATARFILENAME
+		                          ,IMAGE.TOKEN AS IMAGETOKEN
+		                          ,IMAGE.FILENAME AS IMAGEFILENAME
+	                          FROM POST
+	                          JOIN SHAKEUSER ON SHAKEUSER.ID = POST.AUTHOR
+	                          LEFT OUTER JOIN FILEACCESSTOKEN AVATAR ON AVATAR.ID = SHAKEUSER.AVATARID
+	                          LEFT OUTER JOIN FILEACCESSTOKEN IMAGE ON IMAGE.ID = POST.IMAGEID
+	                          ) DATA
+                          ORDER BY RELEVANCE";
+
+      using SqlCommand command = new SqlCommand(commandString, connection);
+      command.Parameters.Add(nowParameterName, SqlDbType.DateTime);
+      command.Parameters[nowParameterName].Value = now;
+
+      using SqlDataReader reader = command.ExecuteReader();
+
+      List<PostGetData> result = new List<PostGetData>();
+
+      while (await reader.ReadAsync())
+      {
+        result.Add(new PostGetData()
+        {
+          Content = (string)reader[0],
+          Author = (Guid)reader[1],
+          AuthorName = (string)reader[2],
+          Creationdate = (DateTime)reader[3],
+          Id = (Guid)reader[4],
+          ReplyCount = (int)reader[5],
+          TimeAgo = new SimpleTimeSpan(now - (DateTime)reader[3]),
+          Avatar = FileTokenData.CreateUrl(reader[6], reader[7]),
+          Image = FileTokenData.CreateUrl(reader[8], reader[9]),
+          Groups = new List<AssociatedGroupData>()
+        });
+      }
+
+      return result;
     }
 
     #endregion Methods

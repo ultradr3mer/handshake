@@ -185,7 +185,7 @@
             <returns>The <see cref="T:handshake.GetData.ProfileGetData"/>.</returns>
         </member>
         <!-- Badly formed XML comment ignored for member "M:handshake.Controllers.ProfileController.Put(handshake.PutData.ProfilePutData)" -->
-        <member name="M:handshake.Controllers.ProfileController.AvatarPut(Microsoft.AspNetCore.Http.IFormFile)">
+        <member name="M:handshake.Controllers.ProfileController.PutAvatar(Microsoft.AspNetCore.Http.IFormFile)">
             <summary>
             Update the user avatar.
             </summary>
@@ -247,6 +247,27 @@
             </summary>
             <param name="userService">The user / login service.</param>
             <param name="userDatabaseAccess">The database access for the user.</param>
+        </member>
+        <member name="T:handshake.Data.AssociatedGroupData">
+            <summary>
+            The <see cref="T:handshake.Data.AssociatedGroupData"/> is an associated group.
+            </summary>
+        </member>
+        <member name="M:handshake.Data.AssociatedGroupData.#ctor(handshake.Entities.GroupEntity)">
+            <summary>
+            Creates a new instance of the <see cref="T:handshake.Data.AssociatedGroupData"/> based on an <see cref="T:handshake.Entities.GroupEntity"/>.
+            </summary>
+            <param name="entity">The <see cref="T:handshake.Entities.GroupEntity"/> to copy properties from.</param>
+        </member>
+        <member name="P:handshake.Data.AssociatedGroupData.Id">
+            <summary>
+            The id.
+            </summary>
+        </member>
+        <member name="P:handshake.Data.AssociatedGroupData.Name">
+            <summary>
+            The name of the group.
+            </summary>
         </member>
         <member name="T:handshake.Data.AuthenticateModel">
             <summary>
@@ -449,6 +470,11 @@
             The image attached to the post.
             </summary>
         </member>
+        <member name="P:handshake.Entities.PostEntity.PostGroups">
+            <summary>
+            The groups assiciated with this this post.
+            </summary>
+        </member>
         <member name="T:handshake.Entities.PostGroupEntity">
             <summary>
             The <see cref="T:handshake.Entities.PostGroupEntity"/> is a relation between a post and a group.
@@ -459,6 +485,11 @@
             The date/time this link was created.
             </summary>
         </member>
+        <member name="P:handshake.Entities.PostGroupEntity.Group">
+            <summary>
+            The group.
+            </summary>
+        </member>
         <member name="P:handshake.Entities.PostGroupEntity.GroupId">
             <summary>
             The id of the group.
@@ -467,6 +498,11 @@
         <member name="P:handshake.Entities.PostGroupEntity.Id">
             <summary>
             The id.
+            </summary>
+        </member>
+        <member name="P:handshake.Entities.PostGroupEntity.Post">
+            <summary>
+            The post.
             </summary>
         </member>
         <member name="P:handshake.Entities.PostGroupEntity.PostId">
@@ -544,6 +580,16 @@
             The the owner.
             </summary>
         </member>
+        <member name="P:handshake.Entities.GroupEntity.GroupUsers">
+            <summary>
+            The users assiciated with this this group.
+            </summary>
+        </member>
+        <member name="P:handshake.Entities.GroupEntity.GroupPosts">
+            <summary>
+            The posts assiciated with this this group.
+            </summary>
+        </member>
         <member name="T:handshake.Entities.UserEntity">
             <summary>
             A user.
@@ -574,6 +620,11 @@
             The id of the avatar image.
             </summary>
         </member>
+        <member name="P:handshake.Entities.UserEntity.UserGroups">
+            <summary>
+            The groups assiciated with this this user.
+            </summary>
+        </member>
         <member name="T:handshake.Entities.UserGroupEntity">
             <summary>
             The <see cref="T:handshake.Entities.UserGroupEntity"/> is a relation between a user and a group.
@@ -584,6 +635,11 @@
             The date/time this link was created.
             </summary>
         </member>
+        <member name="P:handshake.Entities.UserGroupEntity.Group">
+            <summary>
+            The group.
+            </summary>
+        </member>
         <member name="P:handshake.Entities.UserGroupEntity.GroupId">
             <summary>
             The id of the group.
@@ -592,6 +648,11 @@
         <member name="P:handshake.Entities.UserGroupEntity.Id">
             <summary>
             The id.
+            </summary>
+        </member>
+        <member name="P:handshake.Entities.UserGroupEntity.User">
+            <summary>
+            The user.
             </summary>
         </member>
         <member name="P:handshake.Entities.UserGroupEntity.UserId">
@@ -679,6 +740,11 @@
             The time since the post creation.
             </summary>
         </member>
+        <member name="P:handshake.GetData.PostDetailGetData.Groups">
+            <summary>
+            The associated groups.
+            </summary>
+        </member>
         <member name="P:handshake.GetData.PostDetailGetData.Replys">
             <summary>
             The post reply.
@@ -732,6 +798,11 @@
         <member name="P:handshake.GetData.PostGetData.TimeAgo">
             <summary>
             The timespan since posted.
+            </summary>
+        </member>
+        <member name="P:handshake.GetData.PostGetData.Groups">
+            <summary>
+            The associated groups.
             </summary>
         </member>
         <member name="T:handshake.GetData.PostReplyGetData">
@@ -807,6 +878,11 @@
         <member name="P:handshake.GetData.ProfileGetData.Username">
             <summary>
             The username for login.
+            </summary>
+        </member>
+        <member name="P:handshake.GetData.ProfileGetData.Groups">
+            <summary>
+            The associated groups.
             </summary>
         </member>
         <member name="T:handshake.Interfaces.IAuthService">

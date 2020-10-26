@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Data.SqlClient;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace handshake.Controllers
@@ -25,8 +26,8 @@ namespace handshake.Controllers
   {
     #region Fields
 
-    private readonly UserDatabaseAccess userDatabaseAccess;
     private readonly FileRepository fileRepository;
+    private readonly UserDatabaseAccess userDatabaseAccess;
     private readonly IAuthService userService;
 
     #endregion Fields
@@ -58,9 +59,19 @@ namespace handshake.Controllers
     public async Task<ProfileGetData> Get()
     {
       using SqlConnection connection = this.userService.Connection;
-      var user = await this.userDatabaseAccess.Get(this.userService.Username, connection);
+      using DatabaseContext context = new DatabaseContext(connection);
+      Entities.UserEntity user = await (from s in context.ShakeUser
+                                        where s.Username == this.userService.Username
+                                        select s).Include(o => o.UserGroups).ThenInclude(o => o.Group).FirstAsync();
 
-      return new ProfileGetData().CopyPropertiesFrom(user);
+      System.Collections.Generic.List<AssociatedGroupData> groups = user.UserGroups.Select(o => new AssociatedGroupData(o.Group)).ToList();
+      ProfileGetData result = new ProfileGetData
+      {
+        Groups = groups,
+        Avatar = FileTokenData.CreateUrl(user.Avatar)
+      }.CopyPropertiesFrom(user);
+
+      return result;
     }
 
     /// <summary>
@@ -69,7 +80,7 @@ namespace handshake.Controllers
     /// <param name="putData">The new <see cref="ProfilePutData"/>.</param>
     /// <returns>The updated <see cref="ProfileGetData"/>./returns>
     [HttpPut]
-    public async Task<ProfileGetData> Put(ProfilePutData putData)
+    public async Task<IActionResult> Put(ProfilePutData putData)
     {
       using SqlConnection connection = this.userService.Connection;
       using DatabaseContext context = new DatabaseContext(connection);
@@ -79,10 +90,7 @@ namespace handshake.Controllers
       await context.SaveChangesAsync();
       connection.Close();
 
-      var result = new ProfileGetData();
-      result.CopyPropertiesFrom(user);
-
-      return result;
+      return this.Ok();
     }
 
     /// <summary>
@@ -91,10 +99,10 @@ namespace handshake.Controllers
     /// <param name="file">The file.</param>
     /// <returns>The avatar info.</returns>
     [HttpPut("Avatar")]
-    public async Task<ProfileGetData> AvatarPut(IFormFile file)
+    public async Task<IActionResult> PutAvatar(IFormFile file)
     {
       using SqlConnection connection = this.userService.Connection;
-      var token = await this.fileRepository.UploadInternal("avatar" + Path.GetExtension(file.FileName),
+      Entities.FileAccessTokenEntity token = await this.fileRepository.UploadInternal("avatar" + Path.GetExtension(file.FileName),
                                                            file.OpenReadStream(),
                                                            connection,
                                                            true);
@@ -105,11 +113,7 @@ namespace handshake.Controllers
       await context.SaveChangesAsync();
       connection.Close();
 
-      var result = new ProfileGetData();
-      result.CopyPropertiesFrom(user);
-      result.Avatar = FileTokenData.CreateUrl(token);
-
-      return result;
+      return this.Ok();
     }
 
     #endregion Methods

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace handshake.Entities
@@ -42,6 +43,16 @@ namespace handshake.Entities
     /// The the owner.
     /// </summary>
     public UserEntity Owner { get; set; }
+
+    /// <summary>
+    /// The users assiciated with this this group.
+    /// </summary>
+    public ICollection<UserGroupEntity> GroupUsers { get; set; }
+
+    /// <summary>
+    /// The posts assiciated with this this group.
+    /// </summary>
+    public ICollection<PostGroupEntity> GroupPosts { get; set; }
 
     #endregion Properties
   }

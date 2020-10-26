@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace handshake.Entities
@@ -51,6 +52,11 @@ namespace handshake.Entities
     /// The image attached to the post.
     /// </summary>
     public FileAccessTokenEntity Image { get; set; }
+
+    /// <summary>
+    /// The groups assiciated with this this post.
+    /// </summary>
+    public ICollection<PostGroupEntity> PostGroups { get; set; }
 
     #endregion Properties
   }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using handshake.Data;
+using System;
+using System.Collections.Generic;
 
 namespace handshake.GetData
 {
@@ -33,6 +35,11 @@ namespace handshake.GetData
     /// The username for login.
     /// </summary>
     public string Username { get; set; }
+
+    /// <summary>
+    /// The associated groups.
+    /// </summary>
+    public List<AssociatedGroupData> Groups { get; set; }
 
     #endregion Properties
   }

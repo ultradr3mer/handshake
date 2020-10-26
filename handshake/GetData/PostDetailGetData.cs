@@ -52,6 +52,11 @@ namespace handshake.GetData
     public SimpleTimeSpan TimeAgo { get; set; }
 
     /// <summary>
+    /// The associated groups.
+    /// </summary>
+    public List<AssociatedGroupData> Groups { get; set; }
+
+    /// <summary>
     /// The post reply.
     /// </summary>
     public List<PostReplyGetData> Replys { get; set; }
