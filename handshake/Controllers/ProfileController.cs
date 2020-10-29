@@ -81,7 +81,7 @@ namespace handshake.Controllers
     /// Updates the users profile.
     /// </summary>
     /// <param name="putData">The new <see cref="ProfilePutData"/>.</param>
-    /// <returns>The updated <see cref="ProfileGetData"/>./returns>
+    /// <returns>Ok, when the Profile was successfully updated./returns>
     [HttpPut]
     public async Task<IActionResult> Put(ProfilePutData putData)
     {
@@ -100,15 +100,15 @@ namespace handshake.Controllers
     /// Update the user avatar.
     /// </summary>
     /// <param name="file">The file.</param>
-    /// <returns>The avatar info.</returns>
+    /// <returns>The <see cref="FileUploadResultData"/>.</returns>
     [HttpPut("Avatar")]
-    public async Task<IActionResult> PutAvatar(IFormFile file)
+    public async Task<FileUploadResultData> PutAvatar(IFormFile file)
     {
       using SqlConnection connection = this.userService.Connection;
       Entities.FileAccessTokenEntity token = await this.fileRepository.UploadInternal("avatar" + Path.GetExtension(file.FileName),
-                                                           file.OpenReadStream(),
-                                                           connection,
-                                                           true);
+                                                                                       file.OpenReadStream(),
+                                                                                       connection,
+                                                                                       true);
 
       using DatabaseContext context = new DatabaseContext(connection);
       Entities.UserEntity user = await context.ShakeUser.FirstAsync(o => o.Username == this.userService.Username);
@@ -116,7 +116,7 @@ namespace handshake.Controllers
       await context.SaveChangesAsync();
       connection.Close();
 
-      return this.Ok();
+      return new FileUploadResultData(token);
     }
 
     #endregion Methods

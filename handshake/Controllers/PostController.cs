@@ -158,9 +158,9 @@ namespace handshake.Controllers
     /// </summary>
     /// <param name="id">The post id.</param>
     /// <param name="file">The file.</param>
-    /// <returns>The <see cref="FileTokenData"/>.</returns>
+    /// <returns>The <see cref="FileUploadResultData"/>.</returns>
     [HttpPost("Image")]
-    public async Task<FileTokenData> PostImage([FromForm] Guid id, IFormFile file)
+    public async Task<FileUploadResultData> PostImage([FromForm] Guid id, IFormFile file)
     {
       using SqlConnection connection = this.userService.Connection;
       UserEntity user = await this.userDatabaseAccess.Get(this.userService.Username, connection);
@@ -182,7 +182,7 @@ namespace handshake.Controllers
       await context.SaveChangesAsync();
       connection.Close();
 
-      return new FileTokenData(token);
+      return new FileUploadResultData(token);
     }
 
     private static async Task<List<PostGetData>> LoadGroups(SqlConnection connection, List<PostGetData> group)

@@ -93,7 +93,7 @@
             </summary>
             <param name="id">The group id.</param>
             <param name="file">The file.</param>
-            <returns>The <see cref="T:handshake.Data.FileTokenData"/>.</returns>
+            <returns>The <see cref="T:handshake.Data.FileUploadResultData"/>.</returns>
         </member>
         <member name="T:handshake.Controllers.InviteController">
             <summary>
@@ -152,7 +152,7 @@
             </summary>
             <param name="id">The post id.</param>
             <param name="file">The file.</param>
-            <returns>The <see cref="T:handshake.Data.FileTokenData"/>.</returns>
+            <returns>The <see cref="T:handshake.Data.FileUploadResultData"/>.</returns>
         </member>
         <member name="T:handshake.Controllers.PrivacyController">
             <summary>
@@ -195,7 +195,7 @@
             Update the user avatar.
             </summary>
             <param name="file">The file.</param>
-            <returns>The avatar info.</returns>
+            <returns>The <see cref="T:handshake.Data.FileUploadResultData"/>.</returns>
         </member>
         <member name="T:handshake.Controllers.ReplyController">
             <summary>
@@ -348,6 +348,22 @@
             <param name="token">The token.</param>
             <param name="filename">The filename.</param>
             <returns>The local url.</returns>
+        </member>
+        <member name="T:handshake.Data.FileUploadResultData">
+            <summary>
+            The result data of uploading a file.
+            </summary>
+        </member>
+        <member name="M:handshake.Data.FileUploadResultData.#ctor(handshake.Entities.FileAccessTokenEntity)">
+            <summary>
+            Creates a new instance of the <see cref="T:handshake.Data.FileUploadResultData"/> class based on the given <see cref="T:handshake.Entities.FileAccessTokenEntity"/>.
+            </summary>
+            <param name="entity">The <see cref="T:handshake.Entities.FileAccessTokenEntity"/> to copy properties from.</param>
+        </member>
+        <member name="P:handshake.Data.FileUploadResultData.LocalUrl">
+            <summary>
+            The local url to retrive the file.
+            </summary>
         </member>
         <member name="T:handshake.Data.SimpleTimeSpan">
             <summary>

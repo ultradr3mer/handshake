@@ -78,13 +78,13 @@ namespace handshake.Controllers
     /// <param name="file">The actual file.</param>
     /// <returns>Ok, when upload succeded.</returns>
     [HttpPost("Upload")]
-    public async Task<FileTokenData> Post(IFormFile file)
+    public async Task<FileUploadResultData> Post(IFormFile file)
     {
       using SqlConnection connection = this.userService.Connection;
       var result = await this.fileRepository.UploadInternal(file.FileName, file.OpenReadStream(), connection, overwrite: false);
       connection.Close();
 
-      return new FileTokenData(result);
+      return new FileUploadResultData(result);
     }
 
     /// <summary>
@@ -93,13 +93,13 @@ namespace handshake.Controllers
     /// <param name="file">The actual file.</param>
     /// <returns>Ok, when upload succeded.</returns>
     [HttpPost("UploadWithReplace")]
-    public async Task<FileTokenData> PostWithReplace(IFormFile file)
+    public async Task<FileUploadResultData> PostWithReplace(IFormFile file)
     {
       using SqlConnection connection = this.userService.Connection;
       var result = await this.fileRepository.UploadInternal(file.FileName, file.OpenReadStream(), connection, overwrite: true);
       connection.Close();
 
-      return new FileTokenData(result);
+      return new FileUploadResultData(result);
     }
 
     #endregion Methods
