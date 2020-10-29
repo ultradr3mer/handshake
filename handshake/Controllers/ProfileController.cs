@@ -62,7 +62,10 @@ namespace handshake.Controllers
       using DatabaseContext context = new DatabaseContext(connection);
       Entities.UserEntity user = await (from s in context.ShakeUser
                                         where s.Username == this.userService.Username
-                                        select s).Include(o => o.UserGroups).ThenInclude(o => o.Group).FirstAsync();
+                                        select s)
+                                        .Include(o => o.UserGroups)
+                                        .ThenInclude(o => o.Group)
+                                        .Include(o => o.Avatar).FirstAsync();
 
       System.Collections.Generic.List<AssociatedGroupData> groups = user.UserGroups.Select(o => new AssociatedGroupData(o.Group)).ToList();
       ProfileGetData result = new ProfileGetData

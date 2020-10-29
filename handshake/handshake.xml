@@ -4,6 +4,11 @@
         <name>handshake</name>
     </assembly>
     <members>
+        <member name="T:handshake.Const.RegularExpressions">
+            <summary>
+            The <see cref="T:handshake.Const.RegularExpressions"/> class contains regular expressions.
+            </summary>
+        </member>
         <member name="T:handshake.Controllers.FileController">
             <summary>
             The <see cref="T:handshake.Controllers.FileController"/> provides functionality to upload and download files.

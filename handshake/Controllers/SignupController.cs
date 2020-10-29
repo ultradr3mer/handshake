@@ -1,4 +1,5 @@
-﻿using handshake.Contexts;
+﻿using handshake.Const;
+using handshake.Contexts;
 using handshake.Entities;
 using handshake.Extensions;
 using handshake.Interfaces;
@@ -23,11 +24,7 @@ namespace handshake.Controllers
   {
     #region Fields
 
-    private static readonly Regex alphanumericRegex = new Regex("^[a-zA-Z0-9]*$", RegexOptions.Compiled);
-    private static readonly Regex base10DigitRegex = new Regex("[0-9]", RegexOptions.Compiled);
-    private static readonly Regex latinLowercaseRegex = new Regex("[a-z]", RegexOptions.Compiled);
-    private static readonly Regex latinUppercaseRegex = new Regex("[A-Z]", RegexOptions.Compiled);
-    private static readonly Regex nonAlphanumericRegex = new Regex("[^a-zA-Z0-9]", RegexOptions.Compiled);
+
 
     private readonly IConfiguration configuration;
     private readonly IAuthService userService;
@@ -158,22 +155,22 @@ namespace handshake.Controllers
         throw new ArgumentException("The password is at least eight characters long.", nameof(UserPostData.Password));
       }
 
-      if (!latinUppercaseRegex.IsMatch(daten.Password))
+      if (!RegularExpressions.LatinUppercaseRegex.IsMatch(daten.Password))
       {
         throw new ArgumentException("The password must contain uppercase letters (A through Z).", nameof(UserPostData.Password));
       }
 
-      if (!latinLowercaseRegex.IsMatch(daten.Password))
+      if (!RegularExpressions.LatinLowercaseRegex.IsMatch(daten.Password))
       {
         throw new ArgumentException("The password must contain uppercase letters (a through z).", nameof(UserPostData.Password));
       }
 
-      if (!base10DigitRegex.IsMatch(daten.Password))
+      if (!RegularExpressions.Base10DigitRegex.IsMatch(daten.Password))
       {
         throw new ArgumentException("The password must contain digits (0 through 9).", nameof(UserPostData.Password));
       }
 
-      if (!nonAlphanumericRegex.IsMatch(daten.Password))
+      if (!RegularExpressions.NonAlphanumericRegex.IsMatch(daten.Password))
       {
         throw new ArgumentException("The password must contain non-alphanumeric characters such as: exclamation point (!), dollar sign ($), number sign (#), or percent (%).", nameof(UserPostData.Password));
       }
@@ -181,7 +178,7 @@ namespace handshake.Controllers
 
     private static void ValidateUsername(UserPostData daten)
     {
-      if (!alphanumericRegex.IsMatch(daten.Username))
+      if (!RegularExpressions.AlphanumericRegex.IsMatch(daten.Username))
       {
         throw new ArgumentException("Username must be alphanumeric.", nameof(UserPostData.Username));
       }

@@ -1,4 +1,5 @@
-﻿using handshake.Contexts;
+﻿using handshake.Const;
+using handshake.Contexts;
 using handshake.Data;
 using handshake.Entities;
 using handshake.Extensions;
@@ -161,6 +162,11 @@ namespace handshake.Controllers
     [HttpPost]
     public async Task<GroupPostResultData> PostGroup(GroupPostData data)
     {
+      if(!RegularExpressions.AlphanumericRegex.IsMatch(data.Name))
+      {
+        throw new ArgumentException("Group name must be alphanumeric.", nameof(GroupPostData.Name));
+      }
+
       using SqlConnection connection = this.userService.Connection;
       UserEntity user = await this.userDatabaseAccess.Get(this.userService.Username, connection);
 
