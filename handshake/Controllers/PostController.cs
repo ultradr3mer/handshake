@@ -1,4 +1,5 @@
-﻿using handshake.Contexts;
+﻿using handshake.Const;
+using handshake.Contexts;
 using handshake.Data;
 using handshake.Entities;
 using handshake.Extensions;
@@ -16,6 +17,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace handshake.Controllers
@@ -141,15 +143,23 @@ namespace handshake.Controllers
       using SqlConnection connection = this.userService.Connection;
       UserEntity user = await this.userDatabaseAccess.Get(this.userService.Username, connection);
 
+      DateTime now = DateTime.Now;
+
       PostEntity newPost = new PostEntity();
       newPost.CopyPropertiesFrom(daten);
-      newPost.Creationdate = DateTime.Now;
+      newPost.Creationdate = now;
       newPost.Author = user.Id;
 
       using DatabaseContext context = new DatabaseContext(connection);
+      await using var transaction = await context.Database.BeginTransactionAsync();
+
       await context.Post.AddAsync(newPost);
       await context.SaveChangesAsync();
 
+      await CheckGroups(daten.Content, user.Id, newPost.Id, now, context);
+
+      await transaction.CommitAsync();
+      connection.Close();
       return new PostPostResultData() { Id = newPost.Id };
     }
 
@@ -183,6 +193,27 @@ namespace handshake.Controllers
       connection.Close();
 
       return new FileUploadResultData(token);
+    }
+
+    private static async Task CheckGroups(string datenContent, Guid userId, Guid newPostId, DateTime now, DatabaseContext context)
+    {
+      var groupMatches = RegularExpressions.HashtagGroupRegex.Matches(datenContent);
+      foreach (Match item in groupMatches)
+      {
+        var groupName = item.Groups["name"].Value;
+        var groupId = await (from g in context.ShakeGroup
+                             where g.Name == groupName
+                             && g.GroupUsers.Any(o => o.UserId == userId)
+                             select g.Id).FirstOrDefaultAsync();
+
+        if (groupId == default)
+        {
+          throw new Exception($"The group {groupName} does not exist or you are not in it.");
+        }
+
+        await context.PostGroup.AddAsync(new PostGroupEntity { CreationDate = now, GroupId = groupId, PostId = newPostId });
+        await context.SaveChangesAsync();
+      }
     }
 
     private static async Task<List<PostGetData>> LoadGroups(SqlConnection connection, List<PostGetData> group)

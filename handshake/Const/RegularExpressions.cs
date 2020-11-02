@@ -14,6 +14,7 @@ namespace handshake.Const
     internal static readonly Regex LatinLowercaseRegex = new Regex("[a-z]", RegexOptions.Compiled);
     internal static readonly Regex LatinUppercaseRegex = new Regex("[A-Z]", RegexOptions.Compiled);
     internal static readonly Regex NonAlphanumericRegex = new Regex("[^a-zA-Z0-9]", RegexOptions.Compiled);
+    internal static readonly Regex HashtagGroupRegex = new Regex("#(?<name>[a-zA-Z0-9]*)", RegexOptions.Compiled);
 
     #endregion Fields
   }
