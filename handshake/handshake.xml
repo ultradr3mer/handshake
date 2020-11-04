@@ -72,7 +72,7 @@
             <param name="groupId">The id of the group.</param>
             <returns>Ok, when successfull.</returns>
         </member>
-        <member name="M:handshake.Controllers.GroupController.GetGroup(System.Guid)">
+        <member name="M:handshake.Controllers.GroupController.GetGroup(System.Nullable{System.Guid},System.String)">
             <summary>
             Gets a group.
             </summary>

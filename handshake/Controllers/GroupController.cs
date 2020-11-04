@@ -121,13 +121,19 @@ namespace handshake.Controllers
     /// Gets a group.
     /// </summary>
     [HttpGet]
-    public async Task<GroupGetData> GetGroup(Guid id)
+    public async Task<GroupGetData> GetGroup(Guid? id, string name)
     {
       using SqlConnection connection = this.userService.Connection;
       using DatabaseContext context = new DatabaseContext(connection);
 
+      if(id == null && name == null)
+      {
+        throw new ArgumentException($"Either '{nameof(id)}' or name '{nameof(name)}' be specified.", nameof(id));
+      }
+
       GroupGetData result = await (from g in context.ShakeGroup
-                                   where g.Id == id
+                                   where (g.Id == id || id == null)
+                                   && (g.Name == name || name == null)
                                    select new GroupGetData
                                    {
                                      OwnerName = g.Owner.Nickname,
