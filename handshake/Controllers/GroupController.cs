@@ -118,6 +118,28 @@ namespace handshake.Controllers
     }
 
     /// <summary>
+    /// Dissociates the authenticated user from a group.
+    /// </summary>
+    /// <param name="groupId">The id of the group.</param>
+    /// <returns>Ok, when successfull.</returns>
+    [HttpPost("DissociateUser")]
+    public async Task<IActionResult> DissociateUser(Guid groupId)
+    {
+      using SqlConnection connection = this.userService.Connection;
+      UserEntity user = await this.userDatabaseAccess.Get(this.userService.Username, connection);
+
+      using DatabaseContext context = new DatabaseContext(connection);
+      var userGroup = await (from ug in context.UserGroup
+                             where ug.GroupId == groupId
+                             && ug.UserId == user.Id
+                             select ug).FirstOrDefaultAsync();
+      context.Remove(userGroup);
+      await context.SaveChangesAsync();
+
+      return this.Ok();
+    }
+
+    /// <summary>
     /// Gets a group.
     /// </summary>
     [HttpGet]
