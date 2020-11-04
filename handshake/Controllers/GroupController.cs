@@ -159,7 +159,8 @@ namespace handshake.Controllers
                                    select new GroupGetData
                                    {
                                      OwnerName = g.Owner.Nickname,
-                                     Icon = FileTokenData.CreateUrl(g.Icon)
+                                     Icon = FileTokenData.CreateUrl(g.Icon),
+                                     Users = g.GroupUsers.Select(u => new AssociatedUserData { Id = u.User.Id, Name = u.User.Nickname }).ToList()
                                    }.CopyPropertiesFrom(g)).FirstAsync();
 
       return result;

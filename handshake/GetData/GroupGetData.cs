@@ -1,4 +1,6 @@
-﻿using System;
+﻿using handshake.Data;
+using System;
+using System.Collections.Generic;
 
 namespace handshake.GetData
 {
@@ -38,6 +40,11 @@ namespace handshake.GetData
     /// The name of the owner.
     /// </summary>
     public string OwnerName { get; set; }
+
+    /// <summary>
+    /// The associated users.
+    /// </summary>
+    public List<AssociatedUserData> Users { get; set; }
 
     #endregion Properties
   }

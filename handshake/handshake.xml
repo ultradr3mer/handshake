@@ -723,6 +723,11 @@
             The name of the owner.
             </summary>
         </member>
+        <member name="P:handshake.GetData.GroupGetData.Users">
+            <summary>
+            The associated users.
+            </summary>
+        </member>
         <member name="T:handshake.GetData.PostDetailGetData">
             <summary>
             The detailed post information.
