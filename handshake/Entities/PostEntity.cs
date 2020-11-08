@@ -12,9 +12,14 @@ namespace handshake.Entities
     #region Properties
 
     /// <summary>
+    /// The author id.
+    /// </summary>
+    public Guid AuthorId { get; set; }
+
+    /// <summary>
     /// The author.
     /// </summary>
-    public Guid Author { get; set; }
+    public UserEntity Author { get; set; }
 
     /// <summary>
     /// The content.
@@ -34,6 +39,11 @@ namespace handshake.Entities
     public Guid Id { get; set; }
 
     /// <summary>
+    /// The image attached to the post.
+    /// </summary>
+    public FileAccessTokenEntity Image { get; set; }
+
+    /// <summary>
     /// The location lattitude.
     /// </summary>
     public decimal Latitude { get; set; }
@@ -46,12 +56,7 @@ namespace handshake.Entities
     /// <summary>
     /// The count of the post replys.
     /// </summary>
-    public int? ReplyCount { get; set; }
-
-    /// <summary>
-    /// The image attached to the post.
-    /// </summary>
-    public FileAccessTokenEntity Image { get; set; }
+    public int ReplyCount { get; set; }
 
     /// <summary>
     /// The groups assiciated with this this post.

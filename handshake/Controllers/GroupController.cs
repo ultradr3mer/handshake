@@ -72,7 +72,7 @@ namespace handshake.Controllers
       using DatabaseContext context = new DatabaseContext(connection);
       PostEntity postEntity = await context.Post.FindAsync(postId);
 
-      if (postEntity.Author != user.Id)
+      if (postEntity.AuthorId != user.Id)
       {
         throw new Exception("This post was made by another user");
       }
@@ -153,15 +153,29 @@ namespace handshake.Controllers
         throw new ArgumentException($"Either '{nameof(id)}' or name '{nameof(name)}' be specified.", nameof(id));
       }
 
+      var now = System.DateTime.Now;
+
       GroupGetData result = await (from g in context.ShakeGroup
                                    where (g.Id == id || id == null)
                                    && (g.Name == name || name == null)
-                                   select new GroupGetData
+                                   select new GroupGetData(g)
                                    {
                                      OwnerName = g.Owner.Nickname,
                                      Icon = FileTokenData.CreateUrl(g.Icon),
-                                     Users = g.GroupUsers.Select(u => new AssociatedUserData { Id = u.User.Id, Name = u.User.Nickname }).ToList()
-                                   }.CopyPropertiesFrom(g)).FirstAsync();
+                                     Users = g.GroupUsers.Select(u => new AssociatedUserData 
+                                     { 
+                                       Id = u.User.Id, 
+                                       Name = u.User.Nickname 
+                                     }).ToList(),
+                                     Posts = g.GroupPosts.Select(p => new PostGetData(p.Post)
+                                     {
+                                       AuthorName = p.Post.Author.Nickname, 
+                                       Avatar = FileTokenData.CreateUrl(p.Post.Author.Avatar),
+                                       Groups = p.Post.PostGroups.Select(pg => new AssociatedGroupData(pg.Group)).ToList(),
+                                       Image = FileTokenData.CreateUrl(p.Post.Image),
+                                       TimeAgo = new SimpleTimeSpan(p.Post.Creationdate - now)
+                                     }).ToList()
+                                   }).FirstAsync();
 
       return result;
     }
@@ -176,11 +190,11 @@ namespace handshake.Controllers
       using DatabaseContext context = new DatabaseContext(connection);
 
       List<GroupGetData> result = await (from g in context.ShakeGroup
-                                         select new GroupGetData
+                                         select new GroupGetData(g)
                                          {
                                            OwnerName = g.Owner.Nickname,
                                            Icon = FileTokenData.CreateUrl(g.Icon)
-                                         }.CopyPropertiesFrom(g)).ToListAsync();
+                                         }).ToListAsync();
 
       return result;
     }

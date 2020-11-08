@@ -281,6 +281,21 @@
             The name of the group.
             </summary>
         </member>
+        <member name="T:handshake.Data.AssociatedUserData">
+            <summary>
+            The <see cref="T:handshake.Data.AssociatedUserData"/> is an associated user.
+            </summary>
+        </member>
+        <member name="P:handshake.Data.AssociatedUserData.Id">
+            <summary>
+            The id.
+            </summary>
+        </member>
+        <member name="P:handshake.Data.AssociatedUserData.Name">
+            <summary>
+            The name of the group.
+            </summary>
+        </member>
         <member name="T:handshake.Data.AuthenticateModel">
             <summary>
             The authentication model contains all data needed to sign in.
@@ -458,6 +473,11 @@
             A post.
             </summary>
         </member>
+        <member name="P:handshake.Entities.PostEntity.AuthorId">
+            <summary>
+            The author id.
+            </summary>
+        </member>
         <member name="P:handshake.Entities.PostEntity.Author">
             <summary>
             The author.
@@ -478,6 +498,11 @@
             The id.
             </summary>
         </member>
+        <member name="P:handshake.Entities.PostEntity.Image">
+            <summary>
+            The image attached to the post.
+            </summary>
+        </member>
         <member name="P:handshake.Entities.PostEntity.Latitude">
             <summary>
             The location lattitude.
@@ -491,11 +516,6 @@
         <member name="P:handshake.Entities.PostEntity.ReplyCount">
             <summary>
             The count of the post replys.
-            </summary>
-        </member>
-        <member name="P:handshake.Entities.PostEntity.Image">
-            <summary>
-            The image attached to the post.
             </summary>
         </member>
         <member name="P:handshake.Entities.PostEntity.PostGroups">
@@ -693,6 +713,12 @@
             The <see cref="T:handshake.GetData.GroupGetData"/> contains information about the group.
             </summary>
         </member>
+        <member name="M:handshake.GetData.GroupGetData.#ctor(handshake.Entities.GroupEntity)">
+            <summary>
+            Creates a new <see cref="T:handshake.GetData.GroupGetData"/> based on the <see cref="T:handshake.Entities.GroupEntity"/>.
+            </summary>
+            <param name="entity">The <see cref="T:handshake.Entities.GroupEntity"/> to copy properties from.</param>
+        </member>
         <member name="P:handshake.GetData.GroupGetData.Description">
             <summary>
             The description.
@@ -721,6 +747,11 @@
         <member name="P:handshake.GetData.GroupGetData.OwnerName">
             <summary>
             The name of the owner.
+            </summary>
+        </member>
+        <member name="P:handshake.GetData.GroupGetData.Posts">
+            <summary>
+            The post associated with this group.
             </summary>
         </member>
         <member name="P:handshake.GetData.GroupGetData.Users">
@@ -788,7 +819,18 @@
             A post.
             </summary>
         </member>
-        <member name="P:handshake.GetData.PostGetData.Author">
+        <member name="M:handshake.GetData.PostGetData.#ctor">
+            <summary>
+            Creates a new <see cref="T:handshake.GetData.PostGetData"/> instance.
+            </summary>
+        </member>
+        <member name="M:handshake.GetData.PostGetData.#ctor(handshake.Entities.PostEntity)">
+            <summary>
+            Creates a new <see cref="T:handshake.GetData.PostGetData"/> based on the <see cref="T:handshake.Entities.PostEntity"/>.
+            </summary>
+            <param name="entity">The <see cref="T:handshake.Entities.PostEntity"/> to copy properties from.</param>
+        </member>
+        <member name="P:handshake.GetData.PostGetData.AuthorId">
             <summary>
             The author.
             </summary>
@@ -813,6 +855,11 @@
             The creation date.
             </summary>
         </member>
+        <member name="P:handshake.GetData.PostGetData.Groups">
+            <summary>
+            The associated groups.
+            </summary>
+        </member>
         <member name="P:handshake.GetData.PostGetData.Id">
             <summary>
             The id.
@@ -831,11 +878,6 @@
         <member name="P:handshake.GetData.PostGetData.TimeAgo">
             <summary>
             The timespan since posted.
-            </summary>
-        </member>
-        <member name="P:handshake.GetData.PostGetData.Groups">
-            <summary>
-            The associated groups.
             </summary>
         </member>
         <member name="T:handshake.GetData.PostReplyGetData">

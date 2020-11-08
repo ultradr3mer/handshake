@@ -97,7 +97,7 @@ namespace handshake.Controllers
       DateTime now = DateTime.Now;
 
       PostDetailGetData result = (from p in context.Post
-                                  join a in context.ShakeUser on p.Author equals a.Id
+                                  join a in context.ShakeUser on p.AuthorId equals a.Id
                                   where p.Id == Id
                                   select new PostDetailGetData()
                                   {
@@ -148,7 +148,7 @@ namespace handshake.Controllers
       PostEntity newPost = new PostEntity();
       newPost.CopyPropertiesFrom(daten);
       newPost.Creationdate = now;
-      newPost.Author = user.Id;
+      newPost.AuthorId = user.Id;
 
       using DatabaseContext context = new DatabaseContext(connection);
       await using var transaction = await context.Database.BeginTransactionAsync();
@@ -177,7 +177,7 @@ namespace handshake.Controllers
       using DatabaseContext context = new DatabaseContext(connection);
       PostEntity targetPost = await context.Post.FindAsync(id);
 
-      if (targetPost.Author != user.Id)
+      if (targetPost.AuthorId != user.Id)
       {
         throw new Exception("This post was made by another user.");
       }
@@ -281,7 +281,7 @@ namespace handshake.Controllers
         result.Add(new PostGetData()
         {
           Content = (string)reader[0],
-          Author = (Guid)reader[1],
+          AuthorId = (Guid)reader[1],
           AuthorName = (string)reader[2],
           Creationdate = (DateTime)reader[3],
           Id = (Guid)reader[4],
