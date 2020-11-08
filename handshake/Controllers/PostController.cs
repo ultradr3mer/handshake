@@ -262,7 +262,7 @@ namespace handshake.Controllers
 		                          ,IMAGE.TOKEN AS IMAGETOKEN
 		                          ,IMAGE.FILENAME AS IMAGEFILENAME
 	                          FROM POST
-	                          JOIN SHAKEUSER ON SHAKEUSER.ID = POST.AUTHOR
+	                          JOIN SHAKEUSER ON SHAKEUSER.ID = POST.AUTHORID
 	                          LEFT OUTER JOIN FILEACCESSTOKEN AVATAR ON AVATAR.ID = SHAKEUSER.AVATARID
 	                          LEFT OUTER JOIN FILEACCESSTOKEN IMAGE ON IMAGE.ID = POST.IMAGEID
 	                          ) DATA
