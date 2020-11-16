@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
@@ -52,16 +53,24 @@ namespace handshake.Controllers
     #region Methods
 
     /// <summary>
-    /// Gets the current profile.
+    /// Gets the profile of the user with the given id or the current user.
     /// </summary>
+    /// <param name="id">The id of the user.</param>
     /// <returns>The <see cref="ProfileGetData"/>.</returns>
     [HttpGet]
-    public async Task<ProfileGetData> Get()
+    public async Task<ProfileGetData> Get(Guid? id)
     {
+      string name = null;
+      if(id == null)
+      {
+        name = this.userService.Username;
+      }
+
       using SqlConnection connection = this.userService.Connection;
       using DatabaseContext context = new DatabaseContext(connection);
       Entities.UserEntity user = await (from s in context.ShakeUser
-                                        where s.Username == this.userService.Username
+                                        where (s.Username == name || name == null)
+                                        && (s.Id == id || id == null)
                                         select s)
                                         .Include(o => o.UserGroups)
                                         .ThenInclude(o => o.Group)

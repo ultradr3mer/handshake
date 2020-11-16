@@ -45,7 +45,7 @@ namespace handshake
         app.UseSwagger();
         app.UseSwaggerUI(setupAction =>
         {
-          setupAction.SwaggerEndpoint("/swagger/shake/swagger.json", "Handshake");
+          setupAction.SwaggerEndpoint("/swagger/v1/swagger.json", "Handshake");
         });
       }
 
@@ -76,7 +76,7 @@ namespace handshake
 
       services.AddSwaggerGen(setupAction =>
       {
-        setupAction.SwaggerDoc("shake", new OpenApiInfo()
+        setupAction.SwaggerDoc("v1", new OpenApiInfo()
         {
           Title = "Handshake",
           Version = "0.0.1"

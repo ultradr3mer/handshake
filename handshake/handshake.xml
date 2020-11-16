@@ -190,10 +190,11 @@
             <param name="userDatabaseAccess">The database access for the user.</param>
             <param name="fileRepository">The file repo</param>
         </member>
-        <member name="M:handshake.Controllers.ProfileController.Get">
+        <member name="M:handshake.Controllers.ProfileController.GetUser(System.Nullable{System.Guid})">
             <summary>
-            Gets the current profile.
+            Gets the profile with the given id or the current user.
             </summary>
+            <param name="id">The id of the user.</param>
             <returns>The <see cref="T:handshake.GetData.ProfileGetData"/>.</returns>
         </member>
         <!-- Badly formed XML comment ignored for member "M:handshake.Controllers.ProfileController.Put(handshake.PutData.ProfilePutData)" -->
@@ -948,11 +949,6 @@
         <member name="P:handshake.GetData.ProfileGetData.Nickname">
             <summary>
             The users nickname.
-            </summary>
-        </member>
-        <member name="P:handshake.GetData.ProfileGetData.Username">
-            <summary>
-            The username for login.
             </summary>
         </member>
         <member name="P:handshake.GetData.ProfileGetData.Groups">

@@ -32,11 +32,6 @@ namespace handshake.GetData
     public string Nickname { get; set; }
 
     /// <summary>
-    /// The username for login.
-    /// </summary>
-    public string Username { get; set; }
-
-    /// <summary>
     /// The associated groups.
     /// </summary>
     public List<AssociatedGroupData> Groups { get; set; }
