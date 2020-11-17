@@ -10,7 +10,7 @@ namespace handshake.GetData
   /// <summary>
   /// The <see cref="GroupDetailGetData"/> contains information about the group.
   /// </summary>
-  public class GroupGetData
+  public class GroupDetailGetData
   {
     #region Constructors
 
@@ -18,7 +18,7 @@ namespace handshake.GetData
     /// Creates a new <see cref="GroupDetailGetData"/> based on the <see cref="GroupEntity"/>.
     /// </summary>
     /// <param name="entity">The <see cref="GroupEntity"/> to copy properties from.</param>
-    public GroupGetData(GroupEntity entity)
+    public GroupDetailGetData(GroupEntity entity)
     {
       this.CopyPropertiesFrom(entity);
     }
@@ -51,6 +51,16 @@ namespace handshake.GetData
     /// The name of the owner.
     /// </summary>
     public string OwnerName { get; set; }
+
+    /// <summary>
+    /// The post associated with this group.
+    /// </summary>
+    public List<PostGetData> Posts { get; set; }
+
+    /// <summary>
+    /// The associated users.
+    /// </summary>
+    public List<AssociatedUserData> Users { get; set; }
 
     #endregion Properties
   }

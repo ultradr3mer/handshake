@@ -34,7 +34,7 @@ namespace handshake.GetData
     /// <summary>
     /// The associated groups.
     /// </summary>
-    public List<AssociatedGroupData> Groups { get; set; }
+    public List<GroupGetData> Groups { get; set; }
 
     #endregion Properties
   }

@@ -68,22 +68,20 @@ namespace handshake.Controllers
 
       using SqlConnection connection = this.userService.Connection;
       using DatabaseContext context = new DatabaseContext(connection);
-      Entities.UserEntity user = await (from s in context.ShakeUser
-                                        where (s.Username == name || name == null)
-                                        && (s.Id == id || id == null)
-                                        select s)
-                                        .Include(o => o.UserGroups)
-                                        .ThenInclude(o => o.Group)
-                                        .Include(o => o.Avatar).FirstAsync();
+      var profile = await (from s in context.ShakeUser
+                           where (s.Username == name || name == null)
+                           && (s.Id == id || id == null)
+                           select new ProfileGetData
+                           {
+                             Groups = s.UserGroups.Select(g => new GroupGetData(g.Group)
+                             {
+                               OwnerName = g.Group.Owner.Nickname,
+                               Icon = FileTokenData.CreateUrl(g.Group.Icon)
+                             }).ToList(),
+                             Avatar = FileTokenData.CreateUrl(s.Avatar)
+                           }.CopyPropertiesFrom(s)).FirstAsync();
 
-      System.Collections.Generic.List<AssociatedGroupData> groups = user.UserGroups.Select(o => new AssociatedGroupData(o.Group)).ToList();
-      ProfileGetData result = new ProfileGetData
-      {
-        Groups = groups,
-        Avatar = FileTokenData.CreateUrl(user.Avatar)
-      }.CopyPropertiesFrom(user);
-
-      return result;
+      return profile;
     }
 
     /// <summary>

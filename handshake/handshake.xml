@@ -190,9 +190,9 @@
             <param name="userDatabaseAccess">The database access for the user.</param>
             <param name="fileRepository">The file repo</param>
         </member>
-        <member name="M:handshake.Controllers.ProfileController.GetUser(System.Nullable{System.Guid})">
+        <member name="M:handshake.Controllers.ProfileController.Get(System.Nullable{System.Guid})">
             <summary>
-            Gets the profile with the given id or the current user.
+            Gets the profile of the user with the given id or the current user.
             </summary>
             <param name="id">The id of the user.</param>
             <returns>The <see cref="T:handshake.GetData.ProfileGetData"/>.</returns>
@@ -280,6 +280,11 @@
         <member name="P:handshake.Data.AssociatedGroupData.Name">
             <summary>
             The name of the group.
+            </summary>
+        </member>
+        <member name="P:handshake.Data.AssociatedGroupData.Icon">
+            <summary>
+            The groups icon.
             </summary>
         </member>
         <member name="T:handshake.Data.AssociatedUserData">
@@ -709,14 +714,60 @@
             The id of the user.
             </summary>
         </member>
+        <member name="T:handshake.GetData.GroupDetailGetData">
+            <summary>
+            The <see cref="T:handshake.GetData.GroupDetailGetData"/> contains information about the group.
+            </summary>
+        </member>
+        <member name="M:handshake.GetData.GroupDetailGetData.#ctor(handshake.Entities.GroupEntity)">
+            <summary>
+            Creates a new <see cref="T:handshake.GetData.GroupDetailGetData"/> based on the <see cref="T:handshake.Entities.GroupEntity"/>.
+            </summary>
+            <param name="entity">The <see cref="T:handshake.Entities.GroupEntity"/> to copy properties from.</param>
+        </member>
+        <member name="P:handshake.GetData.GroupDetailGetData.Description">
+            <summary>
+            The description.
+            </summary>
+        </member>
+        <member name="P:handshake.GetData.GroupDetailGetData.Icon">
+            <summary>
+            The associated icon.
+            </summary>
+        </member>
+        <member name="P:handshake.GetData.GroupDetailGetData.Id">
+            <summary>
+            The id.
+            </summary>
+        </member>
+        <member name="P:handshake.GetData.GroupDetailGetData.Name">
+            <summary>
+            The name of the group.
+            </summary>
+        </member>
+        <member name="P:handshake.GetData.GroupDetailGetData.OwnerName">
+            <summary>
+            The name of the owner.
+            </summary>
+        </member>
+        <member name="P:handshake.GetData.GroupDetailGetData.Posts">
+            <summary>
+            The post associated with this group.
+            </summary>
+        </member>
+        <member name="P:handshake.GetData.GroupDetailGetData.Users">
+            <summary>
+            The associated users.
+            </summary>
+        </member>
         <member name="T:handshake.GetData.GroupGetData">
             <summary>
-            The <see cref="T:handshake.GetData.GroupGetData"/> contains information about the group.
+            The <see cref="T:handshake.GetData.GroupDetailGetData"/> contains information about the group.
             </summary>
         </member>
         <member name="M:handshake.GetData.GroupGetData.#ctor(handshake.Entities.GroupEntity)">
             <summary>
-            Creates a new <see cref="T:handshake.GetData.GroupGetData"/> based on the <see cref="T:handshake.Entities.GroupEntity"/>.
+            Creates a new <see cref="T:handshake.GetData.GroupDetailGetData"/> based on the <see cref="T:handshake.Entities.GroupEntity"/>.
             </summary>
             <param name="entity">The <see cref="T:handshake.Entities.GroupEntity"/> to copy properties from.</param>
         </member>
@@ -740,24 +791,9 @@
             The name of the group.
             </summary>
         </member>
-        <member name="P:handshake.GetData.GroupGetData.OwnerId">
-            <summary>
-            The id of the owner.
-            </summary>
-        </member>
         <member name="P:handshake.GetData.GroupGetData.OwnerName">
             <summary>
             The name of the owner.
-            </summary>
-        </member>
-        <member name="P:handshake.GetData.GroupGetData.Posts">
-            <summary>
-            The post associated with this group.
-            </summary>
-        </member>
-        <member name="P:handshake.GetData.GroupGetData.Users">
-            <summary>
-            The associated users.
             </summary>
         </member>
         <member name="T:handshake.GetData.PostDetailGetData">

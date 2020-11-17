@@ -143,7 +143,7 @@ namespace handshake.Controllers
     /// Gets a group.
     /// </summary>
     [HttpGet]
-    public async Task<GroupGetData> GetGroup(Guid? id, string name)
+    public async Task<GroupDetailGetData> GetGroup(Guid? id, string name)
     {
       using SqlConnection connection = this.userService.Connection;
       using DatabaseContext context = new DatabaseContext(connection);
@@ -155,27 +155,27 @@ namespace handshake.Controllers
 
       var now = System.DateTime.Now;
 
-      GroupGetData result = await (from g in context.ShakeGroup
-                                   where (g.Id == id || id == null)
-                                   && (g.Name == name || name == null)
-                                   select new GroupGetData(g)
-                                   {
-                                     OwnerName = g.Owner.Nickname,
-                                     Icon = FileTokenData.CreateUrl(g.Icon),
-                                     Users = g.GroupUsers.Select(u => new AssociatedUserData 
-                                     { 
-                                       Id = u.User.Id, 
-                                       Name = u.User.Nickname 
-                                     }).ToList(),
-                                     Posts = g.GroupPosts.Select(p => new PostGetData(p.Post)
-                                     {
-                                       AuthorName = p.Post.Author.Nickname, 
-                                       Avatar = FileTokenData.CreateUrl(p.Post.Author.Avatar),
-                                       Groups = p.Post.PostGroups.Select(pg => new AssociatedGroupData(pg.Group)).ToList(),
-                                       Image = FileTokenData.CreateUrl(p.Post.Image),
-                                       TimeAgo = new SimpleTimeSpan(p.Post.Creationdate - now)
-                                     }).ToList()
-                                   }).FirstAsync();
+      GroupDetailGetData result = await (from g in context.ShakeGroup
+                                         where (g.Id == id || id == null)
+                                         && (g.Name == name || name == null)
+                                         select new GroupDetailGetData(g)
+                                         {
+                                           OwnerName = g.Owner.Nickname,
+                                           Icon = FileTokenData.CreateUrl(g.Icon),
+                                           Users = g.GroupUsers.Select(u => new AssociatedUserData
+                                           {
+                                             Id = u.User.Id,
+                                             Name = u.User.Nickname
+                                           }).ToList(),
+                                           Posts = g.GroupPosts.Select(p => new PostGetData(p.Post)
+                                           {
+                                             AuthorName = p.Post.Author.Nickname,
+                                             Avatar = FileTokenData.CreateUrl(p.Post.Author.Avatar),
+                                             Groups = p.Post.PostGroups.Select(pg => new AssociatedGroupData(pg.Group)).ToList(),
+                                             Image = FileTokenData.CreateUrl(p.Post.Image),
+                                             TimeAgo = new SimpleTimeSpan(p.Post.Creationdate - now)
+                                           }).ToList()
+                                         }).FirstAsync();
 
       return result;
     }
